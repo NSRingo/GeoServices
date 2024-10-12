@@ -1,3 +1,4 @@
+import pkg from './package.json' with { type: "json" };
 import json from '@rollup/plugin-json';
 import commonjs from "@rollup/plugin-commonjs";
 import terser from '@rollup/plugin-terser';
@@ -9,7 +10,7 @@ export default [
 		output: {
 			file: 'dist/request.js',
 			format: 'es',
-			banner: `/* README: https://github.com/NSRingo */\nconsole.log(' iRingo: 📍 GeoServices Request')\nconsole.log('${new Date().toLocaleString('zh-CN', {timeZone: 'PRC'})}')`,
+			banner: `/* README: https://github.com/NSRingo */\nconsole.log(' iRingo: 📍 GeoServices Request')\nconsole.log('Version: ${pkg.version}')\nconsole.log('${new Date().toLocaleString('zh-CN', {timeZone: 'PRC'})}')`,
 		},
 		plugins: [json(), commonjs(), nodeResolve(), terser()]
 	},
@@ -18,7 +19,7 @@ export default [
 		output: {
 			file: 'dist/response.js',
 			format: 'es',
-			banner: `/* README: https://github.com/NSRingo */\nconsole.log(' iRingo: 📍 GeoServices Response')\nconsole.log('${new Date().toLocaleString('zh-CN', {timeZone: 'PRC'})}')`,
+			banner: `/* README: https://github.com/NSRingo */\nconsole.log(' iRingo: 📍 GeoServices Response')\nconsole.log('Version: ${pkg.version}')\nconsole.log('${new Date().toLocaleString('zh-CN', {timeZone: 'PRC'})}')`,
 		},
 		plugins: [json(), commonjs(), nodeResolve(), terser()]
 	}
