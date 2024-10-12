@@ -3,29 +3,27 @@ export default defineConfig({
 	output: {
 		surge: {
 			path: "./dist/Maps.sgmodule",
-			template: "./src/template/surge.handlebars",
 		},
 		loon: {
 			path: "./dist/Maps.plugin",
-			template: "./src/template/loon.handlebars",
 		},
 		customItems: [
 			{
 				path: "./dist/Maps.snippet",
-				template: "./src/template/quantumultx.handlebars",
+				template: "./template/quantumultx.handlebars",
 			},
 			{
 				path: "./dist/Maps.stoverride",
-				template: "./src/template/stash.handlebars",
+				template: "./template/stash.handlebars",
 			},
 			{
 				path: "./dist/Maps.srmodule",
-				template: "./src/template/shadowrocket.handlebars",
+				template: "./template/shadowrocket.handlebars",
 			},
 		],
 		dts: { isExported: true, path: "./src/settings.ts" },
 		boxjsSettings: {
-			path: "./src/template/boxjs.settings.json",
+			path: "./template/boxjs.settings.json",
 			scope: "@iRingo.Maps.Settings",
 		},
 	},

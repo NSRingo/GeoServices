@@ -1,7 +1,20 @@
 {
 	"name": "geoservices",
-	"version": "4.0.5",
-	"homepage": "https://github.com/NSRingo/GeoServices/wiki",
+	"version": "4.0.6",
+	"organizationName": " iRingo",
+	"keywords": [],
+	"contributors": [
+		"VirgilClyne[https://github.com/VirgilClyne]"
+	],
+	"system": [
+		"iOS",
+		"iPadOS",
+		"tvOS",
+		"macOS",
+		"watchOS"
+	],
+	"author": "VirgilClyne",
+	"license": "Apache-2.0",
 	"type": "module",
 	"repository": {
 		"type": "git",
@@ -19,9 +32,6 @@
 	"browserslist": [
 		"iOS >= 15"
 	],
-	"keywords": [],
-	"author": "VirgilClyne",
-	"license": "Apache-2.0",
 	"devDependencies": {
 		"@protobuf-ts/plugin": "^2.9.4",
 		"@protobuf-ts/runtime": "^2.9.3",

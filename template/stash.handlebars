@@ -9,7 +9,7 @@ manual: "https://github.com/NSRingo/GeoServices/wiki/🗺-地图"
 icon: "https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png"
 category: " iRingo"
 date: "{{now "yyyy-MM-dd HH:mm:ss"}}"
-version: "{{version}}"
+version: "{{@package 'version'}}"
 
 rules:
   # 🗺️ Tiles
@@ -56,8 +56,8 @@ http:
 
 script-providers:
   GeoServices.request:
-    url: https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/request.js
+    url: https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.js
     interval: 86400
   GeoServices.response:
-    url: https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/response.js
+    url: https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.js
     interval: 86400
