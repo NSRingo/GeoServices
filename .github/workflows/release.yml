@@ -20,13 +20,13 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@master
         with:
-          name: output
+          name: artifact
       - name: Publish Release
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            dist/*.js
+            dist/*
             modules/*
           make_latest: "true"
