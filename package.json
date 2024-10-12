@@ -1,6 +1,20 @@
 {
 	"name": "geoservices",
-	"homepage": "https://github.com/NSRingo/GeoServices/wiki",
+	"version": "4.0.9",
+	"organizationName": " iRingo",
+	"keywords": [],
+	"contributors": [
+		"VirgilClyne[https://github.com/VirgilClyne]"
+	],
+	"system": [
+		"iOS",
+		"iPadOS",
+		"tvOS",
+		"macOS",
+		"watchOS"
+	],
+	"author": "VirgilClyne",
+	"license": "Apache-2.0",
 	"type": "module",
 	"repository": {
 		"type": "git",
@@ -11,14 +25,13 @@
 	},
 	"scripts": {
 		"build": "rollup -c",
-		"build:debug": "rollup --config --configDebug"
+		"build:debug": "rollup --config --configDebug",
+		"build:args": "arguments-builder build",
+		"dts": "arguments-builder dts"
 	},
 	"browserslist": [
 		"iOS >= 15"
 	],
-	"keywords": [],
-	"author": "VirgilClyne",
-	"license": "Apache-2.0",
 	"devDependencies": {
 		"@protobuf-ts/plugin": "^2.9.4",
 		"@protobuf-ts/runtime": "^2.9.3",
@@ -27,5 +40,8 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-terser": "^0.4.4",
 		"rollup": "^4.9.6"
+	},
+	"dependencies": {
+		"@iringo/arguments-builder": "^1.5.0"
 	}
 }
