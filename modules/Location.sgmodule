@@ -7,8 +7,8 @@
 #!manual=https://github.com/NSRingo/GeoServices/wiki/📍-定位服务
 #!icon=https://images.macrumors.com/article-new/2019/07/ios_location_services-250x250.jpg
 #!category= iRingo
-#!arguments=GeoCountryCode:US
-#!arguments-desc=GeoCountryCode: 国家或地区代码
+#!arguments=PEP.GCC:US
+#!arguments-desc=PEP.GCC: 国家或地区代码
 
 [Rule]
 # 📍 Country Code
@@ -16,7 +16,7 @@ DOMAIN,gspe1-ssl.ls.apple.com,DIRECT
 
 [Script]
 # 📍 Country Code
-📍 Location.pep.gcc.response = type=http-response, pattern=^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc, requires-body=1, engine=webview, script-path=https://github.com/NSRingo/GeoServices/releases/latest/download/response.js, argument=PEP.GCC={{{GeoCountryCode}}}
+📍 Location.pep.gcc.response = type=http-response, pattern=^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc, requires-body=1, engine=webview, script-path=https://github.com/NSRingo/GeoServices/releases/latest/download/response.js, argument=PEP.GCC={{{PEP.GCC}}}
 
 [MITM]
 hostname = %APPEND% gspe1-ssl.ls.apple.com

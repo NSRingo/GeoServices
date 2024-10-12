@@ -1,5 +1,6 @@
 {
 	"name": "geoservices",
+	"version": "4.0.5",
 	"homepage": "https://github.com/NSRingo/GeoServices/wiki",
 	"type": "module",
 	"repository": {
@@ -11,7 +12,9 @@
 	},
 	"scripts": {
 		"build": "rollup -c",
-		"build:debug": "rollup --config --configDebug"
+		"build:debug": "rollup --config --configDebug",
+		"build:args": "arguments-builder build",
+		"dts": "arguments-builder dts"
 	},
 	"browserslist": [
 		"iOS >= 15"
@@ -27,5 +30,8 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-terser": "^0.4.4",
 		"rollup": "^4.9.6"
+	},
+	"dependencies": {
+		"@iringo/arguments-builder": "^1.5.0"
 	}
 }

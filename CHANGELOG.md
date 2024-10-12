@@ -1,2 +1,2 @@
-### 🛠️ Bug Fixes
-  * 修复 Shadowrocket 专用模块内链
+### 🔄 Other Changes
+  * 自动生成模块

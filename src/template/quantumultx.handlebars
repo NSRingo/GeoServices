@@ -1,0 +1,24 @@
+#!name =  iRingo: 🗺️ Maps
+#!name = 全面自定义「地图」的功能。
+#!openUrl = http://boxjs.com/#/app/iRingo.Maps
+#!author = VirgilClyne[https://github.com/VirgilClyne]
+#!homepage = https://github.com/NSRingo
+#!manual = https://github.com/NSRingo/GeoServices/wiki/🗺-地图
+#!icon = https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png
+#!category =  iRingo
+#!date = {{now "yyyy-MM-dd HH:mm:ss"}}
+#!version = {{version}}
+
+#[rewrite_local]
+# 🗺️ Network Defaults
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults url script-request-header https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/request.js
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults url script-response-body https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/response.js
+# 🗺️ Announcements
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements url script-request-header https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/request.js
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements url script-response-body https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/response.js
+# 🗺️ Resource Manifest
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config url script-request-header https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/request.js
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config url script-response-body https://github.com/NSRingo/GeoServices/releases/download/v{{version}}/response.js
+
+#[mitm]
+hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com
