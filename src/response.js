@@ -15,6 +15,9 @@ log(`⚠ METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}` , "");
 const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["content-type"])?.split(";")?.[0];
 log(`⚠ FORMAT: ${FORMAT}`, "");
 !(async () => {
+	/**
+	 * @type {{Settings: import('./interface').Settings}}
+	 */
 	const { Settings, Caches, Configs } = setENV("iRingo", ["Location", "Maps"], database);
 	log(`⚠ Settings.Switch: ${Settings?.Switch}`, "");
 	switch (Settings.Switch) {

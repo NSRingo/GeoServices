@@ -12,7 +12,7 @@ export interface Settings {
             Config?: {
             CountryCode?: {
                     /**
-                 * [动态配置]资源清单的国家或地区代码
+                 * [全局 动态配置]资源清单的国家或地区代码
                  *
                  * 此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
                  *
@@ -35,6 +35,30 @@ export interface Settings {
                  * @defaultValue "CN"
                  */
                 default?: 'AUTO' | 'CN' | 'HK' | 'TW' | 'SG' | 'US' | 'JP' | 'AU' | 'GB' | 'KR' | 'CA' | 'IE';
+                    /**
+                 * [watchOS 动态配置]资源清单的国家或地区代码
+                 *
+                 * 此选项影响 watchOS “地图”整体配置内容，包括以下的地图功能与服务。
+                 *
+                 * @remarks
+                 *
+                 * Possible values:
+                 * - `'AUTO'` - 🇺🇳自动（跟随用户当前所在地区）
+                 * - `'CN'` - 🇨🇳中国大陆
+                 * - `'HK'` - 🇭🇰中国香港
+                 * - `'TW'` - 🇹🇼中国台湾
+                 * - `'SG'` - 🇸🇬新加坡
+                 * - `'US'` - 🇺🇸美国
+                 * - `'JP'` - 🇯🇵日本
+                 * - `'AU'` - 🇦🇺澳大利亚
+                 * - `'GB'` - 🇬🇧英国
+                 * - `'KR'` - 🇰🇷韩国
+                 * - `'CA'` - 🇨🇦加拿大
+                 * - `'IE'` - 🇮🇪爱尔兰
+                 *
+                 * @defaultValue "US"
+                 */
+                watchOS?: 'AUTO' | 'CN' | 'HK' | 'TW' | 'SG' | 'US' | 'JP' | 'AU' | 'GB' | 'KR' | 'CA' | 'IE';
 };
 };
 };
