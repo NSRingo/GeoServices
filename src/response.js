@@ -69,7 +69,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 					body = XML.parse($response.body);
 					// 路径判断
 					switch (PATH) {
-						case "/config/defaults":
+						case "/config/defaults": {
 							const PLIST = body.plist;
 							if (PLIST) {
 								// CN
@@ -99,6 +99,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 								PLIST["com.apple.GEO"].CountryProviders.CN.UseCLPedestrianMapMatchedLocations = true; // 导航准确性-增强
 							}
 							break;
+						}
 					}
 					$response.body = XML.stringify(body);
 					break;
@@ -118,7 +119,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 		case "application/vnd.google.protobuf":
 		case "application/grpc":
 		case "application/grpc+proto":
-		case "application/octet-stream":
+		case "application/octet-stream": {
 			let rawBody = $app === "Quantumult X" ? new Uint8Array($response.bodyBytes ?? []) : ($response.body ?? new Uint8Array());
 			switch (FORMAT) {
 				case "application/protobuf":
@@ -130,42 +131,45 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 							switch (PATH) {
 								case "/config/announcements":
 									break;
-								case "/geo_manifest/dynamic/config":
+								case "/geo_manifest/dynamic/config": {
 									body = GEOResourceManifestDownload.decode(rawBody);
 									const CountryCode = url.searchParams.get("country_code");
-									const ETag = $response.headers?.["Etag"] ?? $response.headers?.["etag"];
+									const ETag = $response.headers?.Etag ?? $response.headers?.etag;
 									switch (CountryCode) {
-										case "CN":
+										case "CN": {
 											//GEOResourceManifest.cacheResourceManifest(body, Caches, "CN", ETag);
 											Caches.CN = body;
-											const { ETag: XXETag, body: XXBody } = await GEOResourceManifest.downloadResourceManifest($request, "US");
-											Caches.XX = XXBody;
+											const { ETag: XXETag, body: USBody } = await GEOResourceManifest.downloadResourceManifest($request, "US");
+											Caches.XX = GEOResourceManifestDownload.decode(USBody);
 											break;
+										}
 										case "KR": {
 											//GEOResourceManifest.cacheResourceManifest(body, Caches, "KR", ETag);
 											Caches.KR = body;
 											const { ETag: CNETag, body: CNBody } = await GEOResourceManifest.downloadResourceManifest($request, "CN");
-											Caches.CN = CNBody;
+											Caches.CN = GEOResourceManifestDownload.decode(CNBody);
 											break;
 										}
 										default: {
 											//GEOResourceManifest.cacheResourceManifest(body, Caches, "XX", ETag);
 											Caches.XX = body;
 											const { ETag: CNETag, body: CNBody } = await GEOResourceManifest.downloadResourceManifest($request, "CN");
-											Caches.CN = CNBody;
+											Caches.CN = GEOResourceManifestDownload.decode(CNBody);
 											break;
 										}
 									}
 									body.tileSet = GEOResourceManifest.tileSets(body.tileSet, Caches, Settings, CountryCode);
 									body.attribution = GEOResourceManifest.attributions(body.attribution, Caches, CountryCode);
 									body.resource = GEOResourceManifest.resources(body.resource, Caches, CountryCode);
-									//body.dataSet = GEOResourceManifest.dataSets(body.dataSet, Caches, CountryCode);
+									body.dataSet = GEOResourceManifest.dataSets(body.dataSet, Caches, CountryCode);
 									body.urlInfoSet = GEOResourceManifest.urlInfoSets(body.urlInfoSet, Caches, Settings, CountryCode);
 									body.muninBucket = GEOResourceManifest.muninBuckets(body.muninBucket, Caches, Settings);
+									body.displayString = GEOResourceManifest.displayStrings(body.displayString, Caches, CountryCode);
+									body.tileGroup = GEOResourceManifest.tileGroups(body.tileGroup, body.tileSet, body.attribution, body.resource);
 									log(`🚧 releaseInfo: ${body.releaseInfo}`, "");
-									body = GEOResourceManifest.SetTileGroups(body);
 									rawBody = GEOResourceManifestDownload.encode(body);
 									break;
+								}
 							}
 							break;
 					}
@@ -177,6 +181,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 			// 写入二进制数据
 			$response.body = rawBody;
 			break;
+		}
 	}
 })()
 	.catch(e => logError(e))

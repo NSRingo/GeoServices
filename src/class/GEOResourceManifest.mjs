@@ -1,54 +1,48 @@
 import { $app, Lodash as _, Storage, fetch, log, logError } from "@nsnanocat/util";
-import GEOResourceManifestDownload from "./GEOResourceManifestDownload.mjs";
 
 export default class GEOResourceManifest {
-    static Name = "GEOResourceManifest";
-    static Version = "1.2.4";
-    static Author = "Virgil Clyne";
-
     static async downloadResourceManifest(request = $request, countryCode = "CN") {
-        log(`☑️ Download ResourceManifest`, "");
+        log("☑️ Download ResourceManifest", "");
         const newRequest = { ...request };
         newRequest.url = new URL(newRequest.url);
         newRequest.url.searchParams.set("country_code", countryCode);
         newRequest.url = newRequest.url.toString();
         newRequest["binary-mode"] = true;
-        return fetch(newRequest).then(response => {
-            let rawBody = ($app === "Quantumult X") ? new Uint8Array(response.bodyBytes ?? []) : response.body ?? new Uint8Array();
-            log(`✅ Download ResourceManifest`, "");
-            return { "ETag": response.headers?.["Etag"] ?? response.headers?.["etag"], "body": GEOResourceManifestDownload.decode(rawBody) };
-        });
+        const response = await fetch(newRequest);
+        const rawBody = ($app === "Quantumult X") ? new Uint8Array(response.bodyBytes ?? []) : response.body ?? new Uint8Array();
+        log("✅ Download ResourceManifest", "");
+        return { "ETag": response.headers?.Etag ?? response.headers?.etag, "body": rawBody };
     };
 
     static cacheResourceManifest(body = {}, cache = {}, countryCode = "CN", ETag = "") {
-        log(`☑️ Cache ResourceManifest`, "");
+        log("☑️ Cache ResourceManifest", "");
         switch (countryCode) {
             case "CN":
                 if (ETag !== cache?.CN?.ETag) {
                     cache.CN = { ...body, ETag };
                     Storage.setItem("@iRingo.Maps.Caches", cache);
-                    log(`✅ Cache ResourceManifest`, "");
+                    log("✅ Cache ResourceManifest", "");
                 };
                 break;
             case "KR":
                 if (ETag !== cache?.KR?.ETag) {
                     cache.KR = { ...body, ETag };
                     Storage.setItem("@iRingo.Maps.Caches", cache);
-                    log(`✅ Cache ResourceManifest`, "");
+                    log("✅ Cache ResourceManifest", "");
                 };
                 break;
             default:
                 if (ETag !== cache?.XX?.ETag) {
                     cache.XX = { ...body, ETag };
                     Storage.setItem("@iRingo.Maps.Caches", cache);
-                    log(`✅ Cache ResourceManifest`, "");
+                    log("✅ Cache ResourceManifest", "");
                 };
                 break;
         };
     };
 
     static tileSets(tileSet = [], caches = {}, settings = {}, countryCode = "CN") {
-        log(`☑️ Set TileSets`, "");
+        log("☑️ Set TileSets", "");
         //let tileNames = [];
         //caches.XX.tileSet.forEach(tile => tileNames.push(tile.style));
         //caches.CN.tileSet.forEach(tile => tileNames.push(tile.style));
@@ -96,7 +90,7 @@ export default class GEOResourceManifest {
                 case "VECTOR_STREET_LANDMARKS": // 64 街道地标?
                 case "VECTOR_BUILDINGS_V2": // 73 建筑模型V2（3D/上色）
                     //log(`⚠️ Basic style: ${tile?.style}`, "");
-                    //tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                    //tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                     //log(`⚠️ Basic baseURL: ${tile?.baseURL}`, "");
                     break;
                 case "RASTER_SATELLITE": // 7 卫星地图（2D）
@@ -114,7 +108,7 @@ export default class GEOResourceManifest {
                             tile = caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style)) || tile;
                             break;
                         case "XX":
-                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                             break;
                     };
                     //log(`⚠️ Satellite baseURL: ${tile?.baseURL}`, "");
@@ -139,7 +133,7 @@ export default class GEOResourceManifest {
                             tile = caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style)) || tile;
                             break;
                         case "XX":
-                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                             break;
                     };
                     */
@@ -163,7 +157,7 @@ export default class GEOResourceManifest {
                             tile = caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style)) || tile;
                             break;
                         case "XX":
-                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                             break;
                     };
                     */
@@ -190,7 +184,7 @@ export default class GEOResourceManifest {
                             tile = caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style)) || tile;
                             break;
                         case "XX":
-                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                             break;
                     };
                     //log(`⚠️ Flyover baseURL: ${tile?.baseURL}`, "");
@@ -214,7 +208,7 @@ export default class GEOResourceManifest {
                             tile = caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.CN?.tileSet?.find(i => (i.style === tile.style)) || tile;
                             break;
                         case "XX":
-                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                             break;
                     };
                     //log(`⚠️ Munin baseURL: ${tile?.baseURL}`, "");
@@ -227,7 +221,7 @@ export default class GEOResourceManifest {
                 case "VECTOR_ROAD_SELECTION": // 87 道路选区?
                 case "VECTOR_REGION_METADATA": // 88 区域元数据?
                     //log(`⚠️ TEST style: ${tile?.style}`, "");
-                    //tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                    //tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                     //log(`⚠️ TEST baseURL: ${tile?.baseURL}`, "");
                     break;
                 case "VECTOR_TRACKS": // 62 轨道?
@@ -248,7 +242,7 @@ export default class GEOResourceManifest {
                     /*
                     switch (countryCode) {
                         case "CN":
-                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style)) || tile;
+                            tile = caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.size === tile.size && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.scale === tile.scale && i.dataSet === tile.dataSet)) || caches?.XX?.tileSet?.find(i => (i.style === tile.style && i.dataSet === tile.dataSet)) || tile;
                             break;
                         case "KR":
                         default:
@@ -260,13 +254,13 @@ export default class GEOResourceManifest {
                     break;
             };
             return tile;
-        }).flat(Infinity).filter(Boolean);
-        log(`✅ Set TileSets`, "");
+        }).flat(Number.POSITIVE_INFINITY).filter(Boolean);
+        log("✅ Set TileSets", "");
         return tileSet;
     };
 
     static attributions(attributions = [], caches = {}, countryCode = "CN") {
-        log(`☑️ Set Attributions`, "");
+        log("☑️ Set Attributions", "");
         switch (countryCode) {
             case "CN":
                 caches?.XX?.attribution?.forEach(attribution => {
@@ -292,7 +286,7 @@ export default class GEOResourceManifest {
                     return 0;
                 default:
                     return 1;
-            };
+            }
         });
         attributions = attributions.map((attribution, index) => {
             switch (attribution.name) {
@@ -301,7 +295,7 @@ export default class GEOResourceManifest {
                     delete attribution.plainTextURLSHA256Checksum;
                     break;
                 case "AutoNavi":
-                    attribution.resource = attribution.resource.filter(i => i.resourceType !== 6);
+                    attribution.resource = attribution.resource?.filter(i => i.resourceType !== 6);
                     attribution.region = [
                         { "minX": 214, "minY": 82, "maxX": 216, "maxY": 82, "minZ": 8, "maxZ": 21 },
                         { "minX": 213, "minY": 83, "maxX": 217, "maxY": 83, "minZ": 8, "maxZ": 21 },
@@ -351,30 +345,31 @@ export default class GEOResourceManifest {
                     break;
             };
             return attribution;
-        }).flat(Infinity).filter(Boolean);
-        log(`✅ Set Attributions`, "");
+        }).flat(Number.POSITIVE_INFINITY).filter(Boolean);
+        log("✅ Set Attributions", "");
         return attributions;
     };
 
     static resources(resources = [], caches = {}, countryCode = "CN") {
-        log(`☑️ Set Resources`, "");
+        log("☑️ Set Resources", "");
         switch (countryCode) {
             case "CN":
                 break;
             case "KR":
             default:
-                caches.CN.resource.forEach((resource, index) => {
+                caches.CN.resource?.forEach((resource, index) => {
                     if (resource.filename === "POITypeMapping-CN-1.json") resources.push(resource);
                     if (resource.filename === "POITypeMapping-CN-2.json") resources.push(resource);
                     if (resource.filename === "China.cms-lpr") resources.push(resource);
                 });
                 break;
         };
+        log("✅ Set Resources", "");
         return resources;
     };
 
     static dataSets(dataSets = [], caches = {}, countryCode = "CN") {
-        log(`☑️ Set DataSets`, "");
+        log("☑️ Set DataSets", "");
         switch (countryCode) {
             case "CN":
                 dataSets = caches?.XX?.dataSet;
@@ -384,12 +379,12 @@ export default class GEOResourceManifest {
                 break;
         };
         //dataSets.push({ "dataSetDescription": "AutoNavi", "identifier": 10 });
-        log(`✅ Set DataSets`, "");
+        log("✅ Set DataSets", "");
         return dataSets;
     };
 
     static urlInfoSets(urlInfoSets = [], caches = {}, settings = {}, countryCode = "CN") {
-        log(`☑️ Set UrlInfoSets`, "");
+        log("☑️ Set UrlInfoSets", "");
         urlInfoSets = urlInfoSets.map((urlInfoSet, index) => {
             switch (countryCode) {
                 case "CN":
@@ -515,12 +510,12 @@ export default class GEOResourceManifest {
             };
             return urlInfoSet;
         });
-        log(`✅ Set UrlInfoSets`, "");
+        log("✅ Set UrlInfoSets", "");
         return urlInfoSets;
     };
 
     static muninBuckets(muninBuckets = [], caches = {}, settings = {}) {
-        log(`☑️ Set MuninBuckets`, "");
+        log("☑️ Set MuninBuckets", "");
         switch (settings.TileSet.Munin) {
             case "AUTO":
             default:
@@ -532,52 +527,51 @@ export default class GEOResourceManifest {
                 muninBuckets = caches.XX.muninBucket;
                 break;
         };
-        log(`✅ Set MuninBuckets`, "");
+        log("✅ Set MuninBuckets", "");
         return muninBuckets;
     };
 
     static displayStrings(displayStrings = [], caches = {}, countryCode = "CN") {
-        log(`☑️ Set DisplayStrings`, "");
+        log("☑️ Set DisplayStrings", "");
         switch (countryCode) {
             case "CN":
-                displayStrings = caches.XX.displayStrings.map((displayString, index) => {
+                displayStrings = caches.XX.displayString?.map((displayString, index) => {
                     return displayString;
                 });
                 break;
             case "KR":
-                //displayStrings = caches.KR.displayStrings;
+                //displayStrings = caches.KR.displayString;
                 break;
             default:
-                //displayStrings = caches.XX.displayStrings;
+                //displayStrings = caches.XX.displayString;
                 break;
         };
-        log(`✅ Set DisplayStrings`, "");
+        log("✅ Set DisplayStrings", "");
         return displayStrings;
     };
 
-    static SetTileGroups(body = {}) {
-        log(`☑️ Set TileGroups`, "");
-        body.tileGroup = body.tileGroup.map(tileGroup => {
+    static tileGroups(tileGroups = [], tileSets = [], attributions = [], resources = []) {
+        log("☑️ Set TileGroups", "");
+        tileGroups = tileGroups.map(tileGroup => {
             log(`🚧 tileGroup.identifier: ${tileGroup.identifier}`);
             tileGroup.identifier += Math.floor(Math.random() * 100) + 1;
             log(`🚧 tileGroup.identifier: ${tileGroup.identifier}`);
-            tileGroup.tileSet = body.tileSet.map((tileSet, index) => {
+            tileGroup.tileSet = tileSets.map((tileSet, index) => {
                 return {
                     "tileSetIndex": index,
                     "identifier": tileSet.validVersion?.[0]?.identifier
                 };
             });
-            if (body.attribution) tileGroup.attributionIndex = body.attribution.map((attribution, index) => {
+            if (attributions) tileGroup.attributionIndex = attributions.map((attribution, index) => {
                 return index;
             });
-            if (body.resource) tileGroup.resourceIndex = body.resource.map((resource, index) => {
+            if (resources) tileGroup.resourceIndex = resources.map((resource, index) => {
                 return index;
             });
             return tileGroup;
         });
-        log(`✅ Set TileGroups`, "");
-        return body;
+        log("✅ Set TileGroups", "");
+        return tileGroups;
     };
-
 
 };

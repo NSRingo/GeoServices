@@ -4,9 +4,6 @@ import { PDPlaceRequest, RequestType } from "../proto/apple/geo/GEOPDPlaceReques
 //import { GeoServiceTag_ServiceType } from "../proto/apple/geo/GEOPDAnalyticMetadata.js";
 import { ComponentType } from "../proto/apple/geo/GEOPDComponentInfo.js";
 export default class GEOPDPlaceRequest {
-    static Name = "GEOPDPlaceRequest";
-    static Version = "1.0.4";
-	static Author = "VirgilClyne";
     static decode(rawBody = new Uint8Array([])) {
         log("☑️ GEOPDPlaceRequest.decode", "");
         const body = PDPlaceRequest.fromBinary(rawBody);
