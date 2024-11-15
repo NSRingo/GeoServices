@@ -1,4 +1,4 @@
-import { $platform, _, Storage, fetch, notification, log, logError, wait, done, getScript, runScript } from "./utils/utils.mjs";
+import { $app, Lodash as _, Storage, fetch, notification, log, logError, wait, done } from "@nsnanocat/util";
 import XML from "./XML/XML.mjs";
 import database from "./function/database.mjs";
 import setENV from "./function/setENV.mjs";
@@ -17,13 +17,10 @@ const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["cont
 log(`⚠ FORMAT: ${FORMAT}`, "");
 !(async () => {
 	/**
-	 * @type {{Settings: import('./interface').Settings}}
+	 * 设置
+	 * @type {{Settings: import('./types').Settings}}
 	 */
 	const { Settings, Caches, Configs } = setENV("iRingo", ["Location", "Maps"], database);
-	log(`⚠ Settings.Switch: ${Settings?.Switch}`, "");
-	switch (Settings.Switch) {
-		case true:
-		default:
 			// 创建空数据
 			let body = {};
 			// 格式判断
@@ -132,7 +129,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 				case "application/grpc+proto":
 				case "application/octet-stream":
 					//log(`🚧 $response: ${JSON.stringify($response, null, 2)}`, "");
-					let rawBody = ($platform === "Quantumult X") ? new Uint8Array($response.bodyBytes ?? []) : $response.body ?? new Uint8Array();
+					let rawBody = ($app === "Quantumult X") ? new Uint8Array($response.bodyBytes ?? []) : $response.body ?? new Uint8Array();
 					//log(`🚧 isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody)}`, "");
 					switch (FORMAT) {
 						case "application/protobuf":
@@ -217,10 +214,6 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 					$response.body = rawBody;
 					break;
 			};
-			break;
-		case false:
-			break;
-	};
 })()
 	.catch((e) => logError(e))
 	.finally(() => done($response))

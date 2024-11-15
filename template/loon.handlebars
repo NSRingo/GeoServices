@@ -1,13 +1,14 @@
-#!name =  iRingo: 🗺️ Maps
-#!desc = 全面自定义「地图」的功能。
-#!openUrl = http://boxjs.com/#/app/iRingo.Maps
+#!name = {{@package 'displayName'}}
+#!desc = {{inline (@package 'description')}}
+#!openUrl = {{@package 'openUrl'}}
 #!author = {{@package 'contributors'}}
-#!homepage = https://github.com/NSRingo
-#!manual = https://github.com/NSRingo/GeoServices/wiki/🗺-地图
-#!icon = https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png
+#!homepage = {{@package 'homepage'}}
+#!icon = {{@package 'icon'}}
 #!tag = {{@package 'organizationName'}}
+#!system = {{@package 'system'}}
 #!date = {{now "yyyy-MM-dd HH:mm:ss"}}
 #!version = {{@package 'version'}}
+#!system_version = {{ @package 'systemVersion'}}
 
 [Argument]
 {{{arguments}}}
@@ -22,14 +23,14 @@ DOMAIN,direction2.is.autonavi.com,DIRECT
 
 [Script]
 # 🗺️ Network Defaults
-http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.js, tag=🗺️ Maps.config.defaults.request, argument={{{scriptParams}}}
-http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument={{{scriptParams}}}
+http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument={{{scriptParams}}}
+http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument={{{scriptParams}}}
 # 🗺️ Announcements
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.js, tag=🗺️ Maps.config.announcements.request, argument={{{scriptParams}}}
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument={{{scriptParams}}}
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument={{{scriptParams}}}
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument={{{scriptParams}}}
 # 🗺️ Resource Manifest
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.js, tag=🗺️ Maps.config.announcements.request, argument={{{scriptParams}}}
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument={{{scriptParams}}}
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument={{{scriptParams}}}
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument={{{scriptParams}}}
 
 [MITM]
 hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com

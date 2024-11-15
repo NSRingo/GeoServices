@@ -1,6 +1,8 @@
 import { $app, Lodash as _, Storage, fetch, notification, log, logError, wait, done } from "@nsnanocat/util";
+import { URL } from "@nsnanocat/url";
 import database from "./function/database.mjs";
 import setENV from "./function/setENV.mjs";
+import GEOPDPlaceRequest from "./class/GEOPDPlaceRequest.mjs";
 // 构造回复数据
 let $response = undefined;
 /***************** Processing *****************/
@@ -73,9 +75,40 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 				case "application/grpc":
 				case "application/grpc+proto":
 				case "application/octet-stream":
-					log(`🚧 $request: ${JSON.stringify($request, null, 2)}`, "");
+					//log(`🚧 $request: ${JSON.stringify($request, null, 2)}`, "");
 					let rawBody = $app === "Quantumult X" ? new Uint8Array($request.bodyBytes ?? []) : ($request.body ?? new Uint8Array());
-					log(`🚧 isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody, null, 2)}`, "");
+					//log(`🚧 isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody, null, 2)}`, "");
+					switch (HOST) {
+						case "gsp-ssl.ls.apple.com":
+						case "dispatcher.is.autonavi.com":
+							switch (PATH) {
+								case "/dispatcher.arpc":
+								case "/dispatcher":
+									/******************  initialization start  *******************/
+									// 先拆分aRPC校验头和protobuf数据体
+									const headerIndex = rawBody.findIndex((element, index) => element === 0x0a && index > 47);
+									log(`🚧 headerIndex: ${headerIndex}`, "");
+									const Header = rawBody.slice(0, headerIndex);
+									body = rawBody.slice(headerIndex);
+									/******************  initialization finish  *******************/
+									body = GEOPDPlaceRequest.decode(body);
+									log(`🚧 body: ${JSON.stringify(body, null, 2)}`, "");
+									switch (body.requestType) {
+										case "REQUEST_TYPE_REVERSE_GEOCODING":
+											break;
+									}
+									body.displayRegion = "US";
+									body.clientMetadata.deviceCountryCode = "US";
+									body = GEOPDPlaceRequest.encode(body);
+									/******************  initialization start  *******************/
+									rawBody = new Uint8Array(Header.length + body.length);
+									rawBody.set(Header, 0);
+									rawBody.set(body, Header.length);
+									/******************  initialization finish  *******************/
+									break;
+							}
+							break;
+					}
 					// 写入二进制数据
 					$request.body = rawBody;
 					break;
@@ -127,6 +160,17 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 								default:
 									switch (Settings?.Config?.Announcements?.Environment?.default) {
 										case "AUTO":
+											/*
+													switch (Caches?.pep?.gcc) {
+														default:
+															url.searchParams.set("environment", "prod");
+															break;
+														case "CN":
+														case undefined:
+															url.searchParams.set("environment", "prod-cn");
+															break;
+													};
+													*/
 											break;
 										case "CN":
 										default:
@@ -140,6 +184,17 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 								case "watchos":
 									switch (Settings?.Config?.Announcements?.Environment?.watchOS) {
 										case "AUTO":
+											/*
+													switch (Caches?.pep?.gcc) {
+														default:
+															url.searchParams.set("environment", "prod");
+															break;
+														case "CN":
+														case undefined:
+															url.searchParams.set("environment", "prod-cn");
+															break;
+													};
+													*/
 											break;
 										case "XX":
 										default:

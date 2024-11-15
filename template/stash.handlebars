@@ -1,13 +1,16 @@
-name: " iRingo: 🗺️ Maps"
+name: "{{@package 'displayName'}}"
 desc: |-
-  全面自定义「地图」的功能。
-  注：该覆写包含代理规则。
-openUrl: "http://boxjs.com/#/app/iRingo.Maps"
-author: "VirgilClyne"
-homepage: "https://github.com/NSRingo"
-manual: "https://github.com/NSRingo/GeoServices/wiki/🗺-地图"
-icon: "https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png"
-category: " iRingo"
+  {{#each (split (@package 'description') "\n")}}
+  {{{this}}}
+  {{/each}}
+openUrl: "{{@package 'openUrl'}}"
+author: |-
+  {{#each (@package 'contributors')}}
+  {{this}}
+  {{/each}}
+homepage: "{{@package 'homepage'}}"
+icon: "{{@package 'icon'}}"
+category: "{{@package 'organizationName'}}"
 date: "{{now "yyyy-MM-dd HH:mm:ss"}}"
 version: "{{@package 'version'}}"
 
@@ -56,8 +59,8 @@ http:
 
 script-providers:
   GeoServices.request:
-    url: https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.js
+    url: https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/request.bundle.js
     interval: 86400
   GeoServices.response:
-    url: https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.js
+    url: https://github.com/NSRingo/GeoServices/releases/download/v{{@package 'version'}}/response.bundle.js
     interval: 86400

@@ -1,4 +1,4 @@
-import { log } from "../utils/utils.mjs";
+import { log } from "@nsnanocat/util";
 //import { MESSAGE_TYPE, reflectionMergePartial, BinaryReader, WireType, UnknownFieldHandler, isJsonObject, typeofJsonValue, jsonWriteOptions, MessageType } from "@protobuf-ts/runtime";
 import { Resources, Resource_ResourceType, ResourceFilter_Scale, ResourceFilter_Scenario, Resource_ConnectionType, Resource_ValidationMethod, Resource_UpdateMethod } from "../proto/apple/geo/GEOResourceManifestDownload.js";
 import { TileSetStyle, TileScale, TileSize, GenericTileType, TileSet_TileSetVersionUpdateBehavior, TileSet_TileSetChecksumType, TileSet_TileRequestStyle } from "../proto/apple/geo/protobuf/geo.js";

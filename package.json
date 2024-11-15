@@ -1,7 +1,12 @@
 {
-	"name": "geoservices",
-	"version": "4.0.9",
+	"name": "@iringo/geoservices",
+	"version": "4.1.0",
 	"organizationName": " iRingo",
+	"displayName": " iRingo: 🗺️ Maps",
+	"description": "自定义 Maps app\n添加国际版功能\n自定义服务版本",
+	"homepage": "https://NSRingo.github.io/guide/GeoServices/maps",
+	"openUrl": "http://boxjs.com/#/app/iRingo.Maps",
+	"icon": "https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png",
 	"keywords": [],
 	"contributors": [
 		"VirgilClyne[https://github.com/VirgilClyne]"
@@ -9,11 +14,9 @@
 	"system": [
 		"iOS",
 		"iPadOS",
-		"tvOS",
-		"macOS",
-		"watchOS"
+		"macOS"
 	],
-	"author": "VirgilClyne",
+	"systemVersion": 15,
 	"license": "Apache-2.0",
 	"type": "module",
 	"repository": {
@@ -24,8 +27,9 @@
 		"example": "example"
 	},
 	"scripts": {
-		"build": "rollup -c",
-		"build:debug": "rollup --config --configDebug",
+		"serve": "webpack serve",
+		"build": "rspack build",
+		"build:dev": "rspack build -c rspack.dev.config.js --mode=development",
 		"build:args": "arguments-builder build",
 		"dts": "arguments-builder dts"
 	},
@@ -33,13 +37,15 @@
 		"iOS >= 15"
 	],
 	"devDependencies": {
-		"@iringo/arguments-builder": "^1.7.2",
+		"@iringo/arguments-builder": "^1.8.5",
 		"@protobuf-ts/plugin": "^2.9.4",
+		"@rspack/cli": "^1.0.11",
+		"@rspack/core": "^1.0.11"
+	},
+	"dependencies": {
+		"@nsnanocat/url": "^1.2.0",
+		"@nsnanocat/util": "^1.4.8",
 		"@protobuf-ts/runtime": "^2.9.3",
-		"@rollup/plugin-commonjs": "^25.0.7",
-		"@rollup/plugin-json": "^6.1.0",
-		"@rollup/plugin-node-resolve": "^15.2.3",
-		"@rollup/plugin-terser": "^0.4.4",
-		"rollup": "^4.9.6"
+		"node-polyfill-webpack-plugin": "^4.0.0"
 	}
 }

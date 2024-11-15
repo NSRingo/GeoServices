@@ -1,4 +1,4 @@
-import { $platform, _, Storage, fetch, log, logError } from "../utils/utils.mjs";
+import { $app, Lodash as _, Storage, fetch, log, logError } from "@nsnanocat/util";
 import GEOResourceManifestDownload from "./GEOResourceManifestDownload.mjs";
 
 export default class GEOResourceManifest {
@@ -14,7 +14,7 @@ export default class GEOResourceManifest {
         newRequest.url = newRequest.url.toString();
         newRequest["binary-mode"] = true;
         return fetch(newRequest).then(response => {
-            let rawBody = ($platform === "Quantumult X") ? new Uint8Array(response.bodyBytes ?? []) : response.body ?? new Uint8Array();
+            let rawBody = ($app === "Quantumult X") ? new Uint8Array(response.bodyBytes ?? []) : response.body ?? new Uint8Array();
             log(`✅ Download ResourceManifest`, "");
             return { "ETag": response.headers?.["Etag"] ?? response.headers?.["etag"], "body": GEOResourceManifestDownload.decode(rawBody) };
         });

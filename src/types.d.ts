@@ -1,18 +1,10 @@
 export interface Settings {
-    /**
-     * 总功能开关
-     *
-     * 是否启用此APP修改
-     *
-     * @defaultValue true
-     */
-    Switch?: boolean;
     GeoManifest?: {
     Dynamic?: {
             Config?: {
             CountryCode?: {
                     /**
-                 * [全局 动态配置]资源清单的国家或地区代码
+                 * [全局 动态配置] 资源清单的国家或地区代码
                  *
                  * 此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
                  *
@@ -36,7 +28,7 @@ export interface Settings {
                  */
                 default?: 'AUTO' | 'CN' | 'HK' | 'TW' | 'SG' | 'US' | 'JP' | 'AU' | 'GB' | 'KR' | 'CA' | 'IE';
                     /**
-                 * [watchOS 动态配置]资源清单的国家或地区代码
+                 * [watchOS 动态配置] 资源清单的国家或地区代码
                  *
                  * 此选项影响 watchOS “地图”整体配置内容，包括以下的地图功能与服务。
                  *
@@ -65,7 +57,7 @@ export interface Settings {
 };
     UrlInfoSet?: {
     /**
-         * [URL信息集]调度器
+         * [URL信息集] 调度器
          *
          * 地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。
          *
@@ -80,7 +72,7 @@ export interface Settings {
          */
         Dispatcher?: 'AUTO' | 'AutoNavi' | 'Apple';
     /**
-         * [URL信息集]导航与ETA
+         * [URL信息集] 导航与ETA
          *
          * 导航与ETA服务接口，此选项影响导航与ETA(到达时间)等功能。
          *
@@ -95,7 +87,7 @@ export interface Settings {
          */
         Directions?: 'AUTO' | 'AutoNavi' | 'Apple';
     /**
-         * [URL信息集]评分和照片
+         * [URL信息集] 评分和照片
          *
          * 评分和照片服务接口，此选项影响评分和照片服务以及照片使用。
          *
@@ -110,7 +102,7 @@ export interface Settings {
          */
         RAP?: 'AUTO' | 'AutoNavi' | 'Apple';
     /**
-         * [URL信息集]定位漂移
+         * [URL信息集] 定位漂移
          *
          * 定位漂移修正服务接口，控制定位漂移和🧭指南针与📍坐标的经纬度。
          *
@@ -127,7 +119,7 @@ export interface Settings {
 };
     TileSet?: {
     /**
-         * [瓦片数据集]卫星图像
+         * [瓦片数据集] 卫星图像
          *
          * 此选项影响所列位图、影像与模型数据。
          *
@@ -143,7 +135,7 @@ export interface Settings {
          */
         Satellite?: 'AUTO' | 'HYBRID' | 'CN' | 'XX';
     /**
-         * [瓦片数据集]飞行俯瞰
+         * [瓦片数据集] 飞行俯瞰
          *
          * 此选项影响飞行俯瞰全球各地的主要地标和城市功能。
          *
@@ -158,7 +150,7 @@ export interface Settings {
          */
         Flyover?: 'AUTO' | 'CN' | 'XX';
     /**
-         * [瓦片数据集]四处看看
+         * [瓦片数据集] 四处看看
          *
          * 此选项影响 360 度全景视角在某些地点四处看看功能。
          *

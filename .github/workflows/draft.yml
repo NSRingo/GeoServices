@@ -27,6 +27,7 @@ jobs:
           body_path: CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            dist/*
+            rulesets/*
             modules/*
+            dist/*
           draft: true

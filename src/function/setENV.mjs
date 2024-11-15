@@ -1,5 +1,4 @@
-import getStorage from '../utils/getStorage.mjs'
-import { _, log } from "../utils/utils.mjs";
+import { Lodash as _, getStorage, log } from "@nsnanocat/util";
 
 /**
  * Set Environment Variables
@@ -10,8 +9,8 @@ import { _, log } from "../utils/utils.mjs";
  * @return {Object} { Settings, Caches, Configs }
  */
 export default function setENV(name, platforms, database) {
-	log(`☑️ Set Environment Variables`, "");
-	let { Settings, Caches, Configs } = getStorage(name, platforms, database);
+	log("☑️ Set Environment Variables", "");
+	const { Settings, Caches, Configs } = getStorage(name, platforms, database);
 	/***************** Settings *****************/
 	log(`✅ Set Environment Variables, Settings: ${typeof Settings}, Settings内容: ${JSON.stringify(Settings)}`, "");
 	/***************** Caches *****************/
@@ -19,6 +18,6 @@ export default function setENV(name, platforms, database) {
 	/***************** Configs *****************/
 	//Configs.Storefront = new Map(Configs.Storefront);
 	if (Configs.Locale) Configs.Locale = new Map(Configs.Locale);
-	if (Configs.i18n) for (let type in Configs.i18n) Configs.i18n[type] = new Map(Configs.i18n[type]);
+	if (Configs.i18n) for (const type in Configs.i18n) Configs.i18n[type] = new Map(Configs.i18n[type]);
 	return { Settings, Caches, Configs };
 };

@@ -1,4 +1,4 @@
-import { log } from "../utils/utils.mjs";
+import { log } from "@nsnanocat/util";
 //import { MESSAGE_TYPE, reflectionMergePartial, BinaryReader, WireType, UnknownFieldHandler, isJsonObject, typeofJsonValue, jsonWriteOptions, MessageType } from "@protobuf-ts/runtime";
 import { PDPlaceRequest, RequestType } from "../proto/apple/geo/GEOPDPlaceRequest.js";
 //import { GeoServiceTag_ServiceType } from "../proto/apple/geo/GEOPDAnalyticMetadata.js";

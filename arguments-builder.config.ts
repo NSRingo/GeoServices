@@ -21,7 +21,7 @@ export default defineConfig({
 				template: "./template/shadowrocket.handlebars",
 			},
 		],
-		dts: { isExported: true, path: "./src/interface.ts" },
+		dts: { isExported: true, path: "./src/types.d.ts" },
 		boxjsSettings: {
 			path: "./template/boxjs.settings.json",
 			scope: "@iRingo.Maps.Settings",
@@ -29,18 +29,10 @@ export default defineConfig({
 	},
 	args: [
 		{
-			defaultValue: true,
-			description: "是否启用此APP修改",
-			exclude: ["surge", "loon"],
-			key: "Switch",
-			name: "总功能开关",
-			type: "boolean",
-		},
-		{
 			defaultValue: "CN",
 			description: "此选项影响“地图”整体配置内容，包括以下的地图功能与服务。",
 			key: "GeoManifest.Dynamic.Config.CountryCode.default",
-			name: "[全局 动态配置]资源清单的国家或地区代码",
+			name: "[全局 动态配置] 资源清单的国家或地区代码",
 			options: [
 				{ key: "AUTO", label: "🇺🇳自动（跟随用户当前所在地区）" },
 				{ key: "CN", label: "🇨🇳中国大陆" },
@@ -61,7 +53,7 @@ export default defineConfig({
 			defaultValue: "US",
 			description: "此选项影响 watchOS “地图”整体配置内容，包括以下的地图功能与服务。",
 			key: "GeoManifest.Dynamic.Config.CountryCode.watchOS",
-			name: "[watchOS 动态配置]资源清单的国家或地区代码",
+			name: "[watchOS 动态配置] 资源清单的国家或地区代码",
 			options: [
 				{ key: "AUTO", label: "🇺🇳自动（跟随用户当前所在地区）" },
 				{ key: "CN", label: "🇨🇳中国大陆" },
@@ -83,7 +75,7 @@ export default defineConfig({
 			description:
 				"地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。",
 			key: "UrlInfoSet.Dispatcher",
-			name: "[URL信息集]调度器",
+			name: "[URL信息集] 调度器",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{
@@ -99,7 +91,7 @@ export default defineConfig({
 			defaultValue: "AutoNavi",
 			description: "导航与ETA服务接口，此选项影响导航与ETA(到达时间)等功能。",
 			key: "UrlInfoSet.Directions",
-			name: "[URL信息集]导航与ETA",
+			name: "[URL信息集] 导航与ETA",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{ key: "AutoNavi", label: "🧭高德（🇨🇳:高德地图 | 🇺🇳:TomTom）" },
@@ -111,7 +103,7 @@ export default defineConfig({
 			defaultValue: "Apple",
 			description: "评分和照片服务接口，此选项影响评分和照片服务以及照片使用。",
 			key: "UrlInfoSet.RAP",
-			name: "[URL信息集]评分和照片",
+			name: "[URL信息集] 评分和照片",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{ key: "AutoNavi", label: "🧭高德（🇨🇳:🈶️但未开放 | 🇺🇳:🈚️）" },
@@ -124,7 +116,7 @@ export default defineConfig({
 			description:
 				"定位漂移修正服务接口，控制定位漂移和🧭指南针与📍坐标的经纬度。",
 			key: "UrlInfoSet.LocationShift",
-			name: "[URL信息集]定位漂移",
+			name: "[URL信息集] 定位漂移",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{ key: "AutoNavi", label: "🧭高德（🈚️坐标，使用🇨🇳GCJ-02坐标）" },
@@ -136,7 +128,7 @@ export default defineConfig({
 			defaultValue: "HYBRID",
 			description: "此选项影响所列位图、影像与模型数据。",
 			key: "TileSet.Satellite",
-			name: "[瓦片数据集]卫星图像",
+			name: "[瓦片数据集] 卫星图像",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{ key: "HYBRID", label: "混合（🇨🇳:2D较新 | 🇺🇳:主要城市3D）" },
@@ -149,7 +141,7 @@ export default defineConfig({
 			defaultValue: "XX",
 			description: "此选项影响飞行俯瞰全球各地的主要地标和城市功能。",
 			key: "TileSet.Flyover",
-			name: "[瓦片数据集]飞行俯瞰",
+			name: "[瓦片数据集] 飞行俯瞰",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{ key: "CN", label: "🇨🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈚️）" },
@@ -161,7 +153,7 @@ export default defineConfig({
 			defaultValue: "XX",
 			description: "此选项影响 360 度全景视角在某些地点四处看看功能。",
 			key: "TileSet.Munin",
-			name: "[瓦片数据集]四处看看",
+			name: "[瓦片数据集] 四处看看",
 			options: [
 				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
 				{ key: "CN", label: "🇨🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈚️）" },
