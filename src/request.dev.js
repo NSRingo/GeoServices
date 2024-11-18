@@ -1,5 +1,4 @@
 import { $app, Lodash as _, Storage, fetch, notification, log, logError, wait, done } from "@nsnanocat/util";
-import { URL } from "@nsnanocat/url";
 import database from "./function/database.mjs";
 import setENV from "./function/setENV.mjs";
 import GEOPDPlaceRequest from "./class/GEOPDPlaceRequest.mjs";
@@ -17,12 +16,15 @@ log(`⚠ METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`, "");
 // 解析格式
 const FORMAT = ($request.headers?.["Content-Type"] ?? $request.headers?.["content-type"])?.split(";")?.[0];
 log(`⚠ FORMAT: ${FORMAT}`, "");
+const PLATFORM = ["Maps"];
+if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
+log(`⚠ PLATFORM: ${PLATFORM}`, "");
 !(async () => {
 	/**
 	 * 设置
 	 * @type {{Settings: import('./types').Settings}}
 	 */
-	const { Settings, Caches, Configs } = setENV("iRingo", ["Location", "Maps"], database);
+	const { Settings, Caches, Configs } = setENV("iRingo", PLATFORM, database);
 	// 创建空数据
 	let body = {};
 	// 方法判断
@@ -30,6 +32,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 		case "POST":
 		case "PUT":
 		case "PATCH":
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
 		case "DELETE":
 			// 格式判断
 			switch (FORMAT) {
@@ -74,7 +77,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 				case "application/vnd.google.protobuf":
 				case "application/grpc":
 				case "application/grpc+proto":
-				case "application/octet-stream":
+				case "application/octet-stream": {
 					//log(`🚧 $request: ${JSON.stringify($request, null, 2)}`, "");
 					let rawBody = $app === "Quantumult X" ? new Uint8Array($request.bodyBytes ?? []) : ($request.body ?? new Uint8Array());
 					//log(`🚧 isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody, null, 2)}`, "");
@@ -83,7 +86,7 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 						case "dispatcher.is.autonavi.com":
 							switch (PATH) {
 								case "/dispatcher.arpc":
-								case "/dispatcher":
+								case "/dispatcher": {
 									/******************  initialization start  *******************/
 									// 先拆分aRPC校验头和protobuf数据体
 									const headerIndex = rawBody.findIndex((element, index) => element === 0x0a && index > 47);
@@ -106,12 +109,14 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 									rawBody.set(body, Header.length);
 									/******************  initialization finish  *******************/
 									break;
+								}
 							}
 							break;
 					}
 					// 写入二进制数据
 					$request.body = rawBody;
 					break;
+				}
 			}
 		//break; // 不中断，继续处理URL
 		case "GET":
@@ -133,120 +138,63 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 					switch (PATH) {
 						case "/pep/gcc":
 							/* // 不使用 echo response
-									$response = {
-										status: 200,
-										headers: {
-											"Content-Type": "text/html",
-											Date: new Date().toUTCString(),
-											Connection: "keep-alive",
-											"Content-Encoding": "identity",
-										},
-										body: Settings.PEP.GCC,
-									};
-									log(JSON.stringify($response));
-									*/
+							$response = {
+								status: 200,
+								headers: {
+									"Content-Type": "text/html",
+									Date: new Date().toUTCString(),
+									Connection: "keep-alive",
+									"Content-Encoding": "identity",
+								},
+								body: Settings.PEP.GCC,
+							};
+							log(JSON.stringify($response));
+							*/
 							break;
 					}
 					break;
 				case "gspe35-ssl.ls.apple.com":
 				case "gspe35-ssl.ls.apple.cn":
-					const OS = url.searchParams.get("os");
 					switch (PATH) {
 						case "/config/announcements":
-							switch (OS) {
-								case "ios":
-								case "ipados":
-								case "macos":
-								default:
-									switch (Settings?.Config?.Announcements?.Environment?.default) {
-										case "AUTO":
-											/*
-													switch (Caches?.pep?.gcc) {
-														default:
-															url.searchParams.set("environment", "prod");
-															break;
-														case "CN":
-														case undefined:
-															url.searchParams.set("environment", "prod-cn");
-															break;
-													};
-													*/
-											break;
-										case "CN":
+							switch (Settings?.Config?.Announcements?.Environment) {
+								case "AUTO":
+									/*
+									switch (Caches?.pep?.gcc) {
 										default:
-											url.searchParams.set("environment", "prod-cn");
-											break;
-										case "XX":
 											url.searchParams.set("environment", "prod");
 											break;
-									}
+										case "CN":
+										case undefined:
+											url.searchParams.set("environment", "prod-cn");
+											break;
+									};
+									*/
 									break;
-								case "watchos":
-									switch (Settings?.Config?.Announcements?.Environment?.watchOS) {
-										case "AUTO":
-											/*
-													switch (Caches?.pep?.gcc) {
-														default:
-															url.searchParams.set("environment", "prod");
-															break;
-														case "CN":
-														case undefined:
-															url.searchParams.set("environment", "prod-cn");
-															break;
-													};
-													*/
-											break;
-										case "XX":
-										default:
-											url.searchParams.set("environment", "prod");
-											break;
-										case "CN":
-											url.searchParams.set("environment", "prod-cn");
-											break;
-									}
+								case "CN":
+								default:
+									url.searchParams.set("environment", "prod-cn");
+									break;
+								case "XX":
+									url.searchParams.set("environment", "prod");
 									break;
 							}
 							break;
 						case "/geo_manifest/dynamic/config":
-							switch (OS) {
-								case "ios":
-								case "ipados":
-								case "macos":
-								default:
-									switch (Settings?.GeoManifest?.Dynamic?.Config?.CountryCode?.default) {
-										case "AUTO":
-											switch (Caches?.pep?.gcc) {
-												default:
-													url.searchParams.set("country_code", Caches?.pep?.gcc ?? "US");
-													break;
-												case "CN":
-												case undefined:
-													url.searchParams.set("country_code", "CN");
-													break;
-											}
-											break;
+							switch (Settings?.GeoManifest?.Dynamic?.Config?.CountryCode) {
+								case "AUTO":
+									switch (Caches?.pep?.gcc) {
 										default:
-											url.searchParams.set("country_code", Settings?.GeoManifest?.Dynamic?.Config?.CountryCode?.default ?? "CN");
+											url.searchParams.set("country_code", Caches?.pep?.gcc ?? "US");
+											break;
+										case "CN":
+										case undefined:
+											url.searchParams.set("country_code", "CN");
 											break;
 									}
 									break;
-								case "watchos":
-									switch (Settings?.GeoManifest?.Dynamic?.Config?.CountryCode?.watchOS) {
-										case "AUTO":
-											switch (Caches?.pep?.gcc) {
-												default:
-													url.searchParams.set("country_code", Caches?.pep?.gcc ?? "US");
-													break;
-												case "CN":
-												case undefined:
-													url.searchParams.set("country_code", "CN");
-													break;
-											}
-											break;
-										default:
-											url.searchParams.set("country_code", Settings?.GeoManifest?.Dynamic?.Config?.CountryCode?.watchOS ?? "US");
-											break;
-									}
+								default:
+									url.searchParams.set("country_code", Settings?.GeoManifest?.Dynamic?.Config?.CountryCode ?? "CN");
 									break;
 							}
 							break;
@@ -259,16 +207,16 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 			break;
 	}
 	$request.url = url.toString();
-	log(`🚧 调试信息`, `$request.url: ${$request.url}`, "");
+	log("🚧 调试信息", `$request.url: ${$request.url}`, "");
 })()
 	.catch(e => logError(e))
 	.finally(() => {
-		switch ($response) {
-			default: // 有构造回复数据，返回构造的回复数据
-				//log(`🚧 finally`, `echo $response: ${JSON.stringify($response, null, 2)}`, "");
+		switch (typeof $response) {
+			case "object": // 有构造回复数据，返回构造的回复数据
+				//log("🚧 finally", `echo $response: ${JSON.stringify($response, null, 2)}`, "");
 				if ($response.headers?.["Content-Encoding"]) $response.headers["Content-Encoding"] = "identity";
 				if ($response.headers?.["content-encoding"]) $response.headers["content-encoding"] = "identity";
-				switch ($app) {
+				switch ($platform) {
 					default:
 						done({ response: $response });
 						break;
@@ -281,9 +229,13 @@ log(`⚠ FORMAT: ${FORMAT}`, "");
 						break;
 				}
 				break;
-			case undefined: // 无构造回复数据，发送修改的请求数据
-				//log(`🚧 finally`, `$request: ${JSON.stringify($request, null, 2)}`, "");
+			case "undefined": // 无构造回复数据，发送修改的请求数据
+				//log("🚧 finally", `$request: ${JSON.stringify($request, null, 2)}`, "");
 				done($request);
+				break;
+			default:
+				logError(`不合法的 $response 类型: ${typeof $response}`, "");
+				done();
 				break;
 		}
 	});

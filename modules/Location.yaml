@@ -1,0 +1,28 @@
+name: ' iRingo: 📍 Location'
+description: |-
+  自定义「定位服务」
+  通过「基于网络的地区检测」结果始终为用户设置的地区
+  注：该覆写包含代理规则。
+compat_arguments:
+  GeoCountryCode: US
+compat_arguments_desc: 'GeoCountryCode: [地区检测] 地理国家或地区代码'
+open_url: http://boxjs.com/#/app/iRingo.Location
+author: VirgilClyne[https://github.com/VirgilClyne]
+homepage: https://NSRingo.github.io/guide/GeoServices/location
+icon: https://images.macrumors.com/article-new/2019/07/ios_location_services-250x250.jpg
+rules:
+- domain:
+    match: gspe1-ssl.ls.apple.com
+    policy: DIRECT
+scriptings:
+- http_response:
+    name: 📍 Location.pep.gcc.response
+    match: ^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc
+    script_url: https://github.com/NSRingo/GeoServices/releases/latest/download/response.bundle.js
+    arguments:
+      _compat.$argument: PEP.GCC={{{GeoCountryCode}}}
+    body_required: true
+mitm:
+  hostnames:
+    includes:
+    - gspe1-ssl.ls.apple.com

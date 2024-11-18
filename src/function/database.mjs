@@ -1,7 +1,6 @@
 export default {
     "Location": {
         "Settings": {
-            "Switch": true,
             "PEP": {
                 "GCC": "US"
             }
@@ -9,7 +8,6 @@ export default {
     },
     "Maps": {
         "Settings": {
-            "Switch": true,
             "UrlInfoSet": {
                 "Dispatcher": "AutoNavi",
                 "Directions": "AutoNavi",
@@ -27,28 +25,35 @@ export default {
             "GeoManifest": {
                 "Dynamic": {
                     "Config": {
-                        "CountryCode": {
-                            "default": "CN",
-                            "iOS": "AUTO",
-                            "iPadOS": "AUTO",
-                            "watchOS": "US",
-                            "macOS": "AUTO"
-                        }
+                        "CountryCode": "CN"
                     }
                 }
             },
             "Config": {
                 "Announcements": {
-                    "Environment:": {
-                        "default": "AUTO",
-                        "iOS": "AUTO",
-                        "iPadOS": "AUTO",
-                        "watchOS": "AUTO",
-                        "macOS": "AUTO"
-                    }
+                    "Environment:": "CN"
                 }
             }
         },
         "Configs": {}
+    },
+    "Watch": {
+        "Settings": {
+            "UrlInfoSet": {
+                "LocationShift": "Apple"
+            },
+            "GeoManifest": {
+                "Dynamic": {
+                    "Config": {
+                        "CountryCode": "US"
+                    }
+                }
+            },
+            "Config": {
+                "Announcements": {
+                    "Environment:": "CN"
+                }
+            }
+        }
     }
 }

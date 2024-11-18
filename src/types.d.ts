@@ -2,9 +2,8 @@ export interface Settings {
     GeoManifest?: {
     Dynamic?: {
             Config?: {
-            CountryCode?: {
-                    /**
-                 * [全局 动态配置] 资源清单的国家或地区代码
+            /**
+                 * [动态配置] 资源清单的国家或地区代码
                  *
                  * 此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
                  *
@@ -26,32 +25,7 @@ export interface Settings {
                  *
                  * @defaultValue "CN"
                  */
-                default?: 'AUTO' | 'CN' | 'HK' | 'TW' | 'SG' | 'US' | 'JP' | 'AU' | 'GB' | 'KR' | 'CA' | 'IE';
-                    /**
-                 * [watchOS 动态配置] 资源清单的国家或地区代码
-                 *
-                 * 此选项影响 watchOS “地图”整体配置内容，包括以下的地图功能与服务。
-                 *
-                 * @remarks
-                 *
-                 * Possible values:
-                 * - `'AUTO'` - 🇺🇳自动（跟随用户当前所在地区）
-                 * - `'CN'` - 🇨🇳中国大陆
-                 * - `'HK'` - 🇭🇰中国香港
-                 * - `'TW'` - 🇹🇼中国台湾
-                 * - `'SG'` - 🇸🇬新加坡
-                 * - `'US'` - 🇺🇸美国
-                 * - `'JP'` - 🇯🇵日本
-                 * - `'AU'` - 🇦🇺澳大利亚
-                 * - `'GB'` - 🇬🇧英国
-                 * - `'KR'` - 🇰🇷韩国
-                 * - `'CA'` - 🇨🇦加拿大
-                 * - `'IE'` - 🇮🇪爱尔兰
-                 *
-                 * @defaultValue "US"
-                 */
-                watchOS?: 'AUTO' | 'CN' | 'HK' | 'TW' | 'SG' | 'US' | 'JP' | 'AU' | 'GB' | 'KR' | 'CA' | 'IE';
-};
+                CountryCode?: 'AUTO' | 'CN' | 'HK' | 'TW' | 'SG' | 'US' | 'JP' | 'AU' | 'GB' | 'KR' | 'CA' | 'IE';
 };
 };
 };
@@ -64,7 +38,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'AutoNavi'` - 🧭高德（🇨🇳:互动百科/大众点评/携程 | 🇺🇳:维基百科/Yelp/Booking）
          * - `'Apple'` - Apple（维基百科/Yelp/Booking）
          *
@@ -79,7 +53,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'AutoNavi'` - 🧭高德（🇨🇳:高德地图 | 🇺🇳:TomTom）
          * - `'Apple'` - Apple（🇨🇳:🈚️ | 🇺🇳:TomTom）
          *
@@ -94,7 +68,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'AutoNavi'` - 🧭高德（🇨🇳:🈶️但未开放 | 🇺🇳:🈚️）
          * - `'Apple'` - Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）
          *
@@ -109,7 +83,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'AutoNavi'` - 🧭高德（🈚️坐标，使用🇨🇳GCJ-02坐标）
          * - `'Apple'` - Apple（🈶️坐标，使用🇺🇳WGS-84坐标）
          *
@@ -126,7 +100,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'HYBRID'` - 混合（🇨🇳:2D较新 | 🇺🇳:主要城市3D）
          * - `'CN'` - 🇨🇳中国四维（🇨🇳:2D较新 | 🇺🇳:🈚️）
          * - `'XX'` - 🇺🇳DigitalGlobe（🇨🇳:2D较旧 | 🇺🇳:2D+主要城市3D）
@@ -142,7 +116,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'CN'` - 🇨🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈚️）
          * - `'XX'` - 🇺🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）
          *
@@ -157,7 +131,7 @@ export interface Settings {
          * @remarks
          *
          * Possible values:
-         * - `'AUTO'` - 自动（随[动态配置]版本自动选择）
+         * - `'AUTO'` - 🇺🇳自动（随[动态配置]版本自动选择）
          * - `'CN'` - 🇨🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈚️）
          * - `'XX'` - 🇺🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）
          *

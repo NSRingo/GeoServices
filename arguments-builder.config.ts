@@ -3,6 +3,10 @@ export default defineConfig({
 	output: {
 		surge: {
 			path: "./dist/Maps.sgmodule",
+			transformEgern: {
+				enable: true,
+				path: "./dist/Maps.yaml",
+			},
 		},
 		loon: {
 			path: "./dist/Maps.plugin",
@@ -16,10 +20,6 @@ export default defineConfig({
 				path: "./dist/Maps.stoverride",
 				template: "./template/stash.handlebars",
 			},
-			{
-				path: "./dist/Maps.srmodule",
-				template: "./template/shadowrocket.handlebars",
-			},
 		],
 		dts: { isExported: true, path: "./src/types.d.ts" },
 		boxjsSettings: {
@@ -31,29 +31,8 @@ export default defineConfig({
 		{
 			defaultValue: "CN",
 			description: "此选项影响“地图”整体配置内容，包括以下的地图功能与服务。",
-			key: "GeoManifest.Dynamic.Config.CountryCode.default",
-			name: "[全局 动态配置] 资源清单的国家或地区代码",
-			options: [
-				{ key: "AUTO", label: "🇺🇳自动（跟随用户当前所在地区）" },
-				{ key: "CN", label: "🇨🇳中国大陆" },
-				{ key: "HK", label: "🇭🇰中国香港" },
-				{ key: "TW", label: "🇹🇼中国台湾" },
-				{ key: "SG", label: "🇸🇬新加坡" },
-				{ key: "US", label: "🇺🇸美国" },
-				{ key: "JP", label: "🇯🇵日本" },
-				{ key: "AU", label: "🇦🇺澳大利亚" },
-				{ key: "GB", label: "🇬🇧英国" },
-				{ key: "KR", label: "🇰🇷韩国" },
-				{ key: "CA", label: "🇨🇦加拿大" },
-				{ key: "IE", label: "🇮🇪爱尔兰" },
-			],
-			type: "string",
-		},
-    {
-			defaultValue: "US",
-			description: "此选项影响 watchOS “地图”整体配置内容，包括以下的地图功能与服务。",
-			key: "GeoManifest.Dynamic.Config.CountryCode.watchOS",
-			name: "[watchOS 动态配置] 资源清单的国家或地区代码",
+			key: "GeoManifest.Dynamic.Config.CountryCode",
+			name: "[动态配置] 资源清单的国家或地区代码",
 			options: [
 				{ key: "AUTO", label: "🇺🇳自动（跟随用户当前所在地区）" },
 				{ key: "CN", label: "🇨🇳中国大陆" },
@@ -77,7 +56,7 @@ export default defineConfig({
 			key: "UrlInfoSet.Dispatcher",
 			name: "[URL信息集] 调度器",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{
 					key: "AutoNavi",
 					label:
@@ -93,7 +72,7 @@ export default defineConfig({
 			key: "UrlInfoSet.Directions",
 			name: "[URL信息集] 导航与ETA",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{ key: "AutoNavi", label: "🧭高德（🇨🇳:高德地图 | 🇺🇳:TomTom）" },
 				{ key: "Apple", label: "Apple（🇨🇳:🈚️ | 🇺🇳:TomTom）" },
 			],
@@ -105,7 +84,7 @@ export default defineConfig({
 			key: "UrlInfoSet.RAP",
 			name: "[URL信息集] 评分和照片",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{ key: "AutoNavi", label: "🧭高德（🇨🇳:🈶️但未开放 | 🇺🇳:🈚️）" },
 				{ key: "Apple", label: "Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）" },
 			],
@@ -118,7 +97,7 @@ export default defineConfig({
 			key: "UrlInfoSet.LocationShift",
 			name: "[URL信息集] 定位漂移",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{ key: "AutoNavi", label: "🧭高德（🈚️坐标，使用🇨🇳GCJ-02坐标）" },
 				{ key: "Apple", label: "Apple（🈶️坐标，使用🇺🇳WGS-84坐标）" },
 			],
@@ -130,7 +109,7 @@ export default defineConfig({
 			key: "TileSet.Satellite",
 			name: "[瓦片数据集] 卫星图像",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{ key: "HYBRID", label: "混合（🇨🇳:2D较新 | 🇺🇳:主要城市3D）" },
 				{ key: "CN", label: "🇨🇳中国四维（🇨🇳:2D较新 | 🇺🇳:🈚️）" },
 				{ key: "XX", label: "🇺🇳DigitalGlobe（🇨🇳:2D较旧 | 🇺🇳:2D+主要城市3D）" },
@@ -143,7 +122,7 @@ export default defineConfig({
 			key: "TileSet.Flyover",
 			name: "[瓦片数据集] 飞行俯瞰",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{ key: "CN", label: "🇨🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈚️）" },
 				{ key: "XX", label: "🇺🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）" },
 			],
@@ -155,7 +134,7 @@ export default defineConfig({
 			key: "TileSet.Munin",
 			name: "[瓦片数据集] 四处看看",
 			options: [
-				{ key: "AUTO", label: "自动（随[动态配置]版本自动选择）" },
+				{ key: "AUTO", label: "🇺🇳自动（随[动态配置]版本自动选择）" },
 				{ key: "CN", label: "🇨🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈚️）" },
 				{ key: "XX", label: "🇺🇳Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）" },
 			],

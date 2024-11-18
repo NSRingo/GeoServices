@@ -1,1 +1,1 @@
-#  iRingo: 📍 GeoServices
+#  iRingo: 🛰️ GeoServices
