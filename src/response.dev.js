@@ -17,12 +17,15 @@ log(`⚠ METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`, "");
 // 解析格式
 const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["content-type"])?.split(";")?.[0];
 log(`⚠ FORMAT: ${FORMAT}`, "");
+const PLATFORM = ["Location", "Maps"];
+if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
+log(`⚠ PLATFORM: ${PLATFORM}`, "");
 !(async () => {
 	/**
 	 * 设置
 	 * @type {{Settings: import('./types').Settings}}
 	 */
-	const { Settings, Caches, Configs } = setENV("iRingo", ["Location", "Maps"], database);
+	const { Settings, Caches, Configs } = setENV("iRingo", PLATFORM, database);
 	// 创建空数据
 	let body = {};
 	// 格式判断
