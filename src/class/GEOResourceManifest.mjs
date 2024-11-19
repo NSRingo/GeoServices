@@ -50,17 +50,14 @@ export default class GEOResourceManifest {
         // 填补空缺图源
         switch (countryCode) {
             case "CN":
-                /*
                 // 填补数据组
                 caches.CN.tileSet = caches.CN.tileSet.map(tile => {
                     tile.dataSet = 0;
                     return tile;
                 });
-                */
                 caches.XX.tileSet.forEach(tile => {
                     if (!caches.CN.tileSet.some(i => i.style === tile.style)) {
                         log(`⚠️ Missing style: ${tile?.style}`, "");
-                        delete tile.dataSet; // 移除数据组
                         tileSet.push(tile);
                     };
                 });
