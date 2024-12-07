@@ -1,6 +1,5 @@
 {
 	"name": "@iringo/geoservices",
-	"version": "4.1.0",
 	"organizationName": " iRingo",
 	"displayName": " iRingo: 🗺️ Maps",
 	"description": "自定义 Maps app\n添加国际版功能\n自定义服务版本",
@@ -40,11 +39,11 @@
 		"@iringo/arguments-builder": "^1.8.5",
 		"@protobuf-ts/plugin": "^2.9.4",
 		"@rspack/cli": "^1.0.11",
-		"@rspack/core": "^1.0.11"
+		"@rspack/core": "^1.0.11",
+		"node-polyfill-webpack-plugin": "^4.1.0"
 	},
 	"dependencies": {
-		"@nsnanocat/util": "^1.4.8",
-		"@protobuf-ts/runtime": "^2.9.3",
-		"node-polyfill-webpack-plugin": "^4.0.0"
+		"@nsnanocat/util": "^1.7.5",
+		"@protobuf-ts/runtime": "^2.9.3"
 	}
 }

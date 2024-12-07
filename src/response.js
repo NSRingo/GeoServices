@@ -1,4 +1,4 @@
-import { $app, Lodash as _, Storage, fetch, notification, log, logError, wait, done } from "@nsnanocat/util";
+import { $app, Console, done, Lodash as _, Storage } from "@nsnanocat/util";
 import XML from "./XML/XML.mjs";
 import database from "./function/database.mjs";
 import setENV from "./function/setENV.mjs";
@@ -7,18 +7,18 @@ import GEOResourceManifestDownload from "./class/GEOResourceManifestDownload.mjs
 /***************** Processing *****************/
 // 解构URL
 const url = new URL($request.url);
-log(`⚠ url: ${url.toJSON()}`, "");
+Console.info(`url: ${url.toJSON()}`);
 // 获取连接参数
 const METHOD = $request.method,
 	HOST = url.hostname,
 	PATH = url.pathname;
-log(`⚠ METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`, "");
+Console.info(`METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`);
 // 解析格式
 const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["content-type"])?.split(";")?.[0];
-log(`⚠ FORMAT: ${FORMAT}`, "");
+Console.info(`FORMAT: ${FORMAT}`);
 const PLATFORM = ["Location", "Maps"];
 if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
-log(`⚠ PLATFORM: ${PLATFORM}`, "");
+Console.info(`PLATFORM: ${PLATFORM}`);
 !(async () => {
 	/**
 	 * 设置
@@ -114,7 +114,7 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 		case "text/json":
 		case "application/json":
 			body = JSON.parse($response.body ?? "{}");
-			log(`🚧 body: ${JSON.stringify(body)}`, "");
+			Console.debug(`body: ${JSON.stringify(body)}`);
 			$response.body = JSON.stringify(body);
 			break;
 		case "application/protobuf":
@@ -169,7 +169,7 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 									body.muninBucket = GEOResourceManifest.muninBuckets(body.muninBucket, Caches, Settings);
 									body.displayString = GEOResourceManifest.displayStrings(body.displayString, Caches, CountryCode);
 									body.tileGroup = GEOResourceManifest.tileGroups(body.tileGroup, body.tileSet, body.attribution, body.resource);
-									log(`🚧 releaseInfo: ${body.releaseInfo}`, "");
+									Console.debug(`releaseInfo: ${body.releaseInfo}`);
 									rawBody = GEOResourceManifestDownload.encode(body);
 									break;
 								}
@@ -187,5 +187,5 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 		}
 	}
 })()
-	.catch(e => logError(e))
+	.catch(e => Console.error(e))
 	.finally(() => done($response));

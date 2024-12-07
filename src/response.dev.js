@@ -1,4 +1,4 @@
-import { $app, Lodash as _, Storage, fetch, notification, log, logError, wait, done } from "@nsnanocat/util";
+import { $app, Console, done, Lodash as _, Storage } from "@nsnanocat/util";
 import XML from "./XML/XML.mjs";
 import database from "./function/database.mjs";
 import setENV from "./function/setENV.mjs";
@@ -8,18 +8,18 @@ import { BinaryReader, UnknownFieldHandler } from "@protobuf-ts/runtime";
 /***************** Processing *****************/
 // 解构URL
 const url = new URL($request.url);
-log(`⚠ url: ${url.toJSON()}`, "");
+Console.info(`url: ${url.toJSON()}`);
 // 获取连接参数
 const METHOD = $request.method,
 	HOST = url.hostname,
 	PATH = url.pathname;
-log(`⚠ METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`, "");
+Console.info(`METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`);
 // 解析格式
 const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["content-type"])?.split(";")?.[0];
-log(`⚠ FORMAT: ${FORMAT}`, "");
+Console.info(`FORMAT: ${FORMAT}`);
 const PLATFORM = ["Location", "Maps"];
 if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
-log(`⚠ PLATFORM: ${PLATFORM}`, "");
+Console.info(`PLATFORM: ${PLATFORM}`);
 !(async () => {
 	/**
 	 * 设置
@@ -35,14 +35,14 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 		case "application/x-www-form-urlencoded":
 		case "text/plain":
 		default:
-			//log(`🚧 body: ${body}`, "");
+			//Console.debug(`body: ${body}`);
 			break;
 		case "application/x-mpegURL":
 		case "application/x-mpegurl":
 		case "application/vnd.apple.mpegurl":
 		case "audio/mpegurl":
 			//body = M3U8.parse($response.body);
-			//log(`🚧 body: ${JSON.stringify(body)}`, "");
+			//Console.debug(`body: ${JSON.stringify(body)}`);
 			//$response.body = M3U8.stringify(body);
 			break;
 		case "text/xml":
@@ -77,7 +77,7 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 						return this.toString();
 					};
 					body = XML.parse($response.body);
-					log(`🚧 body: ${JSON.stringify(body)}`, "");
+					Console.debug(`body: ${JSON.stringify(body)}`);
 					// 路径判断
 					switch (PATH) {
 						case "/config/defaults": {
@@ -112,7 +112,7 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 							break;
 						}
 					}
-					log(`🚧 body: ${JSON.stringify(body)}`, "");
+					Console.debug(`body: ${JSON.stringify(body)}`);
 					//$response.body = await PLISTs("json2plist", body); // json2plist
 					$response.body = XML.stringify(body);
 					break;
@@ -121,13 +121,13 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 		case "text/vtt":
 		case "application/vtt":
 			//body = VTT.parse($response.body);
-			//log(`🚧 body: ${JSON.stringify(body)}`, "");
+			//Console.debug(`body: ${JSON.stringify(body)}`);
 			//$response.body = VTT.stringify(body);
 			break;
 		case "text/json":
 		case "application/json":
 			body = JSON.parse($response.body ?? "{}");
-			log(`🚧 body: ${JSON.stringify(body)}`, "");
+			Console.debug(`body: ${JSON.stringify(body)}`);
 			$response.body = JSON.stringify(body);
 			break;
 		case "application/protobuf":
@@ -136,9 +136,9 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 		case "application/grpc":
 		case "application/grpc+proto":
 		case "application/octet-stream": {
-			//log(`🚧 $response: ${JSON.stringify($response, null, 2)}`, "");
+			//Console.debug(`$response: ${JSON.stringify($response, null, 2)}`);
 			let rawBody = $app === "Quantumult X" ? new Uint8Array($response.bodyBytes ?? []) : ($response.body ?? new Uint8Array());
-			//log(`🚧 isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody)}`, "");
+			//Console.debug(`isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody)}`);
 			switch (FORMAT) {
 				case "application/protobuf":
 				case "application/x-protobuf":
@@ -151,10 +151,10 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 									break;
 								case "/geo_manifest/dynamic/config": {
 									body = GEOResourceManifestDownload.decode(rawBody);
-									//log("🚧 调试信息", `body before: ${JSON.stringify(body)}`, "");
+									//Console.debug(`body before: ${JSON.stringify(body)}`);
 									/*
 											let UF = UnknownFieldHandler.list(body);
-											//log(`🚧 调试信息`, `UF: ${JSON.stringify(UF)}`, "");
+											//Console.debug(`调试信息`, `UF: ${JSON.stringify(UF)}`);
 											if (UF) {
 												UF = UF.map(uf => {
 													uf.no; // 22
@@ -162,7 +162,7 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 													// use the binary reader to decode the raw data:
 													let reader = new BinaryReader(uf.data);
 													let addedNumber = reader.int32(); // 7777
-													log(`🚧 no: ${uf.no}, wireType: ${uf.wireType}, reader: ${reader}, addedNumber: ${addedNumber}`, "");
+													Console.debug(`no: ${uf.no}, wireType: ${uf.wireType}, reader: ${reader}, addedNumber: ${addedNumber}`);
 												});
 											};
 											*/
@@ -207,8 +207,8 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 									body.tileGroup = GEOResourceManifest.tileGroups(body.tileGroup, body.tileSet, body.attribution, body.resource);
 									// releaseInfo
 									//body.releaseInfo = body.releaseInfo.replace(/(\d+\.\d+)/, `$1.${String(Date.now()/1000)}`);
-									log(`🚧 releaseInfo: ${body.releaseInfo}`, "");
-									//log("🚧 调试信息", `body after: ${JSON.stringify(body)}`, "");
+									Console.debug(`releaseInfo: ${body.releaseInfo}`);
+									//Console.debug(`body after: ${JSON.stringify(body)}`);
 									rawBody = GEOResourceManifestDownload.encode(body);
 									break;
 								}
@@ -226,5 +226,5 @@ log(`⚠ PLATFORM: ${PLATFORM}`, "");
 		}
 	}
 })()
-	.catch(e => logError(e))
+	.catch(e => Console.error(e))
 	.finally(() => done($response));

@@ -1,13 +1,13 @@
-import { log } from "@nsnanocat/util";
+import { Console } from "@nsnanocat/util";
 //import { MESSAGE_TYPE, reflectionMergePartial, BinaryReader, WireType, UnknownFieldHandler, isJsonObject, typeofJsonValue, jsonWriteOptions, MessageType } from "@protobuf-ts/runtime";
 import { Resources, ResourceType, ResourceFilterScale, ResourceFilterScenario, ResourceDownloadConnectionType, Resource_ValidationMethod, Resource_UpdateMethod } from "../proto/apple/geo/GEOResourceManifestDownload.js";
 import { TileSetStyle, TileScale, TileSize, GenericTileType, TileSet_TileUpdateBehavior, TileSet_ChecksumType, TileSet_RequestStyle } from "../proto/apple/geo/protobuf/geo.js";
 
 export default class GEOResourceManifestDownload {
     static decode(rawBody = new Uint8Array([])) {
-        log("☑️ GEOResourceManifestDownload.decode", "");
+        Console.log("☑️ GEOResourceManifestDownload.decode");
         const body = Resources.fromBinary(rawBody);
-        //log(`body.tileSet: ${JSON.stringify(body.tileSet)}`);
+        //Console.debug(`body.tileSet: ${JSON.stringify(body.tileSet)}`);
         if (typeof body.tileSet !== "undefined") body.tileSet = body.tileSet.map((tile) => {
             if (typeof tile.style !== "undefined") tile.style = TileSetStyle[tile.style];
             if (typeof tile.validVersion !== "undefined") tile.validVersion = tile.validVersion.map(version => {
@@ -51,12 +51,12 @@ export default class GEOResourceManifestDownload {
             if (typeof resource.updateMethod !== "undefined") resource.updateMethod = Resource_UpdateMethod[resource.updateMethod];
             return resource;
         });
-        log("✅ GEOResourceManifestDownload.decode", "");
+        Console.log("✅ GEOResourceManifestDownload.decode");
         return body;
     };
 
     static encode(body = {}) {
-        log("☑️ GEOResourceManifestDownload.encode", "");
+        Console.log("☑️ GEOResourceManifestDownload.encode");
         if (typeof body.tileSet !== "undefined") body.tileSet = body.tileSet.map((tile) => {
             if (typeof tile.style !== "undefined") tile.style = TileSetStyle[tile.style];
             if (typeof tile.validVersion !== "undefined") tile.validVersion = tile.validVersion.map(version => {
@@ -100,9 +100,9 @@ export default class GEOResourceManifestDownload {
             if (typeof resource.updateMethod !== "undefined") resource.updateMethod = Resource_UpdateMethod[resource.updateMethod];
             return resource;
         });
-        //log(`body.tileSet: ${JSON.stringify(body.tileSet)}`);
+        //Console.debug(`body.tileSet: ${JSON.stringify(body.tileSet)}`);
         const rawBody = Resources.toBinary(body);
-        log("✅ GEOResourceManifestDownload.encode", "");
+        Console.log("✅ GEOResourceManifestDownload.encode");
         return rawBody;
     };
 };

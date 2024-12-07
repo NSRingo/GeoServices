@@ -2,22 +2,22 @@ import { defineConfig } from "@iringo/arguments-builder";
 export default defineConfig({
 	output: {
 		surge: {
-			path: "./dist/Maps.sgmodule",
+			path: "./dist/iRingo.Maps.sgmodule",
 			transformEgern: {
 				enable: true,
-				path: "./dist/Maps.yaml",
+				path: "./dist/iRingo.Maps.yaml",
 			},
 		},
 		loon: {
-			path: "./dist/Maps.plugin",
+			path: "./dist/iRingo.Maps.plugin",
 		},
 		customItems: [
 			{
-				path: "./dist/Maps.snippet",
+				path: "./dist/iRingo.Maps.snippet",
 				template: "./template/quantumultx.handlebars",
 			},
 			{
-				path: "./dist/Maps.stoverride",
+				path: "./dist/iRingo.Maps.stoverride",
 				template: "./template/stash.handlebars",
 			},
 		],
