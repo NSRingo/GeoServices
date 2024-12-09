@@ -9,22 +9,21 @@ import GEOResourceManifestDownload from "./class/GEOResourceManifestDownload.mjs
 const url = new URL($request.url);
 Console.info(`url: ${url.toJSON()}`);
 // 获取连接参数
-const METHOD = $request.method,
-	HOST = url.hostname,
-	PATH = url.pathname;
-Console.info(`METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`);
+const PATHs = url.pathname.split("/").filter(Boolean);
+Console.info(`PATHs: ${PATHs}`);
 // 解析格式
 const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["content-type"])?.split(";")?.[0];
 Console.info(`FORMAT: ${FORMAT}`);
 const PLATFORM = ["Location", "Maps"];
 if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
 Console.info(`PLATFORM: ${PLATFORM}`);
-!(async () => {
+(async () => {
 	/**
 	 * 设置
 	 * @type {{Settings: import('./types').Settings}}
 	 */
 	const { Settings, Caches, Configs } = setENV("iRingo", PLATFORM, database);
+	Console.logLevel = Settings.LogLevel;
 	// 创建空数据
 	let body = {};
 	// 格式判断
@@ -47,11 +46,11 @@ Console.info(`PLATFORM: ${PLATFORM}`);
 		case "application/plist":
 		case "application/x-plist":
 			// 主机判断
-			switch (HOST) {
+			switch (url.hostname) {
 				case "gspe1-ssl.ls.apple.com":
 					//body = new DOMParser().parseFromString($response.body, FORMAT);
 					// 路径判断
-					switch (PATH) {
+					switch (url.pathname) {
 						case "/pep/gcc":
 							_.set(Caches, "pep.gcc", $response.body);
 							Storage.setItem("@iRingo.Location.Caches", Caches);
@@ -71,7 +70,7 @@ Console.info(`PLATFORM: ${PLATFORM}`);
 					};
 					body = XML.parse($response.body);
 					// 路径判断
-					switch (PATH) {
+					switch (url.pathname) {
 						case "/config/defaults": {
 							const PLIST = body.plist;
 							if (PLIST) {
@@ -129,9 +128,9 @@ Console.info(`PLATFORM: ${PLATFORM}`);
 				case "application/x-protobuf":
 				case "application/vnd.google.protobuf":
 				case "application/octet-stream":
-					switch (HOST) {
+					switch (url.hostname) {
 						case "gspe35-ssl.ls.apple.com":
-							switch (PATH) {
+							switch (url.pathname) {
 								case "/config/announcements":
 									break;
 								case "/geo_manifest/dynamic/config": {
