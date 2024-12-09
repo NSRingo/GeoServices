@@ -139,7 +139,7 @@ export default class GEOResourceManifest {
 					case "VECTOR_TRAFFIC_SKELETON_WITH_HISTORICAL": // 28 交通状况骨架（卫星地图:显示历史交通状况）?
 					case "VECTOR_TRAFFIC_V2": // 86 交通状况V2
 						//Console.warn(`Traffic style: ${tile?.style}`);
-                        /*
+						/*
 						switch (settings.TileSet.Traffic) {
 							case "HYBRID":
 							default:
@@ -319,7 +319,7 @@ export default class GEOResourceManifest {
 					case "VMAP4_ELEVATION_POLAR": // 93 VMAP4 高程（极地）?
 					case "CELLULAR_COVERAGE_PLMN": // 94 蜂窝覆盖 PLMN?
 					case "UNUSED_99": // 99 未使用
-                        break;
+						break;
 					default:
 						Console.warn(`default style: ${tile?.style}`);
 						/*

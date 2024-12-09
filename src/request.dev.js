@@ -10,26 +10,25 @@ let $response = undefined;
 const url = new URL($request.url);
 Console.info(`url: ${url.toJSON()}`);
 // 获取连接参数
-const METHOD = $request.method,
-	HOST = url.hostname,
-	PATH = url.pathname;
-Console.info(`METHOD: ${METHOD}, HOST: ${HOST}, PATH: ${PATH}`);
+const PATHs = url.pathname.split("/").filter(Boolean);
+Console.info(`PATHs: ${PATHs}`);
 // 解析格式
 const FORMAT = ($request.headers?.["Content-Type"] ?? $request.headers?.["content-type"])?.split(";")?.[0];
 Console.info(`FORMAT: ${FORMAT}`);
 const PLATFORM = ["Maps"];
 if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
 Console.info(`PLATFORM: ${PLATFORM}`);
-!(async () => {
+(async () => {
 	/**
 	 * 设置
 	 * @type {{Settings: import('./types').Settings}}
 	 */
 	const { Settings, Caches, Configs } = setENV("iRingo", PLATFORM, database);
+	Console.logLevel = Settings.LogLevel;
 	// 创建空数据
 	let body = {};
 	// 方法判断
-	switch (METHOD) {
+	switch ($request.method) {
 		case "POST":
 		case "PUT":
 		case "PATCH":
@@ -82,10 +81,10 @@ Console.info(`PLATFORM: ${PLATFORM}`);
 					//Console.debug(`$request: ${JSON.stringify($request, null, 2)}`);
 					let rawBody = $app === "Quantumult X" ? new Uint8Array($request.bodyBytes ?? []) : ($request.body ?? new Uint8Array());
 					//Console.debug(`isBuffer? ${ArrayBuffer.isView(rawBody)}: ${JSON.stringify(rawBody, null, 2)}`);
-					switch (HOST) {
+					switch (url.hostname) {
 						case "gsp-ssl.ls.apple.com":
 						case "dispatcher.is.autonavi.com":
-							switch (PATH) {
+							switch (url.pathname) {
 								case "/dispatcher.arpc":
 								case "/dispatcher": {
 									/******************  initialization start  *******************/
@@ -127,16 +126,16 @@ Console.info(`PLATFORM: ${PLATFORM}`);
 			delete $request?.headers?.["If-None-Match"];
 			delete $request?.headers?.["if-none-match"];
 			// 主机判断
-			switch (HOST) {
+			switch (url.hostname) {
 				case "configuration.ls.apple.com":
 					// 路径判断
-					switch (PATH) {
+					switch (url.pathname) {
 						case "/config/defaults":
 							break;
 					}
 					break;
 				case "gspe1-ssl.ls.apple.com":
-					switch (PATH) {
+					switch (url.pathname) {
 						case "/pep/gcc":
 							/* // 不使用 echo response
 							$response = {
@@ -156,7 +155,7 @@ Console.info(`PLATFORM: ${PLATFORM}`);
 					break;
 				case "gspe35-ssl.ls.apple.com":
 				case "gspe35-ssl.ls.apple.cn":
-					switch (PATH) {
+					switch (url.pathname) {
 						case "/config/announcements":
 							switch (Settings?.Config?.Announcements?.Environment) {
 								case "AUTO":
