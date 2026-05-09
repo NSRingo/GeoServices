@@ -1,6 +1,6 @@
 import { KV as Storage } from "@auraflare/shared";
+import { Hono } from "hono/tiny";
 import { fetch } from "@nsnanocat/util";
-import { Hono } from "hono";
 import HonoWorkerAdapter from "./class/HonoWorkerAdapter.mjs";
 import { Response } from "./process/Response.mjs";
 import { Request } from "./process/Request.mjs";
