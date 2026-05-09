@@ -24,4 +24,7 @@ export default new Hono().all("/:rest{.*}", async c => {
 			console.error(`不合法的 $response 类型: ${typeof $response}`);
 			return c.body("", 500);
 	}
+}).onError((e, c) => {
+  	console.error(`${e}`);
+	return c.body(`${e}`, 500);
 });
