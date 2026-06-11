@@ -1,6 +1,4 @@
 [submodule "src/XML"]
 	path = src/XML
-	url = https://github.com/NanoCat-Me/XML.git
-[submodule "src/proto"]
-	path = src/proto
-	url = https://github.com/NSRingo/proto.git
+	url = https://github.com/NSNanoCat/XML
+

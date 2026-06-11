@@ -1,8 +1,8 @@
 import { Console } from "@nsnanocat/util";
 //import { MESSAGE_TYPE, reflectionMergePartial, BinaryReader, WireType, UnknownFieldHandler, isJsonObject, typeofJsonValue, jsonWriteOptions, MessageType } from "@protobuf-ts/runtime";
-import { Resources, ResourceType, ResourceFilterScale, ResourceFilterScenario, ResourceDownloadConnectionType, Resource_ValidationMethod, Resource_UpdateMethod } from "../proto/apple/geo/GEOResourceManifestDownload.js";
-import { TileScale, TileSize, GenericTileType, TileSet_TileSetVersionUpdateBehavior, TileSet_TileSetChecksumType, TileSet_TileRequestStyle } from "../proto/apple/geo/protobuf/geo.js";
-import { TileSetStyle } from "../proto/apple/geo/protobuf/geo/TileSetStyle.js";
+import { Resources, ResourceType, ResourceFilterScale, ResourceFilterScenario, ResourceDownloadConnectionType, Resource_ValidationMethod, Resource_UpdateMethod } from "@nsringo/mapkit";
+import { TileScale, TileSize, GenericTileType, TileSet_TileSetVersionUpdateBehavior, TileSet_TileSetChecksumType, TileSet_TileRequestStyle } from "@nsringo/mapkit";
+import { TileSetStyle } from "@nsringo/mapkit";
 
 export default class GEOResourceManifestDownload {
 	static decode(rawBody = new Uint8Array([])) {

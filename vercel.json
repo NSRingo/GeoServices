@@ -6,5 +6,10 @@
             "use": "@vercel/node"
         }
     ],
-    "routes": [{ "src": "/(.*)", "dest": "src/Hono.js" }]
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "src/Hono.js"
+        }
+    ]
 }

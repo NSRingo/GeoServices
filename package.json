@@ -24,11 +24,14 @@
 	"directories": {
 		"example": "example"
 	},
+	"type": "module",
 	"scripts": {
-		"dev:vercel": "npx vercel dev",
-		"dev:wrangler": "npx wrangler dev",
+		"dev:pages": "npx wrangler pages dev --port 8787",
+		"dev:workers": "npx wrangler dev -c wrangler.workers.jsonc",
+		"dev:vercel": "npx vercel dev --listen 8787",
+		"deploy:pages": "npx wrangler pages deploy",
+		"deploy:workers": "npx wrangler deploy --minify -c wrangler.workers.jsonc",
 		"deploy:vercel": "npx vercel deploy --prod",
-		"deploy:wrangler": "npx wrangler deploy --minify",
 		"serve": "webpack serve",
 		"build": "rspack build",
 		"build:dev": "rspack build -c rspack.dev.config.mjs --mode=development",
@@ -45,12 +48,14 @@
 		"@protobuf-ts/plugin": "^2.11.1",
 		"@rspack/cli": "^1.7.7",
 		"@rspack/core": "^1.7.7",
-		"node-polyfill-webpack-plugin": "^4.1.0"
+		"node-polyfill-webpack-plugin": "^4.1.0",
+		"typescript": "^6.0.3"
 	},
 	"dependencies": {
 		"@auraflare/shared": "^1.1.1",
 		"@biomejs/biome": "^2.4.6",
-		"@nsnanocat/util": "^2.5.17",
+		"@nsnanocat/util": "^2.7.0",
+		"@nsringo/mapkit": "^1.1.2",
 		"@protobuf-ts/runtime": "^2.11.1",
 		"fetch-cookie": "^3.2.0",
 		"hono": "^4.12.5"
