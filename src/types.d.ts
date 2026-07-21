@@ -1,4 +1,14 @@
 export interface Settings {
+    Hybrid?: {
+        /** Enable iOS 27 mainland/international selective manifest merging. */
+        Enabled?: boolean;
+        /** Mainland two-dimensional layer profile. */
+        MainlandLayers?: 'CORE' | 'EXTENDED';
+        /** Mainland 3D behavior. ROUTE keeps one international selector. */
+        Mainland3D?: 'DISABLED' | 'ENABLED' | 'NATIVE' | 'ROUTE';
+        /** Mainland place/navigation service scope. */
+        ServiceMode?: 'APPLE' | 'CN_POI' | 'CN_FULL';
+    };
     GeoManifest?: {
     Dynamic?: {
             Config?: {

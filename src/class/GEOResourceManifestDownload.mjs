@@ -11,53 +11,53 @@ export default class GEOResourceManifestDownload {
 		//Console.debug(`body.tileSet: ${JSON.stringify(body.tileSet)}`);
 		if (typeof body.tileSet !== "undefined")
 			body.tileSet = body.tileSet.map(tile => {
-				if (typeof tile.style !== "undefined") tile.style = TileSetStyle[tile.style];
+				if (typeof tile.style === "string") tile.style = TileSetStyle[tile.style];
 				if (typeof tile.validVersion !== "undefined")
 					tile.validVersion = tile.validVersion.map(version => {
 						if (typeof version.genericTile !== "undefined")
 							version.genericTile = version.genericTile.map(genericTile => {
-								if (typeof genericTile.tileType !== "undefined") genericTile.tileType = GenericTileType[genericTile.tileType];
+								if (typeof genericTile.tileType === "string") genericTile.tileType = GenericTileType[genericTile.tileType];
 								return genericTile;
 							});
 						return version;
 					});
-				if (typeof tile.scale !== "undefined") tile.scale = TileScale[tile.scale];
-				if (typeof tile.size !== "undefined") tile.size = TileSize[tile.size];
-				if (typeof tile.updateBehavior !== "undefined") tile.updateBehavior = TileSet_TileSetVersionUpdateBehavior[tile.updateBehavior];
-				if (typeof tile.checksumType !== "undefined") tile.checksumType = TileSet_TileSetChecksumType[tile.checksumType];
-				if (typeof tile.requestStyle !== "undefined") tile.requestStyle = TileSet_TileRequestStyle[tile.requestStyle];
+				if (typeof tile.scale === "string") tile.scale = TileScale[tile.scale];
+				if (typeof tile.size === "string") tile.size = TileSize[tile.size];
+				if (typeof tile.updateBehavior === "string") tile.updateBehavior = TileSet_TileSetVersionUpdateBehavior[tile.updateBehavior];
+				if (typeof tile.checksumType === "string") tile.checksumType = TileSet_TileSetChecksumType[tile.checksumType];
+				if (typeof tile.requestStyle === "string") tile.requestStyle = TileSet_TileRequestStyle[tile.requestStyle];
 				return tile;
 			});
 		if (typeof body.attribution !== "undefined")
 			body.attribution = body.attribution.map(attribution => {
 				if (typeof attribution.resource !== "undefined")
 					attribution.resource = attribution.resource.map(resource => {
-						if (typeof resource.resourceType !== "undefined") resource.resourceType = ResourceType[resource.resourceType];
+						if (typeof resource.resourceType === "string") resource.resourceType = ResourceType[resource.resourceType];
 						if (typeof resource.filter !== "undefined")
 							resource.filter = resource.filter.map(filter => {
-								if (typeof filter.scale !== "undefined") filter.scale = filter.scale.map(scale => ResourceFilterScale[scale]);
-								if (typeof filter.scenario !== "undefined") filter.scenario = filter.scenario.map(scenario => ResourceFilterScenario[scenario]);
+								if (typeof filter.scale !== "undefined") filter.scale = filter.scale.map(scale => typeof scale === "string" ? ResourceFilterScale[scale] : scale);
+								if (typeof filter.scenario !== "undefined") filter.scenario = filter.scenario.map(scenario => typeof scenario === "string" ? ResourceFilterScenario[scenario] : scenario);
 								return filter;
 							});
-						if (typeof resource.connectionType !== "undefined") resource.connectionType = ResourceDownloadConnectionType[resource.connectionType];
-						if (typeof resource.validationMethod !== "undefined") resource.validationMethod = Resource_ValidationMethod[resource.validationMethod];
-						if (typeof resource.updateMethod !== "undefined") resource.updateMethod = Resource_UpdateMethod[resource.updateMethod];
+						if (typeof resource.connectionType === "string") resource.connectionType = ResourceDownloadConnectionType[resource.connectionType];
+						if (typeof resource.validationMethod === "string") resource.validationMethod = Resource_ValidationMethod[resource.validationMethod];
+						if (typeof resource.updateMethod === "string") resource.updateMethod = Resource_UpdateMethod[resource.updateMethod];
 						return resource;
 					});
 				return attribution;
 			});
 		if (typeof body.resource !== "undefined")
 			body.resource = body.resource.map(resource => {
-				if (typeof resource.resourceType !== "undefined") resource.resourceType = ResourceType[resource.resourceType];
+				if (typeof resource.resourceType === "string") resource.resourceType = ResourceType[resource.resourceType];
 				if (typeof resource.filter !== "undefined")
 					resource.filter = resource.filter.map(filter => {
-						if (typeof filter.scale !== "undefined") filter.scale = filter.scale.map(scale => ResourceFilterScale[scale]);
-						if (typeof filter.scenario !== "undefined") filter.scenario = filter.scenario.map(scenario => ResourceFilterScenario[scenario]);
+						if (typeof filter.scale !== "undefined") filter.scale = filter.scale.map(scale => typeof scale === "string" ? ResourceFilterScale[scale] : scale);
+						if (typeof filter.scenario !== "undefined") filter.scenario = filter.scenario.map(scenario => typeof scenario === "string" ? ResourceFilterScenario[scenario] : scenario);
 						return filter;
 					});
-				if (typeof resource.connectionType !== "undefined") resource.connectionType = ResourceDownloadConnectionType[resource.connectionType];
-				if (typeof resource.validationMethod !== "undefined") resource.validationMethod = Resource_ValidationMethod[resource.validationMethod];
-				if (typeof resource.updateMethod !== "undefined") resource.updateMethod = Resource_UpdateMethod[resource.updateMethod];
+				if (typeof resource.connectionType === "string") resource.connectionType = ResourceDownloadConnectionType[resource.connectionType];
+				if (typeof resource.validationMethod === "string") resource.validationMethod = Resource_ValidationMethod[resource.validationMethod];
+				if (typeof resource.updateMethod === "string") resource.updateMethod = Resource_UpdateMethod[resource.updateMethod];
 				return resource;
 			});
 		Console.log("✅ GEOResourceManifestDownload.decode");

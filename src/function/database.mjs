@@ -9,6 +9,12 @@ export default {
 	},
 	Maps: {
 		Settings: {
+			Hybrid: {
+				Enabled: false,
+				MainlandLayers: "EXTENDED",
+				Mainland3D: "DISABLED",
+				ServiceMode: "CN_POI",
+			},
 			UrlInfoSet: {
 				Dispatcher: "AutoNavi",
 				Directions: "AutoNavi",

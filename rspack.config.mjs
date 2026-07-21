@@ -7,6 +7,7 @@ export default defineConfig({
 	entry: {
 		request: "./src/request.js",
 		response: "./src/response.js",
+		"satellite-route": "./src/satellite-route.js",
 	},
 	output: {
 		chunkFormat: false,

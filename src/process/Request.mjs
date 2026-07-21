@@ -99,6 +99,7 @@ export async function Request($request, KV) {
                     }
                     break;
                 case "gspe35-ssl.ls.apple.com":
+                case "gspe35-ssl.ls.apple.cn":
                     switch (url.pathname) {
                         case "/config/announcements":
                             switch (Settings?.Config?.Announcements?.Environment ?? Settings?.Config?.Announcements?.["Environment:"]?.default ?? Settings?.Config?.Announcements?.["Environment:"]) {
@@ -121,9 +122,14 @@ export async function Request($request, KV) {
                                             url.searchParams.set("country_code", Caches.pep.gcc);
                                             break;
                                         case "CN":
-                                        case undefined:
-                                            url.searchParams.set("country_code", "CN");
+                                        case undefined: {
+                                            // PEP is not guaranteed to be available on iOS 27.
+                                            // Infer a safe fallback from the user's language
+                                            // instead of pinning every AUTO request to CN.
+                                            const language = $request.headers?.["Accept-Language"] ?? $request.headers?.["accept-language"] ?? "";
+                                            url.searchParams.set("country_code", !language || /^zh(?:-Hans)?(?:-CN)?/i.test(language) ? "CN" : "US");
                                             break;
+                                        }
                                     }
                                     break;
                                 default:
