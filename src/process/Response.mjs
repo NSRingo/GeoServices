@@ -4,6 +4,7 @@ import database from "../function/database.mjs";
 import setENV from "../function/setENV.mjs";
 import GEOResourceManifest from "../class/GEOResourceManifest.mjs";
 import GEOResourceManifestDownload from "../class/GEOResourceManifestDownload.mjs";
+import applyInternationalHybrid from "../function/InternationalHybrid.mjs";
 /***************** Processing *****************/
 export async function Response($request, $response, KV) {
     // 解构URL
@@ -111,7 +112,8 @@ export async function Response($request, $response, KV) {
                 case "application/vnd.google.protobuf":
                 case "application/octet-stream":
                     switch (url.hostname) {
-                        case "gspe35-ssl.ls.apple.com":
+                case "gspe35-ssl.ls.apple.com":
+                case "gspe35-ssl.ls.apple.cn":
                             switch (url.pathname) {
                                 case "/config/announcements":
                                     break;
@@ -162,6 +164,7 @@ export async function Response($request, $response, KV) {
                                     body.urlInfoSet = GEOResourceManifest.urlInfoSets(body.urlInfoSet, caches, Settings, CountryCode);
                                     body.muninBucket = GEOResourceManifest.muninBuckets(body.muninBucket, caches, Settings);
                                     body.displayString = GEOResourceManifest.displayStrings(body.displayString, caches, CountryCode);
+                                    body = applyInternationalHybrid(body, caches, Settings);
                                     body.tileGroup = GEOResourceManifest.tileGroups(body.tileGroup, body.tileSet, body.attribution, body.resource);
                                     Console.debug(`releaseInfo: ${body.releaseInfo}`);
                                     rawBody = GEOResourceManifestDownload.encode(body);
