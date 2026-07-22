@@ -29,6 +29,48 @@ export default defineConfig({
 	},
 	args: [
 		{
+			defaultValue: false,
+			description: "为 iOS 27 启用中国二维数据与 Apple 国际卫星、3D、Flyover 和 Look Around 的选择性合并。",
+			key: "Hybrid.Enabled",
+			name: "[iOS 27] 中国/国际混合地图",
+			type: "boolean",
+		},
+		{
+			defaultValue: "EXTENDED",
+			description: "选择注入到国际清单中的中国大陆二维图层范围。",
+			key: "Hybrid.MainlandLayers",
+			name: "[iOS 27] 中国二维图层",
+			options: [
+				{ key: "EXTENDED", label: "完整道路、建筑、POI、标签和交通" },
+				{ key: "CORE", label: "核心标准地图、建筑和 POI" },
+			],
+			type: "string",
+		},
+		{
+			defaultValue: "DISABLED",
+			description: "ROUTE 保留单一国际卫星选择器，并由客户端脚本按瓦片坐标选择 CN 端点。",
+			key: "Hybrid.Mainland3D",
+			name: "[iOS 27] 中国卫星/3D 处理",
+			options: [
+				{ key: "DISABLED", label: "关闭中国 3D 路由" },
+				{ key: "ROUTE", label: "按瓦片坐标路由（推荐给支持请求脚本的客户端）" },
+				{ key: "NATIVE", label: "并存中国原生 3D selector（实验）" },
+			],
+			type: "string",
+		},
+		{
+			defaultValue: "CN_POI",
+			description: "控制中国地点、反向地理编码、导航和交通服务的恢复范围。",
+			key: "Hybrid.ServiceMode",
+			name: "[iOS 27] 中国服务范围",
+			options: [
+				{ key: "CN_POI", label: "中国 POI/搜索，导航保留 Apple" },
+				{ key: "APPLE", label: "Apple 国际前台服务" },
+				{ key: "CN_FULL", label: "中国 POI、导航与交通" },
+			],
+			type: "string",
+		},
+		{
 			defaultValue: "CN",
 			description: "此选项影响“地图”整体配置内容，包括以下的地图功能与服务。",
 			key: "GeoManifest.Dynamic.Config.CountryCode",
