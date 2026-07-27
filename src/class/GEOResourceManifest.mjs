@@ -193,12 +193,26 @@ export default class GEOResourceManifest {
 				switch (tile.style) {
 					/*
 					case "VECTOR_STANDARD": // 1 标准地图
+					case "RASTER_STANDARD_BACKGROUND": // 5 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_HYBRID": // 6 | MAINLAND_EXTENDED_STYLES
 					case "RASTER_TERRAIN": // 8 地貌与地势（绿地/城市/水体/山地不同颜色的区域）
 					case "VECTOR_BUILDINGS": // 11 建筑模型（3D/白模）
 					case "VECTOR_ROADS": // 20 道路（卫星地图:显示标签）
+					case "RASTER_VEGETATION": // 21 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_COASTLINE_MASK": // 23 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_HILLSHADE": // 24 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_COASTLINE_DROP_MASK": // 27 | MAINLAND_EXTENDED_STYLES
 					case "VECTOR_VENUES": // 30 室内地图
+					case "RASTER_DOWN_SAMPLED": // 31 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_COLOR_BALANCED": // 32 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_HILLSHADE_PARKS": // 36 | MAINLAND_EXTENDED_STYLES
 					case "VECTOR_TRANSIT": // 37 公共交通
 					case "VECTOR_ROAD_NETWORK": // 53 道路网络
+					case "RASTER_STANDARD_BASE": // 38 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_STANDARD_LABELS": // 39 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_HYBRID_ROADS": // 40 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_HYBRID_LABELS": // 41 | MAINLAND_EXTENDED_STYLES
+					case "RASTER_HYBRID_ROADS_AND_LABELS": // 46 | MAINLAND_EXTENDED_STYLES
 					case "VECTOR_TRANSIT_SELECTION": // 47 公共交通选区?
 					case "VECTOR_STREET_LANDMARKS": // 64 街道地标?
 					case "VECTOR_BUILDINGS_V2": // 73 建筑模型V2（3D/上色）
@@ -248,6 +262,7 @@ export default class GEOResourceManifest {
 					case "VECTOR_TRAFFIC_WITH_GREEN": // 25 交通状况（卫星地图:显示绿灯）?
 					case "VECTOR_TRAFFIC_STATIC": // 26 交通状况静态?
 					case "VECTOR_TRAFFIC_SKELETON_WITH_HISTORICAL": // 28 交通状况骨架（卫星地图:显示历史交通状况）?
+					case "VECTOR_SPEED_PROFILES": // 29 | MAINLAND_EXTENDED_STYLES
 					case "VECTOR_TRAFFIC_V2": // 86 交通状况V2
 						Console.info(`Traffic style: ${tile?.style}`);
 						switch (settings.TileSet.Traffic) {
@@ -388,6 +403,8 @@ export default class GEOResourceManifest {
 					case "FLYOVER_C3M_MESH": // 42 俯瞰C3模型（四处看看）?
 					case "FLYOVER_C3M_JPEG_TEXTURE": // 43 俯瞰C3模型纹理（四处看看）?
 					case "FLYOVER_C3M_ASTC_TEXTURE": // 44 俯瞰C3模型纹理（四处看看）?
+					case "FLYOVER_V2_R3D": // 98
+					case "FLYOVER_V2_DSM": // 99
 						Console.info(`Flyover style: ${tile?.style}`);
 						switch (settings.TileSet.Flyover) {
 							case "HYBRID":
@@ -443,6 +460,7 @@ export default class GEOResourceManifest {
 						Console.debug(`Flyover tile: ${JSON.stringify(tile, null, 2)}`);
 						break;
 					case "FLYOVER_METADATA": // 52 俯瞰元数据
+					case "FLYOVER_V2_METADATA": // 100
 						Console.info(`Flyover style: ${tile?.style}`);
 						switch (settings.TileSet.Flyover) {
 							case "HYBRID":
