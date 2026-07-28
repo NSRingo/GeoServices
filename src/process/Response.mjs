@@ -137,9 +137,9 @@ export async function Response($request, $response, KV) {
 											source = caches.XX?.tileSet;
 											target = body.tileSet;
 											tileStyles = [
-												GEOResourceManifest.tileStyleGroups.flyoverSupporting,
-												GEOResourceManifest.tileStyleGroups.munin,
-												GEOResourceManifest.tileStyleGroups.roads,
+												...Configs.flyoverSupporting,
+												...Configs.munin,
+												...Configs.roads,
 											];
 											break;
 										}
@@ -152,15 +152,15 @@ export async function Response($request, $response, KV) {
 												isReady = false;
 											}
 											source = [
-												...(caches.CN?.tileSet ?? []).filter(tile => GEOResourceManifest.tileStyleGroups.earth.includes(tile?.style)),
+												...(caches.CN?.tileSet ?? []).filter(tile => Configs.earth.includes(tile?.style)),
 												...(caches.XX?.tileSet ?? []),
 											];
 											target = body.tileSet;
 											tileStyles = [
-												GEOResourceManifest.tileStyleGroups.earth,
-												GEOResourceManifest.tileStyleGroups.flyoverSupporting,
-												GEOResourceManifest.tileStyleGroups.munin,
-												GEOResourceManifest.tileStyleGroups.roads,
+												...Configs.earth,
+												...Configs.flyoverSupporting,
+												...Configs.munin,
+												...Configs.roads,
 											];
 											break;
 										}
@@ -174,7 +174,7 @@ export async function Response($request, $response, KV) {
 											source = caches.CN?.tileSet;
 											target = body.tileSet;
 											tileStyles = [
-												GEOResourceManifest.tileStyleGroups.earth,
+												...Configs.earth,
 											];
 											break;
 										}
