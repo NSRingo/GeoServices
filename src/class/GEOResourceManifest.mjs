@@ -108,6 +108,8 @@ export default class GEOResourceManifest {
 			"VECTOR_TOPOGRAPHIC", // 83 地形图? | MAINLAND_EXTENDED_STYLES
 			"VECTOR_ROAD_SELECTION", // 87 道路选区?
 			"VECTOR_REGION_METADATA", // 88 区域元数据?
+			"BLUEPOI_MODEL",
+			"BLUEPOI_AOI",
 		],
 		other: [
 			"VECTOR_TRACKS", // 62 轨道?

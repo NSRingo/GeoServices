@@ -187,9 +187,16 @@ export async function Response($request, $response, KV) {
 											source = caches.XX?.tileSet;
 											target = body.tileSet;
 											tileStyles = [
+                                                GEOResourceManifest.tileStyleGroups.sputnik,
+                                                GEOResourceManifest.tileStyleGroups.sputnikBorder,
+                                                GEOResourceManifest.tileStyleGroups.flyoverRender,
 												GEOResourceManifest.tileStyleGroups.flyoverSupporting,
+                                                GEOResourceManifest.tileStyleGroups.flyoverMetadata,
 												GEOResourceManifest.tileStyleGroups.munin,
 												GEOResourceManifest.tileStyleGroups.roads,
+                                                GEOResourceManifest.tileStyleGroups.spr,
+                                                GEOResourceManifest.tileStyleGroups.test,
+                                                GEOResourceManifest.tileStyleGroups.other,
 											];
 											break;
 										}
