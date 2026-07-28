@@ -187,16 +187,125 @@ export async function Response($request, $response, KV) {
 											source = caches.XX?.tileSet;
 											target = body.tileSet;
 											tileStyles = [
-												...Configs.sputnik,
-												...Configs.sputnikBorder,
-												...Configs.flyoverRender,
-												...Configs.flyoverSupporting,
-												...Configs.flyoverMetadata,
-												...Configs.munin,
-												...Configs.roads,
-												...Configs.spr,
-												...Configs.test,
-												...Configs.other,
+												"RASTER_STANDARD", // 0
+												"VECTOR_STANDARD", // 1 标准地图 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_SEGMENTS_FOR_RASTER", // 2 交通状况分段（卫星地图:显示交通状况）? | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_INCIDENTS_FOR_RASTER", // 3 交通状况事件（卫星地图:显示交通状况）? | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_SEGMENTS_AND_INCIDENTS_FOR_RASTER", // 4 交通状况分段和事件（卫星地图:显示交通状况）? | MAINLAND_EXTENDED_STYLES
+												"RASTER_STANDARD_BACKGROUND", // 5 | MAINLAND_EXTENDED_STYLES
+												"RASTER_HYBRID", // 6 | MAINLAND_EXTENDED_STYLES
+												"RASTER_SATELLITE", // 7 卫星地图（2D） | MAINLAND_EXTENDED_STYLES
+												"RASTER_TERRAIN", // 8 地貌与地势（绿地/城市/水体/山地不同颜色的区域） | MAINLAND_EXTENDED_STYLES
+												"VECTOR_BUILDINGS", // 11 建筑模型（3D/白模） | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC", // 12 交通状况 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_POI", // 13 兴趣点 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"SPUTNIK_METADATA", // 14 卫星地图（3D/俯瞰）元数据 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"SPUTNIK_C3M", // 15 卫星地图（3D/俯瞰）C3模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"SPUTNIK_DSM", // 16 卫星地图（3D/俯瞰）数字表面模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"SPUTNIK_DSM_GLOBAL", // 17 卫星地图（3D/俯瞰）全球数字表面模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_REALISTIC", // 18 逼真地图? | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"VECTOR_LEGACY_REALISTIC", // 19
+												"VECTOR_ROADS", // 20 道路（卫星地图:显示标签） | MAINLAND_EXTENDED_STYLES
+												"RASTER_VEGETATION", // 21 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_SKELETON", // 22 交通状况骨架（卫星地图:显示交通状况） | MAINLAND_EXTENDED_STYLES
+												"RASTER_COASTLINE_MASK", // 23 | MAINLAND_EXTENDED_STYLES
+												"RASTER_HILLSHADE", // 24 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_WITH_GREEN", // 25 交通状况（卫星地图:显示绿灯）? | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_STATIC", // 26 交通状况静态? | MAINLAND_EXTENDED_STYLES
+												"RASTER_COASTLINE_DROP_MASK", // 27 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRAFFIC_SKELETON_WITH_HISTORICAL", // 28 交通状况骨架（卫星地图:显示历史交通状况）? | MAINLAND_EXTENDED_STYLES
+												"VECTOR_SPEED_PROFILES", // 29 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_VENUES", // 30 室内地图 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"RASTER_DOWN_SAMPLED", // 31 | MAINLAND_EXTENDED_STYLES
+												"RASTER_COLOR_BALANCED", // 32 | MAINLAND_EXTENDED_STYLES
+												"RASTER_SATELLITE_NIGHT", // 33 卫星地图（2D/夜间） | MAINLAND_EXTENDED_STYLES
+												"SPUTNIK_VECTOR_BORDER", // 34 卫星地图（3D/俯瞰）边界（决定能否显示地球模型） | INTERNATIONAL_3D_STYLES
+												"RASTER_SATELLITE_DIGITIZE", // 35 卫星地图（2D/数字化） | MAINLAND_EXTENDED_STYLES
+												"RASTER_HILLSHADE_PARKS", // 36 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRANSIT", // 37 公共交通
+												"RASTER_STANDARD_BASE", // 38 | MAINLAND_EXTENDED_STYLES
+												"RASTER_STANDARD_LABELS", // 39 | MAINLAND_EXTENDED_STYLES
+												"RASTER_HYBRID_ROADS", // 40 | MAINLAND_EXTENDED_STYLES
+												"RASTER_HYBRID_LABELS", // 41 | MAINLAND_EXTENDED_STYLES
+												"FLYOVER_C3M_MESH", // 42 俯瞰C3模型（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"FLYOVER_C3M_JPEG_TEXTURE", // 43 俯瞰C3模型纹理（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"FLYOVER_C3M_ASTC_TEXTURE", // 44 俯瞰C3模型纹理（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"RASTER_SATELLITE_ASTC", // 45 卫星地图（2D/ASTC） | MAINLAND_EXTENDED_STYLES
+												"RASTER_HYBRID_ROADS_AND_LABELS", // 46 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_TRANSIT_SELECTION", // 47 公共交通选区?
+												"VECTOR_COVERAGE", // 48 覆盖范围?
+												"FLYOVER_VISIBILITY", // 49 俯瞰可见性（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"FLYOVER_SKYBOX", // 50 俯瞰天空盒（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"FLYOVER_NAVGRAPH", // 51 俯瞰导航图（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"FLYOVER_METADATA", // 52 俯瞰元数据 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_ROAD_NETWORK", // 53 道路网络
+												"VECTOR_LAND_COVER", // 54 土地覆盖? | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"VECTOR_DEBUG", // 55
+												"VECTOR_STREET_POI", // 56 街道兴趣点 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"MUNIN_METADATA", // 57 四处看看 元数据 | INTERNATIONAL_3D_STYLES
+												"VECTOR_SPR_MERCATOR", // 58 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_SPR_MODELS", // 59 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_SPR_MATERIALS", // 60 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_SPR_METADATA", // 61 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_TRACKS", // 62 轨道?
+												"VECTOR_RESERVED_2", // 63
+												"VECTOR_STREET_LANDMARKS", // 64 街道地标? | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"COARSE_LOCATION_POLYGONS", // 65 粗略位置多边形?
+												"VECTOR_SPR_ROADS", // 66 (卫星图下的道路网格和四处看看可用性)
+												"VECTOR_SPR_STANDARD", // 67 (影响 1-6 级视图下的行政区域名称与资料显示版本)
+												"VECTOR_POI_V2", // 68 兴趣点V2 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"VECTOR_POLYGON_SELECTION", // 69 多边形选区（兴趣点） | MAINLAND_EXTENDED_STYLES
+												"VL_METADATA", // 70 VL 元数据?
+												"VL_DATA", // 71 VL 数据?
+												"PROACTIVE_APP_CLIP", // 72 主动式App剪辑?
+												"VECTOR_BUILDINGS_V2", // 73 建筑模型V2（3D/上色） | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"POI_BUSYNESS", // 74 兴趣点繁忙程度?
+												"POI_DP_BUSYNESS", // 75 兴趣点DP繁忙程度?
+												"SMART_INTERFACE_SELECTION", // 76 智能界面选区?
+												"VECTOR_ASSETS", // 77
+												"SPR_ASSET_METADATA", // 78? (排除) | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_SPR_POLAR", // 79 | INTERNATIONAL_3D_STYLES
+												"SMART_DATA_MODE", // 80 智能数据模式?
+												"CELLULAR_PERFORMANCE_SCORE", // 81
+												"VECTOR_SPR_MODELS_OCCLUSION", // 82? (排除) | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+												"VECTOR_TOPOGRAPHIC", // 83 地形图? | MAINLAND_EXTENDED_STYLES
+												"VECTOR_POI_V2_UPDATE", // 84 兴趣点V2更新 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+												"VECTOR_LIVE_DATA_UPDATES", // 85 实时数据更新?
+												"VECTOR_TRAFFIC_V2", // 86 交通状况V2 | MAINLAND_EXTENDED_STYLES
+												"VECTOR_ROAD_SELECTION", // 87 道路选区?
+												"VECTOR_REGION_METADATA", // 88 区域元数据?
+												"RAY_TRACING", // 89 光线追踪?
+												"VECTOR_CONTOURS", // 90 等高线? | MAINLAND_EXTENDED_STYLES
+												"RASTER_SATELLITE_POLAR", // 91 卫星地图（2D/极地）
+												"VMAP4_ELEVATION", // 92 VMAP4 高程?
+												"VMAP4_ELEVATION_POLAR", // 93 VMAP4 高程（极地）?
+												"CELLULAR_COVERAGE_PLMN", // 94 蜂窝覆盖 PLMN?
+												"RASTER_SATELLITE_POLAR_NIGHT", // 95 卫星地图（2D/极地/夜间）
+												"BLUEPOI_MODEL", // 96
+												"BLUEPOI_AOI", // 97
+												"FLYOVER_V2_R3D", // 98 | INTERNATIONAL_3D_STYLES
+												"FLYOVER_V2_DSM", // 99
+												"FLYOVER_V2_METADATA", // 100
+												"VECTOR_DCT", // 101
+												"SECA", // 102
+												"UNUSED_103", // 103
+												"UNUSED_104", // 104
+												"UNUSED_105", // 105
+												"UNUSED_106", // 106
+												"UNUSED_107", // 107
+												"UNUSED_108", // 108
+												"UNUSED_109", // 109
+												"UNUSED_110", // 110
+												"UNUSED_111", // 111
+												"UNUSED_112", // 112
+												"UNUSED_113", // 113
+												"UNUSED_114", // 114
+												"UNUSED_115", // 115
+												"UNUSED_116", // 116
+												"UNUSED_117", // 117
+												"UNUSED_118", // 118
+												"UNUSED_119", // 119
+												"UNUSED_120", // 120
 											];
 											break;
 										}
