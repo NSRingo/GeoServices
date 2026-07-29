@@ -387,11 +387,13 @@ export default class GEOResourceManifest {
 				cnURLInfoSet = source[0] ?? {};
 				xxURLInfoSet = target[0] ?? {};
 				urlInfoSets = target.map(() => ({ ...cnURLInfoSet, ...xxURLInfoSet }));
+				/*
 				urlInfoSets = urlInfoSets.map(urlInfoSet => {
 					urlInfoSet.alternateResourcesURL = cnURLInfoSet.alternateResourcesURL;
 					delete urlInfoSet.polyLocationShiftURL;
 					return urlInfoSet;
 				});
+				*/
 				break;
 		}
 		urlInfoSets = urlInfoSets.map(urlInfoSet => {
