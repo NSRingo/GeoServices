@@ -509,28 +509,26 @@ export default class GEOResourceManifest {
 		Console.log("☑️ Set MuninBuckets");
 		source = Array.isArray(source) ? source : [];
 		target = Array.isArray(target) ? target : [];
+		let cnMuninBuckets;
+		let xxMuninBuckets;
 		switch (targetCountryCode) {
 			case "CN":
-				switch (settings.TileSet.Munin) {
-					case "CN":
-						break;
-					case "HYBRID":
-					case "XX":
-					default:
-						target.splice(0, target.length, ...source);
-						break;
-				}
+				cnMuninBuckets = target;
+				xxMuninBuckets = source;
 				break;
 			default:
-				switch (settings.TileSet.Munin) {
-					case "CN":
-						target.splice(0, target.length, ...source);
-						break;
-					case "HYBRID":
-					case "XX":
-					default:
-						break;
-				}
+				cnMuninBuckets = source;
+				xxMuninBuckets = target;
+				break;
+		}
+		switch (settings.TileSet.Munin) {
+			case "CN":
+				target.splice(0, target.length, ...cnMuninBuckets);
+				break;
+			case "HYBRID":
+			case "XX":
+			default:
+				target.splice(0, target.length, ...xxMuninBuckets);
 				break;
 		}
 		Console.log("✅ Set MuninBuckets");
