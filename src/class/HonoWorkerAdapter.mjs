@@ -46,14 +46,25 @@
  */
 export default class HonoWorkerAdapter {
 	/**
-	 * 根据 worker 入口域名与回退路径重写目标路由 URL。
-	 * Rewrite upstream target URL based on the worker host and fallback path.
+	 * 根据请求路径、worker 入口域名与回退路径重写目标路由 URL。
+	 * Rewrite upstream target URL based on the request path, worker host, and fallback path.
 	 * @param {URL} url 当前请求 URL / Current request URL.
 	 * @param {string} restPath 回退路由路径 / Fallback route path.
 	 * @returns {URL} 重写后的 URL / Routed URL.
 	 */
 	static routeRewrite(url, restPath = "") {
 		switch (true) {
+			case url.pathname === "/config/defaults":
+				url.protocol = "https:";
+				url.hostname = "configuration.ls.apple.com";
+				url.port = "443";
+				break;
+			case url.pathname === "/config/announcements":
+			case url.pathname === "/geo_manifest/dynamic/config":
+				url.protocol = "https:";
+				url.hostname = "gspe35-ssl.ls.apple.com";
+				url.port = "443";
+				break;
 			case url.hostname.startsWith("configuration-ls."):
 			case url.hostname.startsWith("configuration.ls."):
 				url.hostname = "configuration.ls.apple.com";
