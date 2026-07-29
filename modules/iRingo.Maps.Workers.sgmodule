@@ -4,6 +4,8 @@
 #!homepage = https://NSRingo.github.io/guide/GeoServices/maps
 #!icon = https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png
 #!category =  iRingo
+#!arguments = endpoint:mapkit.pages.dev
+#!arguments-desc = endpoint: [重写] 服务端点\n    ├ mapkit.pages.dev: 首选；直连；无需代理\n    ├ dev.mapkit.pages.dev: 开发版\n    └ mapkit.nanocat.cloud: Worker 版；需要代理
 
 [Rule]
 # 🗺️ Amap
@@ -17,11 +19,11 @@ DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
 
 [URL Rewrite]
 # 🗺️ Network Defaults
-^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://configuration-ls.nanocat.cloud/config/defaults header
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://{{{endpoint}}}/config/defaults header
 # 🗺️ Announcements
-^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://gspe35-ssl-ls.nanocat.cloud/config/announcements header
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://{{{endpoint}}}/config/announcements header
 # 🗺️ Resource Manifest
-^https?:\/\/gspe35-ssl\.ls\.apple\.com\/geo_manifest\/dynamic\/config https://gspe35-ssl-ls.nanocat.cloud/geo_manifest/dynamic/config header
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/geo_manifest\/dynamic\/config https://{{{endpoint}}}/geo_manifest/dynamic/config header
 
 [MITM]
 hostname = %APPEND% configuration.ls.apple.com, gspe35-ssl.ls.apple.com
