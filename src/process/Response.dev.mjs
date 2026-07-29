@@ -146,46 +146,39 @@ export async function Response($request, $response, KV) {
 				case "application/octet-stream":
 					switch (url.hostname) {
 						case "gspe35-ssl.ls.apple.com":
-							switch (url.pathname) {
+							geoManifestPath: switch (url.pathname) {
 								case "/config/announcements":
 									break;
 								case "/geo_manifest/dynamic/config": {
 									body = GEOResourceManifestDownload.decode(rawBody);
 									//Console.debug(`body before: ${JSON.stringify(body)}`);
 									/*
-                                            let UF = UnknownFieldHandler.list(body);
-                                            //Console.debug(`调试信息`, `UF: ${JSON.stringify(UF)}`);
-                                            if (UF) {
-                                                UF = UF.map(uf => {
-                                                    uf.no; // 22
-                                                    uf.wireType; // WireType.Varint
-                                                    // use the binary reader to decode the raw data:
-                                                    let reader = new BinaryReader(uf.data);
-                                                    let addedNumber = reader.int32(); // 7777
-                                                    Console.debug(`no: ${uf.no}, wireType: ${uf.wireType}, reader: ${reader}, addedNumber: ${addedNumber}`);
-                                                });
-                                            };
-                                            */
+                                    let UF = UnknownFieldHandler.list(body);
+                                    //Console.debug(`调试信息`, `UF: ${JSON.stringify(UF)}`);
+                                    if (UF) {
+                                        UF = UF.map(uf => {
+                                            uf.no; // 22
+                                            uf.wireType; // WireType.Varint
+                                            // use the binary reader to decode the raw data:
+                                            let reader = new BinaryReader(uf.data);
+                                            let addedNumber = reader.int32(); // 7777
+                                            Console.debug(`no: ${uf.no}, wireType: ${uf.wireType}, reader: ${reader}, addedNumber: ${addedNumber}`);
+                                        });
+                                    };
+									*/
 									const CountryCode = url.searchParams.get("country_code");
-									const cnURL = new URL(url.toString());
-									cnURL.searchParams.set("country_code", "CN");
-									const xxURL = new URL(url.toString());
-									xxURL.searchParams.set("country_code", "US");
-									const caches = {};
 									let source;
-									let target;
 									let tileStyles;
-									let isReady = true;
 									switch (CountryCode) {
 										case "CN": {
-											caches.CN = body;
-											caches.XX = await GEOResourceManifest.decodeCache(Caches, xxURL.search, KV);
-											if (!caches.XX) {
-												Console.warn(`Missing cache: XX`);
-												isReady = false;
+											const xxURL = new URL(url.toString());
+											xxURL.searchParams.set("country_code", "US");
+											source = await GEOResourceManifest.decodeCache(Caches, xxURL.search, KV);
+											const isReady = Boolean(source);
+											if (!isReady) {
+												Console.warn("Missing cache: XX");
 											}
-											source = caches.XX?.tileSet;
-											target = body.tileSet;
+											if (!isReady) break geoManifestPath;
 											tileStyles = [
 												"RASTER_STANDARD", // 0
 												"VECTOR_STANDARD", // 1 标准地图 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
@@ -309,50 +302,28 @@ export async function Response($request, $response, KV) {
 											];
 											break;
 										}
-										case "KR": {
-											caches.KR = body;
-											caches.CN = await GEOResourceManifest.decodeCache(Caches, cnURL.search, KV);
-											caches.XX = await GEOResourceManifest.decodeCache(Caches, xxURL.search, KV);
-											if (!caches.CN || !caches.XX) {
-												Console.warn(`Missing cache: ${!caches.CN ? "CN" : "XX"}`);
-												isReady = false;
-											}
-											source = [
-												...(caches.CN?.tileSet ?? []).filter(tile => Configs.earth.includes(tile?.style)),
-												...(caches.XX?.tileSet ?? []),
-											];
-											target = body.tileSet;
-											tileStyles = [
-												...Configs.earth,
-												...Configs.flyoverSupporting,
-												...Configs.munin,
-												...Configs.roads,
-											];
-											break;
-										}
 										default: {
-											caches.XX = body;
-											caches.CN = await GEOResourceManifest.decodeCache(Caches, cnURL.search, KV);
-											if (!caches.CN) {
-												Console.warn(`Missing cache: CN`);
-												isReady = false;
+											const cnURL = new URL(url.toString());
+											cnURL.searchParams.set("country_code", "CN");
+											source = await GEOResourceManifest.decodeCache(Caches, cnURL.search, KV);
+											const isReady = Boolean(source);
+											if (!isReady) {
+												Console.warn("Missing cache: CN");
 											}
-											source = caches.CN?.tileSet;
-											target = body.tileSet;
+											if (!isReady) break geoManifestPath;
 											tileStyles = [
 												...Configs.earth,
 											];
 											break;
 										}
 									}
-									if (!isReady) break;
-									body.tileSet = GEOResourceManifest.tileSets(source, target, tileStyles);
-									body.attribution = GEOResourceManifest.attributions(body.attribution, caches, CountryCode);
-									body.resource = GEOResourceManifest.resources(body.resource, caches, CountryCode);
-									body.dataSet = GEOResourceManifest.dataSets(body.dataSet, caches, CountryCode);
-									body.urlInfoSet = GEOResourceManifest.urlInfoSets(body.urlInfoSet, caches, Settings, CountryCode);
-									body.muninBucket = GEOResourceManifest.muninBuckets(body.muninBucket, caches, Settings);
-									body.displayString = GEOResourceManifest.displayStrings(body.displayString, caches, CountryCode);
+									body.tileSet = GEOResourceManifest.tileSets(source.tileSet, body.tileSet, tileStyles);
+									body.attribution = GEOResourceManifest.attributions(source.attribution, body.attribution, CountryCode);
+									body.resource = GEOResourceManifest.resources(source.resource, body.resource, CountryCode);
+									body.dataSet = GEOResourceManifest.dataSets(source.dataSet, body.dataSet, CountryCode);
+									body.urlInfoSet = GEOResourceManifest.urlInfoSets(source.urlInfoSet, body.urlInfoSet, Settings, CountryCode);
+									body.muninBucket = GEOResourceManifest.muninBuckets(source.muninBucket, body.muninBucket, Settings);
+									body.displayString = GEOResourceManifest.displayStrings(source.displayString, body.displayString, CountryCode);
 									body.tileGroup = GEOResourceManifest.tileGroups(body.tileGroup, body.tileSet, body.attribution, body.resource);
 									// releaseInfo
 									//body.releaseInfo = body.releaseInfo.replace(/(\d+\.\d+)/, `$1.${String(Date.now()/1000)}`);

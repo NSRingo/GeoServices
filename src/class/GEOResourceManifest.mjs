@@ -209,22 +209,30 @@ export default class GEOResourceManifest {
 		return target;
 	}
 
-	static attributions(attributions = [], caches = {}, countryCode = "CN") {
+	/**
+	 * 按当前国家代码合并源署名与目标署名并应用清单署名修正。
+	 * Merge source and target attributions for the current country code and apply manifest adjustments.
+	 * @param {Array<object>} source 源署名集合 / Source attribution collection.
+	 * @param {Array<object>} target 目标署名集合 / Target attribution collection.
+	 * @param {string} countryCode 当前国家代码 / Current country code.
+	 * @returns {Array<object>} 合成后的署名集合 / Merged attribution collection.
+	 */
+	static attributions(source = [], target = [], countryCode = "CN") {
 		Console.log("☑️ Set Attributions");
+		source = Array.isArray(source) ? source : [];
+		target = Array.isArray(target) ? target : [];
+		let attributions;
 		switch (countryCode) {
 			case "CN":
-				caches?.XX?.attribution?.forEach(attribution => {
-					if (!attributions.some(i => i.name === attribution.name)) attributions.unshift(attribution);
-				});
-				break;
-			case "KR":
-				caches?.KR?.attribution?.forEach(attribution => {
-					if (!attributions.some(i => i.name === attribution.name)) attributions.unshift(attribution);
+				attributions = source;
+				target.forEach(attribution => {
+					if (!attributions.some(item => item.name === attribution.name)) attributions.unshift(attribution);
 				});
 				break;
 			default:
-				caches?.CN?.attribution?.forEach(attribution => {
-					if (!attributions.some(i => i.name === attribution.name)) attributions.push(attribution);
+				attributions = target;
+				source.forEach(attribution => {
+					if (!attributions.some(item => item.name === attribution.name)) attributions.push(attribution);
 				});
 				break;
 		}
@@ -303,14 +311,26 @@ export default class GEOResourceManifest {
 		return attributions;
 	}
 
-	static resources(resources = [], caches = {}, countryCode = "CN") {
+	/**
+	 * 按当前国家代码选择资源基底并合入中国专用资源。
+	 * Select the resource base for the current country code and merge China-specific resources.
+	 * @param {Array<object>} source 源资源集合 / Source resource collection.
+	 * @param {Array<object>} target 目标资源集合 / Target resource collection.
+	 * @param {string} countryCode 当前国家代码 / Current country code.
+	 * @returns {Array<object>} 合成后的资源集合 / Merged resource collection.
+	 */
+	static resources(source = [], target = [], countryCode = "CN") {
 		Console.log("☑️ Set Resources");
+		source = Array.isArray(source) ? source : [];
+		target = Array.isArray(target) ? target : [];
+		let resources;
 		switch (countryCode) {
 			case "CN":
+				resources = source;
 				break;
-			case "KR":
 			default:
-				caches.CN.resource?.forEach((resource, index) => {
+				resources = target;
+				source.forEach(resource => {
 					if (resource.filename === "POITypeMapping-CN-1.json") resources.push(resource);
 					if (resource.filename === "POITypeMapping-CN-2.json") resources.push(resource);
 					if (resource.filename === "China.cms-lpr") resources.push(resource);
@@ -321,14 +341,24 @@ export default class GEOResourceManifest {
 		return resources;
 	}
 
-	static dataSets(dataSets = [], caches = {}, countryCode = "CN") {
+	/**
+	 * 按当前国家代码选择数据集。
+	 * Select data sets for the current country code.
+	 * @param {Array<object>} source 源数据集 / Source data sets.
+	 * @param {Array<object>} target 目标数据集 / Target data sets.
+	 * @param {string} countryCode 当前国家代码 / Current country code.
+	 * @returns {Array<object>} 合成后的数据集 / Merged data sets.
+	 */
+	static dataSets(source = [], target = [], countryCode = "CN") {
 		Console.log("☑️ Set DataSets");
+		target = Array.isArray(target) ? target : Array.isArray(source) ? source : [];
+		let dataSets;
 		switch (countryCode) {
 			case "CN":
-				dataSets = caches?.XX?.dataSet;
+				dataSets = target;
 				break;
-			case "KR":
 			default:
+				dataSets = target;
 				break;
 		}
 		//dataSets.push({ "dataSetDescription": "AutoNavi", "identifier": 10 });
@@ -336,33 +366,47 @@ export default class GEOResourceManifest {
 		return dataSets;
 	}
 
-	static urlInfoSets(urlInfoSets = [], caches = {}, settings = {}, countryCode = "CN") {
+	/**
+	 * 将源 URL 配置合入目标 URL 配置并应用服务提供方设置。
+	 * Merge source URL information into the target and apply service-provider settings.
+	 * @param {Array<object>} source 源 URL 配置集合 / Source URL information collection.
+	 * @param {Array<object>} target 目标 URL 配置集合 / Target URL information collection.
+	 * @param {object} settings 地图设置 / Maps settings.
+	 * @param {string} countryCode 当前国家代码 / Current country code.
+	 * @returns {Array<object>} 合成后的 URL 配置集合 / Merged URL information collection.
+	 */
+	static urlInfoSets(source = [], target = [], settings = {}, countryCode = "CN") {
 		Console.log("☑️ Set UrlInfoSets");
-		urlInfoSets = urlInfoSets.map((urlInfoSet, index) => {
-			switch (countryCode) {
-				case "CN":
-					urlInfoSet = { ...caches.XX.urlInfoSet[0], ...caches.CN.urlInfoSet[0] };
-					break;
-				case "KR":
-					urlInfoSet = { ...caches.KR.urlInfoSet[0], ...caches.CN.urlInfoSet[0] };
-					break;
-				default:
-					urlInfoSet = { ...caches.CN.urlInfoSet[0], ...caches.XX.urlInfoSet[0] };
-					urlInfoSet.alternateResourcesURL = caches.CN.urlInfoSet[0].alternateResourcesURL;
+		source = Array.isArray(source) ? source : [];
+		target = Array.isArray(target) ? target : [];
+		const sourceURLInfoSet = source[0] ?? {};
+		const targetURLInfoSet = target[0] ?? {};
+		let urlInfoSets;
+		switch (countryCode) {
+			case "CN":
+				urlInfoSets = source.map(() => ({ ...targetURLInfoSet, ...sourceURLInfoSet }));
+				break;
+			default:
+				urlInfoSets = target.map(() => {
+					const urlInfoSet = { ...sourceURLInfoSet, ...targetURLInfoSet };
+					urlInfoSet.alternateResourcesURL = sourceURLInfoSet.alternateResourcesURL;
 					delete urlInfoSet.polyLocationShiftURL;
-					break;
-			}
+					return urlInfoSet;
+				});
+				break;
+		}
+		urlInfoSets = urlInfoSets.map(urlInfoSet => {
 			switch (settings.Config?.Announcements?.Environment ?? settings.Config?.Announcements?.["Environment:"]?.default ?? settings.Config?.Announcements?.["Environment:"]) {
 				case "AUTO":
 				default:
 					break;
 				case "CN":
 					// Announcements
-					urlInfoSet.announcementsURL = caches.CN.urlInfoSet[0].announcementsURL;
+					urlInfoSet.announcementsURL = sourceURLInfoSet.announcementsURL;
 					break;
 				case "XX":
 					// Announcements
-					urlInfoSet.announcementsURL = caches.XX.urlInfoSet[0].announcementsURL;
+					urlInfoSet.announcementsURL = targetURLInfoSet.announcementsURL;
 					break;
 			}
 			switch (settings.UrlInfoSet.Dispatcher) {
@@ -371,23 +415,23 @@ export default class GEOResourceManifest {
 					break;
 				case "AutoNavi":
 					// PlaceData Dispatcher
-					urlInfoSet.directionsURL = caches.CN.urlInfoSet[0].dispatcherURL;
+					urlInfoSet.directionsURL = sourceURLInfoSet.dispatcherURL;
 					// Background Dispatcher
-					urlInfoSet.backgroundDispatcherURL = caches.CN.urlInfoSet[0].backgroundDispatcherURL;
+					urlInfoSet.backgroundDispatcherURL = sourceURLInfoSet.backgroundDispatcherURL;
 					// Background Reverse Geocoder
-					urlInfoSet.backgroundRevGeoURL = caches.CN.urlInfoSet[0].backgroundRevGeoURL;
+					urlInfoSet.backgroundRevGeoURL = sourceURLInfoSet.backgroundRevGeoURL;
 					// Batch Reverse Geocoder
-					urlInfoSet.batchReverseGeocoderPlaceRequestURL = caches.CN.urlInfoSet[0].batchReverseGeocoderPlaceRequestURL;
+					urlInfoSet.batchReverseGeocoderPlaceRequestURL = sourceURLInfoSet.batchReverseGeocoderPlaceRequestURL;
 					break;
 				case "Apple":
 					// PlaceData Dispatcher
-					urlInfoSet.dispatcherURL = caches.XX.urlInfoSet[0].dispatcherURL;
+					urlInfoSet.dispatcherURL = targetURLInfoSet.dispatcherURL;
 					// Background Dispatcher
-					urlInfoSet.backgroundDispatcherURL = caches.XX.urlInfoSet[0].backgroundDispatcherURL;
+					urlInfoSet.backgroundDispatcherURL = targetURLInfoSet.backgroundDispatcherURL;
 					// Background Reverse Geocoder
-					urlInfoSet.backgroundRevGeoURL = caches.XX.urlInfoSet[0].backgroundRevGeoURL;
+					urlInfoSet.backgroundRevGeoURL = targetURLInfoSet.backgroundRevGeoURL;
 					// Batch Reverse Geocoder
-					urlInfoSet.batchReverseGeocoderPlaceRequestURL = caches.XX.urlInfoSet[0].batchReverseGeocoderPlaceRequestURL;
+					urlInfoSet.batchReverseGeocoderPlaceRequestURL = targetURLInfoSet.batchReverseGeocoderPlaceRequestURL;
 					break;
 			}
 			switch (settings.UrlInfoSet.Directions) {
@@ -396,56 +440,56 @@ export default class GEOResourceManifest {
 					break;
 				case "AutoNavi":
 					// Directions
-					urlInfoSet.directionsURL = caches.CN.urlInfoSet[0].directionsURL;
+					urlInfoSet.directionsURL = sourceURLInfoSet.directionsURL;
 					// ETA
-					urlInfoSet.etaURL = caches.CN.urlInfoSet[0].etaURL;
+					urlInfoSet.etaURL = sourceURLInfoSet.etaURL;
 					// Simple ETA
-					urlInfoSet.simpleETAURL = caches.CN.urlInfoSet[0].simpleETAURL;
+					urlInfoSet.simpleETAURL = sourceURLInfoSet.simpleETAURL;
 					break;
 				case "Apple":
 					// Directions
-					urlInfoSet.directionsURL = caches.XX.urlInfoSet[0].directionsURL;
+					urlInfoSet.directionsURL = targetURLInfoSet.directionsURL;
 					// ETA
-					urlInfoSet.etaURL = caches.XX.urlInfoSet[0].etaURL;
+					urlInfoSet.etaURL = targetURLInfoSet.etaURL;
 					// Simple ETA
-					urlInfoSet.simpleETAURL = caches.XX.urlInfoSet[0].simpleETAURL;
+					urlInfoSet.simpleETAURL = targetURLInfoSet.simpleETAURL;
 					break;
 			}
 			switch (settings.UrlInfoSet.RAP) {
 				case "AUTO":
 				default:
 					// RAP Submission
-					urlInfoSet.problemSubmissionURL = caches.XX.urlInfoSet[0].problemSubmissionURL;
+					urlInfoSet.problemSubmissionURL = targetURLInfoSet.problemSubmissionURL;
 					// RAP Status
-					urlInfoSet.problemStatusURL = caches.XX.urlInfoSet[0].problemStatusURL;
+					urlInfoSet.problemStatusURL = targetURLInfoSet.problemStatusURL;
 					// RAP Opt-Ins
-					urlInfoSet.problemOptInURL = caches.XX.urlInfoSet[0].problemOptInURL;
+					urlInfoSet.problemOptInURL = targetURLInfoSet.problemOptInURL;
 					// RAP V4 Submission
-					urlInfoSet.feedbackSubmissionURL = caches.XX.urlInfoSet[0].feedbackSubmissionURL;
+					urlInfoSet.feedbackSubmissionURL = targetURLInfoSet.feedbackSubmissionURL;
 					// RAP V4 Lookup
-					urlInfoSet.feedbackLookupURL = caches.XX.urlInfoSet[0].feedbackLookupURL;
+					urlInfoSet.feedbackLookupURL = targetURLInfoSet.feedbackLookupURL;
 					break;
 				case "AutoNavi":
 					// RAP Submission
-					urlInfoSet.problemSubmissionURL = caches.CN.urlInfoSet[0].problemSubmissionURL;
+					urlInfoSet.problemSubmissionURL = sourceURLInfoSet.problemSubmissionURL;
 					// RAP Status
-					urlInfoSet.problemStatusURL = caches.CN.urlInfoSet[0].problemStatusURL;
+					urlInfoSet.problemStatusURL = sourceURLInfoSet.problemStatusURL;
 					// RAP V4 Submission
-					urlInfoSet.feedbackSubmissionURL = caches.CN.urlInfoSet[0].feedbackSubmissionURL;
+					urlInfoSet.feedbackSubmissionURL = sourceURLInfoSet.feedbackSubmissionURL;
 					// RAP V4 Lookup
-					urlInfoSet.feedbackLookupURL = caches.CN.urlInfoSet[0].feedbackLookupURL;
+					urlInfoSet.feedbackLookupURL = sourceURLInfoSet.feedbackLookupURL;
 					break;
 				case "Apple":
 					// RAP Submission
-					urlInfoSet.problemSubmissionURL = caches.XX.urlInfoSet[0].problemSubmissionURL;
+					urlInfoSet.problemSubmissionURL = targetURLInfoSet.problemSubmissionURL;
 					// RAP Status
-					urlInfoSet.problemStatusURL = caches.XX.urlInfoSet[0].problemStatusURL;
+					urlInfoSet.problemStatusURL = targetURLInfoSet.problemStatusURL;
 					// RAP Opt-Ins
-					urlInfoSet.problemOptInURL = caches.XX.urlInfoSet[0].problemOptInURL;
+					urlInfoSet.problemOptInURL = targetURLInfoSet.problemOptInURL;
 					// RAP V4 Submission
-					urlInfoSet.feedbackSubmissionURL = caches.XX.urlInfoSet[0].feedbackSubmissionURL;
+					urlInfoSet.feedbackSubmissionURL = targetURLInfoSet.feedbackSubmissionURL;
 					// RAP V4 Lookup
-					urlInfoSet.feedbackLookupURL = caches.XX.urlInfoSet[0].feedbackLookupURL;
+					urlInfoSet.feedbackLookupURL = targetURLInfoSet.feedbackLookupURL;
 					break;
 			}
 			switch (settings.UrlInfoSet.LocationShift) {
@@ -454,11 +498,11 @@ export default class GEOResourceManifest {
 					break;
 				case "AutoNavi":
 					// Location Shift (polynomial)
-					urlInfoSet.polyLocationShiftURL = caches.CN.urlInfoSet[0].polyLocationShiftURL;
+					urlInfoSet.polyLocationShiftURL = sourceURLInfoSet.polyLocationShiftURL;
 					break;
 				case "Apple":
 					// Location Shift (polynomial)
-					urlInfoSet.polyLocationShiftURL = caches.XX.urlInfoSet[0].polyLocationShiftURL;
+					urlInfoSet.polyLocationShiftURL = targetURLInfoSet.polyLocationShiftURL;
 					break;
 			}
 			return urlInfoSet;
@@ -467,35 +511,53 @@ export default class GEOResourceManifest {
 		return urlInfoSets;
 	}
 
-	static muninBuckets(muninBuckets = [], caches = {}, settings = {}) {
+	/**
+	 * 按设置从源或目标清单选择四处看看分桶。
+	 * Select Look Around buckets from the source or target manifest according to settings.
+	 * @param {Array<object>} source 源分桶集合 / Source bucket collection.
+	 * @param {Array<object>} target 目标分桶集合 / Target bucket collection.
+	 * @param {object} settings 地图设置 / Maps settings.
+	 * @returns {Array<object>} 选定的分桶集合 / Selected bucket collection.
+	 */
+	static muninBuckets(source = [], target = [], settings = {}) {
 		Console.log("☑️ Set MuninBuckets");
+		source = Array.isArray(source) ? source : [];
+		target = Array.isArray(target) ? target : [];
+		let muninBuckets;
 		switch (settings.TileSet.Munin) {
 			case "CN":
-				muninBuckets = caches.CN.muninBucket;
+				muninBuckets = source;
 				break;
 			case "HYBRID":
 			case "XX":
 			default:
-				muninBuckets = caches.XX.muninBucket;
+				muninBuckets = target;
 				break;
 		}
 		Console.log("✅ Set MuninBuckets");
 		return muninBuckets;
 	}
 
-	static displayStrings(displayStrings = [], caches = {}, countryCode = "CN") {
+	/**
+	 * 按当前国家代码选择显示字符串。
+	 * Select display strings for the current country code.
+	 * @param {Array<object>} source 源显示字符串集合 / Source display string collection.
+	 * @param {Array<object>} target 目标显示字符串集合 / Target display string collection.
+	 * @param {string} countryCode 当前国家代码 / Current country code.
+	 * @returns {Array<object>} 合成后的显示字符串集合 / Merged display string collection.
+	 */
+	static displayStrings(source = [], target = [], countryCode = "CN") {
 		Console.log("☑️ Set DisplayStrings");
+		target = Array.isArray(target) ? target : Array.isArray(source) ? source : [];
+		let displayStrings;
 		switch (countryCode) {
 			case "CN":
-				displayStrings = caches.XX.displayString?.map((displayString, index) => {
-					return displayString;
-				});
-				break;
-			case "KR":
-				//displayStrings = caches.KR.displayString;
+				displayStrings = target.map(displayString => displayString);
 				break;
 			default:
-				//displayStrings = caches.XX.displayString;
+				// 国际显示字符串直接保留目标清单内容。
+				// International display strings retain the target manifest content.
+				displayStrings = target;
 				break;
 		}
 		Console.log("✅ Set DisplayStrings");
