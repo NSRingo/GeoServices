@@ -183,11 +183,6 @@ export async function Response($request, $response, KV) {
 												"RASTER_STANDARD", // 0
 												"VECTOR_LEGACY_REALISTIC", // 19
 												"SPUTNIK_VECTOR_BORDER", // 34 卫星地图（3D/俯瞰）边界（决定能否显示地球模型） | INTERNATIONAL_3D_STYLES
-												"VECTOR_TRANSIT", // 37 公共交通
-												"VECTOR_TRANSIT_SELECTION", // 47 公共交通选区?
-												"VECTOR_COVERAGE", // 48 覆盖范围?
-												"VECTOR_ROAD_NETWORK", // 53 道路网络
-												"VECTOR_DEBUG", // 55
 												"MUNIN_METADATA", // 57 四处看看 元数据 | INTERNATIONAL_3D_STYLES
 												"VECTOR_TRACKS", // 62 轨道?
 												"VECTOR_RESERVED_2", // 63
@@ -283,6 +278,7 @@ export async function Response($request, $response, KV) {
 												"RASTER_SATELLITE_NIGHT", // 33 卫星地图（2D/夜间） | MAINLAND_EXTENDED_STYLES
 												"RASTER_SATELLITE_DIGITIZE", // 35 卫星地图（2D/数字化） | MAINLAND_EXTENDED_STYLES
 												"RASTER_HILLSHADE_PARKS", // 36 | MAINLAND_EXTENDED_STYLES
+                                                "VECTOR_TRANSIT", // 37 公共交通
 												"RASTER_STANDARD_BASE", // 38 | MAINLAND_EXTENDED_STYLES
 												"RASTER_STANDARD_LABELS", // 39 | MAINLAND_EXTENDED_STYLES
 												"RASTER_HYBRID_ROADS", // 40 | MAINLAND_EXTENDED_STYLES
@@ -292,11 +288,15 @@ export async function Response($request, $response, KV) {
 												"FLYOVER_C3M_ASTC_TEXTURE", // 44 俯瞰C3模型纹理（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 												"RASTER_SATELLITE_ASTC", // 45 卫星地图（2D/ASTC） | MAINLAND_EXTENDED_STYLES
 												"RASTER_HYBRID_ROADS_AND_LABELS", // 46 | MAINLAND_EXTENDED_STYLES
+                                                "VECTOR_TRANSIT_SELECTION", // 47 公共交通选区?
+												"VECTOR_COVERAGE", // 48 覆盖范围?
 												"FLYOVER_VISIBILITY", // 49 俯瞰可见性（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 												"FLYOVER_SKYBOX", // 50 俯瞰天空盒（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 												"FLYOVER_NAVGRAPH", // 51 俯瞰导航图（四处看看）? | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 												"FLYOVER_METADATA", // 52 俯瞰元数据 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+                                                "VECTOR_ROAD_NETWORK", // 53 道路网络
 												"VECTOR_LAND_COVER", // 54 土地覆盖? | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
+                                                "VECTOR_DEBUG", // 55
 												"VECTOR_STREET_POI", // 56 街道兴趣点 | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
 												"VECTOR_SPR_MERCATOR", // 58 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 												"VECTOR_SPR_MODELS", // 59 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
