@@ -166,10 +166,11 @@ export async function Response($request, $response, KV) {
                                         });
                                     };
 									*/
-									const CountryCode = url.searchParams.get("country_code");
+									const targetCountryCode = url.searchParams.get("country_code");
+									const target = body;
 									let source;
 									let tileStyles;
-									switch (CountryCode) {
+									switch (targetCountryCode) {
 										case "CN": {
 											const xxURL = new URL(url.toString());
 											xxURL.searchParams.set("country_code", "US");
@@ -316,19 +317,19 @@ export async function Response($request, $response, KV) {
 											break;
 										}
 									}
-									body.tileSet = GEOResourceManifest.tileSets(source.tileSet, body.tileSet, tileStyles);
-									body.attribution = GEOResourceManifest.attributions(source.attribution, body.attribution, CountryCode);
-									body.resource = GEOResourceManifest.resources(source.resource, body.resource, CountryCode);
-									body.dataSet = GEOResourceManifest.dataSets(source.dataSet, body.dataSet, CountryCode);
-									body.urlInfoSet = GEOResourceManifest.urlInfoSets(source.urlInfoSet, body.urlInfoSet, Settings, CountryCode);
-									body.muninBucket = GEOResourceManifest.muninBuckets(source.muninBucket, body.muninBucket, Settings);
-									body.displayString = GEOResourceManifest.displayStrings(source.displayString, body.displayString, CountryCode);
-									body.tileGroup = GEOResourceManifest.tileGroups(body.tileGroup, body.tileSet, body.attribution, body.resource);
+									target.tileSet = GEOResourceManifest.tileSets(source.tileSet, target.tileSet, tileStyles);
+									target.attribution = GEOResourceManifest.attributions(source.attribution, target.attribution, targetCountryCode);
+									target.resource = GEOResourceManifest.resources(source.resource, target.resource, targetCountryCode);
+									target.dataSet = GEOResourceManifest.dataSets(source.dataSet, target.dataSet, targetCountryCode);
+									target.urlInfoSet = GEOResourceManifest.urlInfoSets(source.urlInfoSet, target.urlInfoSet, Settings, targetCountryCode);
+									target.muninBucket = GEOResourceManifest.muninBuckets(source.muninBucket, target.muninBucket, Settings, targetCountryCode);
+									target.displayString = GEOResourceManifest.displayStrings(source.displayString, target.displayString, targetCountryCode);
+									target.tileGroup = GEOResourceManifest.tileGroups(target.tileGroup, target.tileSet, target.attribution, target.resource);
 									// releaseInfo
 									//body.releaseInfo = body.releaseInfo.replace(/(\d+\.\d+)/, `$1.${String(Date.now()/1000)}`);
 									Console.debug(`releaseInfo: ${body.releaseInfo}`);
 									//Console.debug(`body after: ${JSON.stringify(body)}`);
-									rawBody = GEOResourceManifestDownload.encode(body);
+									rawBody = GEOResourceManifestDownload.encode(target);
 									break;
 								}
 							}
