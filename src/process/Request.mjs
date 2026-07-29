@@ -116,15 +116,7 @@ export async function Request($request, KV) {
                         case "/geo_manifest/dynamic/config": {
                             switch (Settings?.GeoManifest?.Dynamic?.Config?.CountryCode) {
                                 case "AUTO":
-                                    switch (Caches?.pep?.gcc) {
-                                        default:
-                                            url.searchParams.set("country_code", Caches.pep.gcc);
-                                            break;
-                                        case "CN":
-                                        case undefined:
-                                            url.searchParams.set("country_code", "CN");
-                                            break;
-                                    }
+                                    if (Caches?.pep?.gcc) url.searchParams.set("country_code", Caches.pep.gcc);
                                     break;
                                 default:
                                     url.searchParams.set("country_code", Settings?.GeoManifest?.Dynamic?.Config?.CountryCode ?? "CN");
