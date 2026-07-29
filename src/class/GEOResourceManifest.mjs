@@ -436,10 +436,8 @@ export default class GEOResourceManifest {
 					break;
 			}
 			switch (settings.UrlInfoSet.Directions) {
-				case "AUTO":
-				default:
-					break;
 				case "AutoNavi":
+				default:
 					// Directions
 					urlInfoSet.directionsURL = cnURLInfoSet.directionsURL;
 					// ETA
@@ -457,19 +455,6 @@ export default class GEOResourceManifest {
 					break;
 			}
 			switch (settings.UrlInfoSet.RAP) {
-				case "AUTO":
-				default:
-					// RAP Submission
-					urlInfoSet.problemSubmissionURL = xxURLInfoSet.problemSubmissionURL;
-					// RAP Status
-					urlInfoSet.problemStatusURL = xxURLInfoSet.problemStatusURL;
-					// RAP Opt-Ins
-					urlInfoSet.problemOptInURL = xxURLInfoSet.problemOptInURL;
-					// RAP V4 Submission
-					urlInfoSet.feedbackSubmissionURL = xxURLInfoSet.feedbackSubmissionURL;
-					// RAP V4 Lookup
-					urlInfoSet.feedbackLookupURL = xxURLInfoSet.feedbackLookupURL;
-					break;
 				case "AutoNavi":
 					// RAP Submission
 					urlInfoSet.problemSubmissionURL = cnURLInfoSet.problemSubmissionURL;
@@ -481,6 +466,7 @@ export default class GEOResourceManifest {
 					urlInfoSet.feedbackLookupURL = cnURLInfoSet.feedbackLookupURL;
 					break;
 				case "Apple":
+				default:
 					// RAP Submission
 					urlInfoSet.problemSubmissionURL = xxURLInfoSet.problemSubmissionURL;
 					// RAP Status
