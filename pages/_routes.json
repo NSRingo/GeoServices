@@ -1,1 +1,9 @@
-{ "version": 1, "include": ["/*"], "exclude": ["/static/*"] }
+{
+  "version": 1,
+  "include": [
+    "/config/defaults",
+    "/config/announcements",
+    "/geo_manifest/dynamic/config"
+  ],
+  "exclude": []
+}
