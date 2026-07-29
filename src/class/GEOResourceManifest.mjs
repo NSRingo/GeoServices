@@ -374,17 +374,21 @@ export default class GEOResourceManifest {
 		Console.log("☑️ Set UrlInfoSets");
 		source = Array.isArray(source) ? source : [];
 		target = Array.isArray(target) ? target : [];
-		const sourceURLInfoSet = source[0] ?? {};
-		const targetURLInfoSet = target[0] ?? {};
-		const cnURLInfoSet = targetCountryCode === "CN" ? targetURLInfoSet : sourceURLInfoSet;
-		const xxURLInfoSet = targetCountryCode === "CN" ? sourceURLInfoSet : targetURLInfoSet;
-		let urlInfoSets = target.map(() => ({ ...sourceURLInfoSet, ...targetURLInfoSet }));
+		let cnURLInfoSet;
+		let xxURLInfoSet;
+		let urlInfoSets;
 		switch (targetCountryCode) {
 			case "CN":
+				cnURLInfoSet = target[0] ?? {};
+				xxURLInfoSet = source[0] ?? {};
+				urlInfoSets = target.map(() => ({ ...xxURLInfoSet, ...cnURLInfoSet }));
 				break;
 			default:
+				cnURLInfoSet = source[0] ?? {};
+				xxURLInfoSet = target[0] ?? {};
+				urlInfoSets = target.map(() => ({ ...cnURLInfoSet, ...xxURLInfoSet }));
 				urlInfoSets = urlInfoSets.map(urlInfoSet => {
-					urlInfoSet.alternateResourcesURL = sourceURLInfoSet.alternateResourcesURL;
+					urlInfoSet.alternateResourcesURL = cnURLInfoSet.alternateResourcesURL;
 					delete urlInfoSet.polyLocationShiftURL;
 					return urlInfoSet;
 				});

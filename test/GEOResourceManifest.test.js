@@ -73,7 +73,7 @@ test("URL 配置始终以 target 为基底并按 targetCountryCode 选择地区�
 	const xx = GEOResourceManifest.urlInfoSets(source, target, settings, "US")[0];
 	assert.equal(xx.shared, "target");
 	assert.deepEqual(xx.alternateResourcesURL, source[0].alternateResourcesURL);
-	assert.equal("polyLocationShiftURL" in xx, false);
+	assert.deepEqual(xx.polyLocationShiftURL, source[0].polyLocationShiftURL);
 	assert.deepEqual(xx.problemSubmissionURL, target[0].problemSubmissionURL);
 	assert.deepEqual(xx.directionsURL, source[0].dispatcherURL);
 });
