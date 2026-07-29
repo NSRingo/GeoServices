@@ -488,10 +488,8 @@ export default class GEOResourceManifest {
 					break;
 			}
 			switch (settings.UrlInfoSet.LocationShift) {
-				case "AUTO":
-				default:
-					break;
 				case "AutoNavi":
+				default:
 					// Location Shift (polynomial)
 					urlInfoSet.polyLocationShiftURL = cnURLInfoSet.polyLocationShiftURL;
 					break;
