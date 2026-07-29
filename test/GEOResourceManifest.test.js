@@ -42,6 +42,7 @@ test("URL 配置始终以 target 为基底并按 targetCountryCode 选择地区�
 			polyLocationShiftURL: { url: "https://shift.source.example" },
 			problemSubmissionURL: { url: "https://rap.source.example" },
 			dispatcherURL: { url: "https://dispatcher.source.example" },
+			directionsURL: { url: "https://directions.source.example" },
 		},
 	];
 	const target = [
@@ -51,6 +52,7 @@ test("URL 配置始终以 target 为基底并按 targetCountryCode 选择地区�
 			polyLocationShiftURL: { url: "https://shift.target.example" },
 			problemSubmissionURL: { url: "https://rap.target.example" },
 			dispatcherURL: { url: "https://dispatcher.target.example" },
+			directionsURL: { url: "https://directions.target.example" },
 		},
 	];
 	const settings = {
@@ -68,14 +70,14 @@ test("URL 配置始终以 target 为基底并按 targetCountryCode 选择地区�
 	assert.deepEqual(cn.alternateResourcesURL, target[0].alternateResourcesURL);
 	assert.deepEqual(cn.polyLocationShiftURL, target[0].polyLocationShiftURL);
 	assert.deepEqual(cn.problemSubmissionURL, source[0].problemSubmissionURL);
-	assert.deepEqual(cn.directionsURL, target[0].dispatcherURL);
+	assert.deepEqual(cn.directionsURL, target[0].directionsURL);
 
 	const xx = GEOResourceManifest.urlInfoSets(source, target, settings, "US")[0];
 	assert.equal(xx.shared, "target");
-	assert.deepEqual(xx.alternateResourcesURL, source[0].alternateResourcesURL);
+	assert.deepEqual(xx.alternateResourcesURL, target[0].alternateResourcesURL);
 	assert.deepEqual(xx.polyLocationShiftURL, source[0].polyLocationShiftURL);
 	assert.deepEqual(xx.problemSubmissionURL, target[0].problemSubmissionURL);
-	assert.deepEqual(xx.directionsURL, source[0].dispatcherURL);
+	assert.deepEqual(xx.directionsURL, source[0].directionsURL);
 });
 
 test("Munin 按 targetCountryCode 将选定地区的 source 注入 target", () => {
