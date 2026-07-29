@@ -28,7 +28,7 @@ export default {
 			GeoManifest: {
 				Dynamic: {
 					Config: {
-						CountryCode: "CN",
+						CountryCode: "US",
 					},
 				},
 			},
