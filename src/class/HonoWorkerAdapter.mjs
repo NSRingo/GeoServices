@@ -53,17 +53,15 @@ export default class HonoWorkerAdapter {
 	 * @returns {URL} 重写后的 URL / Routed URL.
 	 */
 	static routeRewrite(url, restPath = "") {
+		url.protocol = "https:";
+		url.port = "443";
 		switch (true) {
 			case url.pathname === "/config/defaults":
-				url.protocol = "https:";
 				url.hostname = "configuration.ls.apple.com";
-				url.port = "443";
 				break;
 			case url.pathname === "/config/announcements":
 			case url.pathname === "/geo_manifest/dynamic/config":
-				url.protocol = "https:";
 				url.hostname = "gspe35-ssl.ls.apple.com";
-				url.port = "443";
 				break;
 			case url.hostname.startsWith("configuration-ls."):
 			case url.hostname.startsWith("configuration.ls."):
@@ -77,9 +75,7 @@ export default class HonoWorkerAdapter {
 			case url.hostname.endsWith(".workers.dev"): {
 				const [host, ...path] = `${restPath}`.split("/");
 				if (!host) break;
-				url.protocol = "https:";
 				url.hostname = host;
-				url.port = "443";
 				url.pathname = `/${path.join("/")}`;
 				break;
 			}
