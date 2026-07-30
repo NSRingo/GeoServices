@@ -17,7 +17,7 @@ export default {
 			},
 			TileSet: {
 				Base: "XX",
-				Earth: "XX",
+				Earth: "CN",
 				Flyover: "XX",
 				Map: "CN",
 				Munin: "XX",
