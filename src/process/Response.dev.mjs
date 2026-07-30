@@ -151,7 +151,7 @@ export async function Response($request, $response, KV) {
 									break;
 								case "/geo_manifest/dynamic/config": {
 									body = GEOResourceManifestDownload.decode(rawBody);
-									//Console.debug(`body before: ${JSON.stringify(body)}`);
+									Console.debug(`body before: ${JSON.stringify(body)}`);
 									/*
                                     let UF = UnknownFieldHandler.list(body);
                                     //Console.debug(`调试信息`, `UF: ${JSON.stringify(UF)}`);
@@ -208,7 +208,7 @@ export async function Response($request, $response, KV) {
 									// releaseInfo
 									//body.releaseInfo = body.releaseInfo.replace(/(\d+\.\d+)/, `$1.${String(Date.now()/1000)}`);
 									Console.debug(`releaseInfo: ${body.releaseInfo}`);
-									//Console.debug(`body after: ${JSON.stringify(body)}`);
+									Console.debug(`body after: ${JSON.stringify(body)}`);
 									rawBody = GEOResourceManifestDownload.encode(target);
 									break;
 								}
