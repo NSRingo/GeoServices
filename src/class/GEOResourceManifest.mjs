@@ -154,6 +154,43 @@ export default class GEOResourceManifest {
 	}
 
 	/**
+	 * 按目标地区、图块设置与配置分组构建要从相对源清单注入的样式表。
+	 * Build the style list to inject from the relative source manifest using the target region, tile settings, and configured groups.
+	 * @param {object} configs 图块样式分组 / Tile style groups.
+	 * @param {object} settings 地图设置 / Maps settings.
+	 * @param {string} targetCountryCode 目标国家代码 / Target country code.
+	 * @returns {Array<string>} 要从相对源清单注入的图块样式 / Tile styles to inject from the relative source manifest.
+	 */
+	static tileStyles(configs = {}, settings = {}, targetCountryCode = "CN") {
+		Console.log("☑️ Set TileStyles");
+		const config = configs.TileStyles ?? {};
+		const sourceCountryCode = targetCountryCode === "CN" ? "XX" : "CN";
+		const tileStyles = Array.isArray(config.Base) ? [...config.Base] : [];
+		for (const [setting, group] of Object.entries(config)) {
+			if (setting === "Base" || !Array.isArray(group)) continue;
+			let settingCountryCode;
+			switch (settings.TileSet?.[setting]) {
+				case "CN":
+				case "AutoNavi":
+					settingCountryCode = "CN";
+					break;
+				case "XX":
+				case "Apple":
+					settingCountryCode = "XX";
+					break;
+				case "HYBRID":
+					settingCountryCode = sourceCountryCode;
+					break;
+			}
+			if (settingCountryCode === sourceCountryCode) tileStyles.push(...group);
+		}
+		const result = [...new Set(tileStyles.filter(tileStyle => typeof tileStyle === "string"))];
+		Console.info(`相对源地区 ${sourceCountryCode} 选入的 tileStyles: ${JSON.stringify(result)}`);
+		Console.log("✅ Set TileStyles");
+		return result;
+	}
+
+	/**
 	 * 使用源图块集合中的指定样式组新增或替换目标图块集合中的同名组。
 	 * Add or replace matching target style groups with selected style groups from the source tile set.
 	 * @param {Array<object>} source 源图块集合 / Source tile set.
