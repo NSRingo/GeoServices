@@ -119,154 +119,34 @@ export async function Response($request, $response, KV) {
 									const targetCountryCode = url.searchParams.get("country_code");
 									let source;
 									const target = body;
-									let tileStyles;
+									let sourceCountryCode;
 									switch (targetCountryCode) {
 										case "CN": {
 											const xxURL = new URL(url.toString());
 											xxURL.searchParams.set("country_code", "US");
+											sourceCountryCode = "XX";
 											source = await GEOResourceManifest.decodeCache(Caches, xxURL.search, KV);
 											const isReady = Boolean(source);
 											if (!isReady) {
 												Console.warn("Missing cache: XX");
 											}
 											if (!isReady) break geoManifestPath;
-											tileStyles = [
-												"RASTER_STANDARD",
-												"VECTOR_LEGACY_REALISTIC",
-												"SPUTNIK_VECTOR_BORDER",
-												"VECTOR_TRANSIT",
-												"VECTOR_TRANSIT_SELECTION",
-												"VECTOR_COVERAGE",
-												"VECTOR_ROAD_NETWORK",
-												"VECTOR_DEBUG",
-												"MUNIN_METADATA",
-												"VECTOR_TRACKS",
-												"VECTOR_RESERVED_2",
-												"COARSE_LOCATION_POLYGONS",
-												"VECTOR_SPR_ROADS",
-												"VECTOR_SPR_STANDARD",
-												"VL_METADATA",
-												"VL_DATA",
-												"PROACTIVE_APP_CLIP",
-												"POI_BUSYNESS",
-												"POI_DP_BUSYNESS",
-												"SMART_INTERFACE_SELECTION",
-												"VECTOR_ASSETS",
-												"VECTOR_SPR_POLAR",
-												"SMART_DATA_MODE",
-												"CELLULAR_PERFORMANCE_SCORE",
-												"VECTOR_LIVE_DATA_UPDATES",
-												"VECTOR_ROAD_SELECTION",
-												"VECTOR_REGION_METADATA",
-												"RAY_TRACING",
-												"RASTER_SATELLITE_POLAR",
-												"VMAP4_ELEVATION",
-												"VMAP4_ELEVATION_POLAR",
-												"CELLULAR_COVERAGE_PLMN",
-												"RASTER_SATELLITE_POLAR_NIGHT",
-												"BLUEPOI_MODEL",
-												"BLUEPOI_AOI",
-												"FLYOVER_V2_R3D",
-												"FLYOVER_V2_DSM",
-												"FLYOVER_V2_METADATA",
-												"VECTOR_DCT",
-												"SECA",
-												"UNUSED_103",
-												"UNUSED_104",
-												"UNUSED_105",
-												"UNUSED_106",
-												"UNUSED_107",
-												"UNUSED_108",
-												"UNUSED_109",
-												"UNUSED_110",
-												"UNUSED_111",
-												"UNUSED_112",
-												"UNUSED_113",
-												"UNUSED_114",
-												"UNUSED_115",
-												"UNUSED_116",
-												"UNUSED_117",
-												"UNUSED_118",
-												"UNUSED_119",
-												"UNUSED_120",
-											];
 											break;
 										}
 										default: {
 											const cnURL = new URL(url.toString());
 											cnURL.searchParams.set("country_code", "CN");
+											sourceCountryCode = "CN";
 											source = await GEOResourceManifest.decodeCache(Caches, cnURL.search, KV);
 											const isReady = Boolean(source);
 											if (!isReady) {
 												Console.warn("Missing cache: CN");
 											}
 											if (!isReady) break geoManifestPath;
-											tileStyles = [
-												"VECTOR_STANDARD",
-												"VECTOR_TRAFFIC_SEGMENTS_FOR_RASTER",
-												"VECTOR_TRAFFIC_INCIDENTS_FOR_RASTER",
-												"VECTOR_TRAFFIC_SEGMENTS_AND_INCIDENTS_FOR_RASTER",
-												"RASTER_STANDARD_BACKGROUND",
-												"RASTER_HYBRID",
-												"RASTER_SATELLITE",
-												"RASTER_TERRAIN",
-												"VECTOR_BUILDINGS",
-												"VECTOR_TRAFFIC",
-												"VECTOR_POI",
-												"SPUTNIK_METADATA",
-												"SPUTNIK_C3M",
-												"SPUTNIK_DSM",
-												"SPUTNIK_DSM_GLOBAL",
-												"VECTOR_REALISTIC",
-												"VECTOR_ROADS",
-												"RASTER_VEGETATION",
-												"VECTOR_TRAFFIC_SKELETON",
-												"RASTER_COASTLINE_MASK",
-												"RASTER_HILLSHADE",
-												"VECTOR_TRAFFIC_WITH_GREEN",
-												"VECTOR_TRAFFIC_STATIC",
-												"RASTER_COASTLINE_DROP_MASK",
-												"VECTOR_TRAFFIC_SKELETON_WITH_HISTORICAL",
-												"VECTOR_SPEED_PROFILES",
-												"VECTOR_VENUES",
-												"RASTER_DOWN_SAMPLED",
-												"RASTER_COLOR_BALANCED",
-												"RASTER_SATELLITE_NIGHT",
-												"RASTER_SATELLITE_DIGITIZE",
-												"RASTER_HILLSHADE_PARKS",
-												"RASTER_STANDARD_BASE",
-												"RASTER_STANDARD_LABELS",
-												"RASTER_HYBRID_ROADS",
-												"RASTER_HYBRID_LABELS",
-												"FLYOVER_C3M_MESH",
-												"FLYOVER_C3M_JPEG_TEXTURE",
-												"FLYOVER_C3M_ASTC_TEXTURE",
-												"RASTER_SATELLITE_ASTC",
-												"RASTER_HYBRID_ROADS_AND_LABELS",
-												"FLYOVER_VISIBILITY",
-												"FLYOVER_SKYBOX",
-												"FLYOVER_NAVGRAPH",
-												"FLYOVER_METADATA",
-												"VECTOR_LAND_COVER",
-												"VECTOR_STREET_POI",
-												"VECTOR_SPR_MERCATOR",
-												"VECTOR_SPR_MODELS",
-												"VECTOR_SPR_MATERIALS",
-												"VECTOR_SPR_METADATA",
-												"VECTOR_STREET_LANDMARKS",
-												"VECTOR_POI_V2",
-												"VECTOR_POLYGON_SELECTION",
-												"VECTOR_BUILDINGS_V2",
-												"SPR_ASSET_METADATA",
-												"VECTOR_SPR_MODELS_OCCLUSION",
-												"VECTOR_TOPOGRAPHIC",
-												"VECTOR_POI_V2_UPDATE",
-												"VECTOR_TRAFFIC_V2",
-												"VECTOR_CONTOURS",
-											];
 											break;
 										}
 									}
+									const tileStyles = GEOResourceManifest.tileStyles(Configs, Settings, sourceCountryCode);
 									target.tileSet = GEOResourceManifest.tileSets(source.tileSet, target.tileSet, tileStyles);
 									target.attribution = GEOResourceManifest.attributions(source.attribution, target.attribution, targetCountryCode);
 									target.resource = GEOResourceManifest.resources(source.resource, target.resource, targetCountryCode);
@@ -275,7 +155,7 @@ export async function Response($request, $response, KV) {
 									target.muninBucket = GEOResourceManifest.muninBuckets(source.muninBucket, target.muninBucket, Settings, targetCountryCode);
 									target.displayString = GEOResourceManifest.displayStrings(source.displayString, target.displayString, targetCountryCode);
 									target.tileGroup = GEOResourceManifest.tileGroups(target.tileGroup, target.tileSet, target.attribution, target.resource);
-									Console.debug(`releaseInfo: ${target.releaseInfo}`);
+									Console.debug(`releaseInfo: ${body.releaseInfo}`);
 									rawBody = GEOResourceManifestDownload.encode(target);
 									break;
 								}
