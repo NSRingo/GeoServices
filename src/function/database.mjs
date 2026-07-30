@@ -16,13 +16,15 @@ export default {
 				LocationShift: "AUTO",
 			},
 			TileSet: {
-				Earth: "AUTO",
-				Flyover: "HYBRID",
+				Base: "US",
+				Earth: "US",
+				Flyover: "US",
 				Map: "CN",
-				Munin: "HYBRID",
+				Munin: "US",
 				POI: "CN",
-				Roads: "AUTO",
-				Satellite: "HYBRID",
+				Road: "CN",
+				Satellite2D: "CN",
+				Satellite3D: "US",
 				Traffic: "CN",
 			},
 			GeoManifest: {
@@ -95,7 +97,6 @@ export default {
 					"RASTER_HYBRID", // 6 | MAINLAND_EXTENDED_STYLES
 					"RASTER_TERRAIN", // 8 地貌与地势（绿地/城市/水体/山地不同颜色的区域） | MAINLAND_EXTENDED_STYLES
 					"VECTOR_BUILDINGS", // 11 建筑模型（3D/白模） | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
-					"VECTOR_ROADS", // 20 道路（卫星地图:显示标签） | MAINLAND_EXTENDED_STYLES
 					"RASTER_VEGETATION", // 21 | MAINLAND_EXTENDED_STYLES
 					"RASTER_COASTLINE_MASK", // 23 | MAINLAND_EXTENDED_STYLES
 					"RASTER_HILLSHADE", // 24 | MAINLAND_EXTENDED_STYLES
@@ -107,26 +108,25 @@ export default {
 					"VECTOR_TRANSIT", // 37 公共交通
 					"RASTER_STANDARD_BASE", // 38 | MAINLAND_EXTENDED_STYLES
 					"RASTER_STANDARD_LABELS", // 39 | MAINLAND_EXTENDED_STYLES
-					"RASTER_HYBRID_ROADS", // 40 | MAINLAND_EXTENDED_STYLES
 					"RASTER_HYBRID_LABELS", // 41 | MAINLAND_EXTENDED_STYLES
-					"RASTER_HYBRID_ROADS_AND_LABELS", // 46 | MAINLAND_EXTENDED_STYLES
 					"VECTOR_TRANSIT_SELECTION", // 47 公共交通选区?
-					"VECTOR_ROAD_NETWORK", // 53 道路网络
 					"VECTOR_STREET_LANDMARKS", // 64 街道地标? | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
 					"VECTOR_BUILDINGS_V2", // 73 建筑模型V2（3D/上色） | MAINLAND_CORE_STYLES, MAINLAND_EXTENDED_STYLES
 				],
-				Satellite: [
+				Satellite2D: [
 					"RASTER_SATELLITE", // 7 卫星地图（2D） / Satellite map (2D) | MAINLAND_EXTENDED_STYLES
-					"SPUTNIK_METADATA", // 14 卫星地图（3D/俯瞰）元数据 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
-					"SPUTNIK_C3M", // 15 卫星地图（3D/俯瞰）C3模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
-					"SPUTNIK_DSM", // 16 卫星地图（3D/俯瞰）数字表面模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
-					"SPUTNIK_DSM_GLOBAL", // 17 卫星地图（3D/俯瞰）全球数字表面模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 					"RASTER_SATELLITE_NIGHT", // 33 卫星地图（2D/夜间） / Satellite map (2D/night) | MAINLAND_EXTENDED_STYLES
-					"SPUTNIK_VECTOR_BORDER", // 34 卫星地图（3D/俯瞰）边界（决定能否显示地球模型） | INTERNATIONAL_3D_STYLES
 					"RASTER_SATELLITE_DIGITIZE", // 35 卫星地图（2D/数字化） / Satellite map (2D/digitized) | MAINLAND_EXTENDED_STYLES
 					"RASTER_SATELLITE_ASTC", // 45 卫星地图（2D/ASTC） / Satellite map (2D/ASTC) | MAINLAND_EXTENDED_STYLES
 					"RASTER_SATELLITE_POLAR", // 91 卫星地图（2D/极地） / Satellite map (2D/polar)
 					"RASTER_SATELLITE_POLAR_NIGHT", // 95 卫星地图（2D/极地/夜间） / Satellite map (2D/polar/night)
+				],
+				Satellite3D: [
+					"SPUTNIK_METADATA", // 14 卫星地图（3D/俯瞰）元数据 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+					"SPUTNIK_C3M", // 15 卫星地图（3D/俯瞰）C3模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+					"SPUTNIK_DSM", // 16 卫星地图（3D/俯瞰）数字表面模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+					"SPUTNIK_DSM_GLOBAL", // 17 卫星地图（3D/俯瞰）全球数字表面模型 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
+					"SPUTNIK_VECTOR_BORDER", // 34 卫星地图（3D/俯瞰）边界（决定能否显示地球模型） | INTERNATIONAL_3D_STYLES
 				],
 				Traffic: [
 					"VECTOR_TRAFFIC_SEGMENTS_FOR_RASTER", // 2 交通状况分段（卫星地图:显示交通状况）? | MAINLAND_EXTENDED_STYLES
@@ -163,19 +163,23 @@ export default {
 				],
 				Munin: [
 					"MUNIN_METADATA", // 57 四处看看 元数据 / Look Around metadata | INTERNATIONAL_3D_STYLES
+					"VECTOR_SPR_ROADS", // 66 (卫星图道路网格，四处看看按钮) / Satellite roads and Look Around availability
 				],
-				Roads: [
+				Road: [
+					"VECTOR_ROADS", // 20 道路（卫星地图:显示标签） | MAINLAND_EXTENDED_STYLES
+					"RASTER_HYBRID_ROADS", // 40 | MAINLAND_EXTENDED_STYLES
+					"RASTER_HYBRID_ROADS_AND_LABELS", // 46 | MAINLAND_EXTENDED_STYLES
+					"VECTOR_ROAD_NETWORK", // 53 道路网络
+				],
+				Earth: [
 					"VECTOR_SPR_MERCATOR", // 58 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 					"VECTOR_SPR_MODELS", // 59 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 					"VECTOR_SPR_MATERIALS", // 60 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 					"VECTOR_SPR_METADATA", // 61 | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
-					"VECTOR_SPR_ROADS", // 66 (卫星图下的道路网格和四处看看可用性) / Satellite roads and Look Around availability
+					"VECTOR_SPR_STANDARD", // 67 (影响 1-6 级视图下的行政区域名称与资料显示版本) / Administrative names and data versions at zoom levels 1-6
 					"SPR_ASSET_METADATA", // 78? (排除) | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
 					"VECTOR_SPR_POLAR", // 79 | INTERNATIONAL_3D_STYLES
 					"VECTOR_SPR_MODELS_OCCLUSION", // 82? (排除) | INTERNATIONAL_3D_STYLES, MAINLAND_3D_STYLES
-				],
-				Earth: [
-					"VECTOR_SPR_STANDARD", // 67 (影响 1-6 级视图下的行政区域名称与资料显示版本) / Administrative names and data versions at zoom levels 1-6
 				],
 			},
 		},
