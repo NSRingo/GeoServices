@@ -1,5 +1,5 @@
 {
-  "name": "maps",
+  "name": "mapkit",
   "main": "src/Hono.js",
   "compatibility_date": "2025-11-21",
   "kv_namespaces": [
