@@ -175,6 +175,7 @@ export default class GEOResourceManifest {
 					break;
 				case "XX":
 				case "Apple":
+				default:
 					settingCountryCode = "XX";
 					break;
 				case "HYBRID":
