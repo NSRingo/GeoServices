@@ -169,10 +169,12 @@ export async function Response($request, $response, KV) {
 									const targetCountryCode = url.searchParams.get("country_code");
 									const target = body;
 									let source;
+									let sourceCountryCode;
 									switch (targetCountryCode) {
 										case "CN": {
 											const xxURL = new URL(url.toString());
 											xxURL.searchParams.set("country_code", "US");
+											sourceCountryCode = "XX";
 											source = await GEOResourceManifest.decodeCache(Caches, xxURL.search, KV);
 											const isReady = Boolean(source);
 											if (!isReady) {
@@ -184,6 +186,7 @@ export async function Response($request, $response, KV) {
 										default: {
 											const cnURL = new URL(url.toString());
 											cnURL.searchParams.set("country_code", "CN");
+											sourceCountryCode = "CN";
 											source = await GEOResourceManifest.decodeCache(Caches, cnURL.search, KV);
 											const isReady = Boolean(source);
 											if (!isReady) {
@@ -193,7 +196,7 @@ export async function Response($request, $response, KV) {
 											break;
 										}
 									}
-									const tileStyles = GEOResourceManifest.tileStyles(Configs, Settings, targetCountryCode);
+									const tileStyles = GEOResourceManifest.tileStyles(Configs, Settings, sourceCountryCode);
 									target.tileSet = GEOResourceManifest.tileSets(source.tileSet, target.tileSet, tileStyles);
 									target.attribution = GEOResourceManifest.attributions(source.attribution, target.attribution, targetCountryCode);
 									target.resource = GEOResourceManifest.resources(source.resource, target.resource, targetCountryCode);

@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import GEOResourceManifest from "../src/class/GEOResourceManifest.mjs";
-import database from "../src/function/database.mjs";
 
 test("source 始终注入 target，targetCountryCode 只决定注入规则", () => {
 	const sourceAttributions = [{ name: "Source" }];
@@ -96,107 +95,23 @@ test("Munin 按 targetCountryCode 将选定地区的 source 注入 target", () =
 	assert.deepEqual(inject("US", "HYBRID"), [{ bucketID: "target" }]);
 });
 
-test("tileStyles 按相对源地区与启用选项展开配置分组", () => {
-	const configs = database.Maps.Configs;
-	assert.deepEqual(Object.keys(configs.TileStyles), ["Base", "Map", "Satellite", "Traffic", "POI", "Flyover", "Munin", "Roads", "Earth"]);
-	const auto = GEOResourceManifest.tileStyles(
-		configs,
-		{
-			TileSet: {
-				Earth: "AUTO",
-				Flyover: "AUTO",
-				Map: "AUTO",
-				Munin: "AUTO",
-				POI: "AUTO",
-				Roads: "AUTO",
-				Satellite: "AUTO",
-				Traffic: "AUTO",
-			},
+test("tileStyles 按源地区与设置选择配置分组", () => {
+	const configs = {
+		TileStyles: {
+			Base: ["BASE"],
+			Map: ["MAP"],
+			Satellite2D: ["SATELLITE_2D"],
+			Satellite3D: ["SATELLITE_3D"],
 		},
-		"CN",
-	);
-	assert.ok(auto.includes("RASTER_STANDARD"));
-	assert.ok(!auto.includes("VECTOR_STANDARD"));
-	assert.ok(!auto.includes("MUNIN_METADATA"));
-	assert.ok(!auto.includes("SPR_ASSET_METADATA"));
-	assert.ok(!auto.includes("VECTOR_SPR_POLAR"));
-	assert.ok(!auto.includes("VECTOR_SPR_MODELS_OCCLUSION"));
+	};
+	const settings = {
+		TileSet: {
+			Map: "AutoNavi",
+			Satellite2D: "Apple",
+			Satellite3D: "HYBRID",
+		},
+	};
 
-	const hybrid = GEOResourceManifest.tileStyles(
-		configs,
-		{
-			TileSet: {
-				Flyover: "HYBRID",
-				Munin: "HYBRID",
-				Satellite: "HYBRID",
-			},
-		},
-		"CN",
-	);
-	assert.ok(hybrid.includes("RASTER_SATELLITE_NIGHT"));
-	assert.ok(hybrid.includes("RASTER_SATELLITE_POLAR"));
-	assert.ok(hybrid.includes("SPUTNIK_VECTOR_BORDER"));
-	assert.ok(hybrid.includes("FLYOVER_VISIBILITY"));
-	assert.ok(hybrid.includes("MUNIN_METADATA"));
-	assert.ok(hybrid.includes("RASTER_SATELLITE"));
-	assert.ok(hybrid.includes("SPUTNIK_METADATA"));
-	assert.ok(hybrid.includes("FLYOVER_C3M_MESH"));
-	assert.ok(hybrid.includes("FLYOVER_METADATA"));
-
-	const xx = GEOResourceManifest.tileStyles(
-		configs,
-		{
-			TileSet: {
-				Earth: "Apple",
-				Flyover: "XX",
-				Map: "XX",
-				Munin: "XX",
-				POI: "XX",
-				Roads: "XX",
-				Satellite: "XX",
-				Traffic: "XX",
-			},
-		},
-		"CN",
-	);
-	assert.ok(xx.includes("VECTOR_STANDARD"));
-	assert.ok(xx.includes("RASTER_SATELLITE"));
-	assert.ok(xx.includes("SPUTNIK_METADATA"));
-	assert.ok(xx.includes("VECTOR_TRAFFIC"));
-	assert.ok(xx.includes("VECTOR_POI"));
-	assert.ok(xx.includes("FLYOVER_C3M_MESH"));
-	assert.ok(xx.includes("MUNIN_METADATA"));
-	assert.ok(xx.includes("VECTOR_SPR_ROADS"));
-	assert.ok(xx.includes("SPR_ASSET_METADATA"));
-	assert.ok(xx.includes("VECTOR_SPR_POLAR"));
-	assert.ok(xx.includes("VECTOR_SPR_MODELS_OCCLUSION"));
-	assert.ok(xx.includes("VECTOR_SPR_STANDARD"));
-
-	const cn = GEOResourceManifest.tileStyles(
-		configs,
-		{
-			TileSet: {
-				Earth: "AutoNavi",
-				Flyover: "CN",
-				Map: "CN",
-				Munin: "CN",
-				POI: "CN",
-				Roads: "CN",
-				Satellite: "CN",
-				Traffic: "CN",
-			},
-		},
-		"US",
-	);
-	assert.ok(cn.includes("VECTOR_STANDARD"));
-	assert.ok(cn.includes("RASTER_SATELLITE"));
-	assert.ok(cn.includes("VECTOR_TRAFFIC"));
-	assert.ok(cn.includes("VECTOR_POI"));
-	assert.ok(cn.includes("FLYOVER_C3M_MESH"));
-	assert.ok(cn.includes("MUNIN_METADATA"));
-	assert.ok(cn.includes("VECTOR_SPR_ROADS"));
-	assert.ok(cn.includes("SPR_ASSET_METADATA"));
-	assert.ok(cn.includes("VECTOR_SPR_POLAR"));
-	assert.ok(cn.includes("VECTOR_SPR_MODELS_OCCLUSION"));
-	assert.ok(cn.includes("VECTOR_SPR_STANDARD"));
+	assert.deepEqual(GEOResourceManifest.tileStyles(configs, settings, "CN"), ["BASE", "MAP", "SATELLITE_3D"]);
+	assert.deepEqual(GEOResourceManifest.tileStyles(configs, settings, "XX"), ["BASE", "SATELLITE_2D", "SATELLITE_3D"]);
 });

@@ -154,17 +154,16 @@ export default class GEOResourceManifest {
 	}
 
 	/**
-	 * 按目标地区、图块设置与配置分组构建要从相对源清单注入的样式表。
-	 * Build the style list to inject from the relative source manifest using the target region, tile settings, and configured groups.
+	 * 按源地区、图块设置与配置分组构建要从源清单注入的样式表。
+	 * Build the style list to inject from the source manifest using the source region, tile settings, and configured groups.
 	 * @param {object} configs 图块样式分组 / Tile style groups.
 	 * @param {object} settings 地图设置 / Maps settings.
-	 * @param {string} targetCountryCode 目标国家代码 / Target country code.
-	 * @returns {Array<string>} 要从相对源清单注入的图块样式 / Tile styles to inject from the relative source manifest.
+	 * @param {string} sourceCountryCode 源国家代码 / Source country code.
+	 * @returns {Array<string>} 要从源清单注入的图块样式 / Tile styles to inject from the source manifest.
 	 */
-	static tileStyles(configs = {}, settings = {}, targetCountryCode = "CN") {
+	static tileStyles(configs = {}, settings = {}, sourceCountryCode = "CN") {
 		Console.log("☑️ Set TileStyles");
 		const config = configs.TileStyles ?? {};
-		const sourceCountryCode = targetCountryCode === "CN" ? "XX" : "CN";
 		const tileStyles = Array.isArray(config.Base) ? [...config.Base] : [];
 		for (const [setting, group] of Object.entries(config)) {
 			if (setting === "Base" || !Array.isArray(group)) continue;
