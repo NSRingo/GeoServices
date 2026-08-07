@@ -453,7 +453,7 @@ export default class GEOResourceManifest {
 					break;
 				case "AutoNavi":
 					// PlaceData Dispatcher
-					urlInfoSet.directionsURL = cnURLInfoSet.dispatcherURL;
+					urlInfoSet.dispatcherURL = cnURLInfoSet.dispatcherURL;
 					// Background Dispatcher
 					urlInfoSet.backgroundDispatcherURL = cnURLInfoSet.backgroundDispatcherURL;
 					// Background Reverse Geocoder
