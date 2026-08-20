@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ secrets.SUBMODULE_TOKEN }}
       - name: Install Node Dependencies
         uses: ./.github/actions/node-build
         with:

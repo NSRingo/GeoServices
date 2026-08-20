@@ -1,5 +1,5 @@
 import { Console, Lodash as _ } from "@nsnanocat/util";
-import XML from "../XML/XML.mjs";
+import XML from "@nsnanocat/xml";
 import database from "../function/database.mjs";
 import setENV from "../function/setENV.mjs";
 import GEOResourceManifest from "../class/GEOResourceManifest.mjs";

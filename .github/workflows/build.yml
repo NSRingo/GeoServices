@@ -13,9 +13,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ secrets.SUBMODULE_TOKEN }}
       - name: Update Package Version from Tag
         if: github.ref_type == 'tag'
         uses: BellCubeDev/update-package-version-by-release-tag@v2

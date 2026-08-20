@@ -2,7 +2,7 @@ import _ from '../ENV/Lodash.mjs'
 import $Storage from '../ENV/$Storage.mjs'
 import ENV from "../ENV/ENV.mjs";
 import URI from "../URI/URI.mjs";
-import XML from "../../src/XML/XML.mjs";
+import XML from "@nsnanocat/xml";
 
 import Database from "../database/index.mjs";
 import setENV from "../../src/function/setENV.mjs";

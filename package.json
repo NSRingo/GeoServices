@@ -37,8 +37,7 @@
 		"build:dev": "rspack build -c rspack.dev.config.mjs --mode=development",
 		"build:args": "arguments-builder build",
 		"build:args:workers": "arguments-builder build --config arguments-builder.workers.config.ts",
-		"dts": "arguments-builder dts",
-		"submodule": "git submodule update --remote"
+		"dts": "arguments-builder dts"
 	},
 	"browserslist": [
 		"iOS >= 15"
@@ -55,6 +54,7 @@
 		"@auraflare/shared": "^1.1.1",
 		"@biomejs/biome": "^2.4.6",
 		"@nsnanocat/util": "^2.7.0",
+		"@nsnanocat/xml": "^0.4.4",
 		"@nsringo/mapkit": "^1.1.3",
 		"@protobuf-ts/runtime": "^2.11.1",
 		"fetch-cookie": "^3.2.0",
