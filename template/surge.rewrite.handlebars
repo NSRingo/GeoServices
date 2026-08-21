@@ -1,10 +1,12 @@
-#!name = {{@package 'displayName'}} (Rewrite)
+#!name =  iRingo: 🗺️ MapKit (Rewrite)
 #!desc = {{inline (@package 'description')}}
 #!author = {{@package 'contributors'}}
 #!homepage = {{@package 'homepage'}}
 #!icon = {{@package 'icon'}}
 #!category = {{@package 'organizationName'}}
 #!date = {{now "yyyy-MM-dd HH:mm:ss"}}
+#!arguments = {{{arguments}}}
+#!arguments-desc = {{{argumentsDesc}}}
 
 [Rule]
 # 🗺️ Amap
@@ -18,11 +20,11 @@ DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
 
 [URL Rewrite]
 # 🗺️ Network Defaults
-^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://configuration-ls.nanocat.cloud/config/defaults header
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://\{{{endpoint}}}/config/defaults header
 # 🗺️ Announcements
-^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://gspe35-ssl-ls.nanocat.cloud/config/announcements header
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://\{{{endpoint}}}/config/announcements header
 # 🗺️ Resource Manifest
-^https?:\/\/gspe35-ssl\.ls\.apple\.com\/geo_manifest\/dynamic\/config https://gspe35-ssl-ls.nanocat.cloud/geo_manifest/dynamic/config header
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/geo_manifest\/dynamic\/config https://\{{{endpoint}}}/geo_manifest/dynamic/config header
 
 [MITM]
 hostname = %APPEND% configuration.ls.apple.com, gspe35-ssl.ls.apple.com

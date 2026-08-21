@@ -39,8 +39,8 @@
 		"build:dev-args": "arguments-builder build -c arguments-builder.dev.config.ts",
 		"build:release-args": "arguments-builder build -c arguments-builder.release.config.ts",
 		"build:full-args": "arguments-builder boxjs -c arguments-builder.full.config.ts",
+		"build:args:rewrite": "arguments-builder build -c arguments-builder.rewrite.config.ts",
 		"build:args": "npm run build:release-args && npm run build:full-args",
-		"build:args:workers": "arguments-builder build --config arguments-builder.workers.config.ts",
 		"dts": "arguments-builder dts -c arguments-builder.full.config.ts"
 	},
 	"browserslist": [
