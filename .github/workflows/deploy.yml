@@ -35,3 +35,31 @@ jobs:
           gist_id: b7524906119fa250bc933cc9a08e939a
           gist_description: " iRingo: 🗺️ Maps β"
           file_path: dist/response.bundle.js
+      - name: Deploy Surge Module to Gist
+        uses: exuanbo/actions-deploy-gist@main
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: b7524906119fa250bc933cc9a08e939a
+          gist_description: " iRingo: 🗺️ Maps β"
+          file_path: dist/iRingo.Maps.dev.sgmodule
+      - name: Deploy Loon Plugin to Gist
+        uses: exuanbo/actions-deploy-gist@main
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: b7524906119fa250bc933cc9a08e939a
+          gist_description: " iRingo: 🗺️ Maps β"
+          file_path: dist/iRingo.Maps.dev.plugin
+      - name: Deploy Quantumult X Snippet to Gist
+        uses: exuanbo/actions-deploy-gist@main
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: b7524906119fa250bc933cc9a08e939a
+          gist_description: " iRingo: 🗺️ Maps β"
+          file_path: dist/iRingo.Maps.dev.snippet
+      - name: Deploy Stash Override to Gist
+        uses: exuanbo/actions-deploy-gist@main
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: b7524906119fa250bc933cc9a08e939a
+          gist_description: " iRingo: 🗺️ Maps β"
+          file_path: dist/iRingo.Maps.dev.stoverride
