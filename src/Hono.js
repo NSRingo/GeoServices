@@ -1,32 +1,40 @@
 import { KV as Storage } from "@auraflare/shared";
-import { Hono } from "hono/tiny";
 import { fetch } from "@nsnanocat/util";
+import { Hono } from "hono/tiny";
 import HonoWorkerAdapter from "./class/HonoWorkerAdapter.mjs";
-import { Response } from "./process/Response.mjs";
 import { Request } from "./process/Request.mjs";
+import { Response } from "./process/Response.mjs";
 /***************** Processing *****************/
 
 export default new Hono()
-    .get("/", c => c.text("OK"))
+	.get("/", c => c.text("OK"))
 	.all("/:rest{.*}", async c => {
-	let $request = await HonoWorkerAdapter.buildRequest(c.req);
-	let $response;
-	const KV = c.env ? new Storage({ env: { namespaces: new Map([["", c.env.PersistentStore], ["@iRingo.Maps.Caches", c.env.Maps]]) } }) : undefined;
-	({ $request, $response } = await Request($request, KV));
-	switch (typeof $response) {
-		case "object": // 有构造回复数据，返回构造的回复数据
-			console.debug("finally", `echo $response: ${JSON.stringify($response, null, 2)}`);
-			return HonoWorkerAdapter.writeResponse(c, $response);
-		case "undefined": // 无构造回复数据，发送修改的请求数据
-			console.debug("finally", `$request: ${JSON.stringify($request, null, 2)}`);
-			$response = await fetch($request);
-			$response = await Response($request, $response, KV);
-			return HonoWorkerAdapter.writeResponse(c, $response);
-		default:
-			console.error(`不合法的 $response 类型: ${typeof $response}`);
-			return c.body("", 500);
-	}
-}).onError((e, c) => {
-  	console.error(`${e}`);
-	return c.body(`${e}`, 500);
-});
+		let $request = await HonoWorkerAdapter.buildRequest(c.req);
+		let $response;
+		const KV = c.env
+			? new Storage({
+					env: {
+						namespaces: new Map([
+							["", c.env.PersistentStore],
+							["@iRingo.Maps.Caches", c.env.Maps],
+						]),
+					},
+				})
+			: undefined;
+		({ $request, $response } = await Request($request, KV));
+		switch (typeof $response) {
+			case "undefined":
+				$response = await fetch($request);
+				$response = await Response($request, $response, KV);
+				break;
+			case "object":
+				break;
+			default:
+				throw new TypeError(`Invalid response type: ${typeof $response}`);
+		}
+		return HonoWorkerAdapter.writeResponse(c, $response);
+	})
+	.onError((e, c) => {
+		console.error(e);
+		return c.body(e.message, 500);
+	});
