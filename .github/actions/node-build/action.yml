@@ -40,11 +40,22 @@ runs:
       shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.package-token }}
+    - name: Install Puppeteer Chrome
+      run: |
+        node node_modules/puppeteer/install.mjs
+        node --input-type=module -e 'import puppeteer from "puppeteer"; console.log(puppeteer.executablePath())'
+      shell: bash
+      env:
+        PUPPETEER_CACHE_DIR: ${{ runner.temp }}/puppeteer
     - name: Run Build Command
       if: ${{ inputs.build-command != '' }}
       run: ${{ inputs.build-command }}
       shell: bash
+      env:
+        PUPPETEER_CACHE_DIR: ${{ runner.temp }}/puppeteer
     - name: Run Extra Command
       if: ${{ inputs.extra-command != '' }}
       run: ${{ inputs.extra-command }}
       shell: bash
+      env:
+        PUPPETEER_CACHE_DIR: ${{ runner.temp }}/puppeteer
