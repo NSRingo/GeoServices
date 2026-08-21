@@ -25,14 +25,14 @@ DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
 
 [Script]
 # 🗺️ Network Defaults
-http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument={{{scriptParams}}}
-http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument={{{scriptParams}}}
+http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.dev.bundle.js, tag=🗺️ Maps.config.defaults.request, argument={{{scriptParams}}}
+http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.dev.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument={{{scriptParams}}}
 # 🗺️ Announcements
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument={{{scriptParams}}}
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument={{{scriptParams}}}
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.dev.bundle.js, tag=🗺️ Maps.config.announcements.request, argument={{{scriptParams}}}
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.dev.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument={{{scriptParams}}}
 # 🗺️ Resource Manifest
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.bundle.js, tag=🗺️ Maps.geo_manifest.dynamic.config.request, argument={{{scriptParams}}}
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument={{{scriptParams}}}
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.dev.bundle.js, tag=🗺️ Maps.geo_manifest.dynamic.config.request, argument={{{scriptParams}}}
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.dev.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument={{{scriptParams}}}
 
 [MITM]
 hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com
