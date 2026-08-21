@@ -139,6 +139,21 @@ export interface Settings {
         Satellite?: 'AUTO' | 'CN' | 'XX';
 };
     /**
+     * [储存] 配置类型
+     *
+     * 选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
+     *
+     * @remarks
+     *
+     * Possible values:
+     * - `'Argument'` - 优先使用插件选项与模块参数等，由 $argument 传入的配置，$argument 不包含的设置项由 PersistentStore (BoxJs) 提供
+     * - `'PersistentStore'` - 只使用来自 BoxJs 等，由 $persistentStore 提供的配置
+     * - `'database'` - 只使用由作者的 database.mjs 文件提供的默认配置，其他任何自定义配置不再起作用
+     *
+     * @defaultValue "Argument"
+     */
+    Storage?: 'Argument' | 'PersistentStore' | 'database';
+    /**
      * [调试] 日志等级
      *
      * 选择脚本日志的输出等级，低于所选等级的日志将全部输出。
