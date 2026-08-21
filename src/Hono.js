@@ -10,6 +10,7 @@ export default new Hono()
 	.get("/", c => c.text("OK"))
 	.all("/:rest{.*}", async c => {
 		let $request = await HonoWorkerAdapter.buildRequest(c.req);
+		$request = HonoWorkerAdapter.buildArgument($request);
 		let $response;
 		const KV = c.env
 			? new Storage({
