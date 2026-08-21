@@ -37,7 +37,7 @@ export default {
 			},
 			Config: {
 				Announcements: {
-					"Environment:": "CN",
+					"Environment:": "AUTO",
 				},
 			},
 		},
@@ -201,7 +201,7 @@ export default {
 			},
 			Config: {
 				Announcements: {
-					"Environment:": "CN",
+					"Environment:": "AUTO",
 				},
 			},
 		},

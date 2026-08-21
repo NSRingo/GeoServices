@@ -178,9 +178,6 @@ export default class GEOResourceManifest {
 				default:
 					settingCountryCode = "XX";
 					break;
-				case "HYBRID":
-					settingCountryCode = sourceCountryCode;
-					break;
 			}
 			if (settingCountryCode === sourceCountryCode) tileStyles.push(...group);
 		}
@@ -562,7 +559,6 @@ export default class GEOResourceManifest {
 			case "CN":
 				target.splice(0, target.length, ...cnMuninBuckets);
 				break;
-			case "HYBRID":
 			case "XX":
 			default:
 				target.splice(0, target.length, ...xxMuninBuckets);

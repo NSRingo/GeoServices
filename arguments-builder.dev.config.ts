@@ -1,5 +1,5 @@
 import { defineConfig } from "@iringo/arguments-builder";
-import { args } from "./arguments-builder.full.config";
+import { argsFull } from "./arguments-builder.full.config";
 
 export default defineConfig({
 	output: {
@@ -26,5 +26,5 @@ export default defineConfig({
 			scope: "@iRingo.Maps.Settings",
 		},
 	},
-	args,
+	args: argsFull,
 });

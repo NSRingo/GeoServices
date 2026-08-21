@@ -92,7 +92,7 @@ test("Munin 按 targetCountryCode 将选定地区的 source 注入 target", () =
 	assert.deepEqual(inject("CN", "CN"), [{ bucketID: "target" }]);
 	assert.deepEqual(inject("CN", "XX"), [{ bucketID: "source" }]);
 	assert.deepEqual(inject("US", "CN"), [{ bucketID: "source" }]);
-	assert.deepEqual(inject("US", "HYBRID"), [{ bucketID: "target" }]);
+	assert.deepEqual(inject("US", "XX"), [{ bucketID: "target" }]);
 });
 
 test("tileStyles 按源地区与设置选择配置分组", () => {
@@ -108,12 +108,12 @@ test("tileStyles 按源地区与设置选择配置分组", () => {
 		TileSet: {
 			Map: "AutoNavi",
 			Satellite2D: "Apple",
-			Satellite3D: "HYBRID",
+			Satellite3D: "CN",
 		},
 	};
 
 	assert.deepEqual(GEOResourceManifest.tileStyles(configs, settings, "CN"), ["BASE", "MAP", "SATELLITE_3D"]);
-	assert.deepEqual(GEOResourceManifest.tileStyles(configs, settings, "XX"), ["BASE", "SATELLITE_2D", "SATELLITE_3D"]);
+	assert.deepEqual(GEOResourceManifest.tileStyles(configs, settings, "XX"), ["BASE", "SATELLITE_2D"]);
 	assert.deepEqual(GEOResourceManifest.tileStyles(configs, {}, "CN"), ["BASE"]);
 	assert.deepEqual(GEOResourceManifest.tileStyles(configs, {}, "XX"), ["BASE", "MAP", "SATELLITE_2D", "SATELLITE_3D"]);
 });
