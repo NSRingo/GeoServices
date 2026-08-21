@@ -190,7 +190,7 @@ export default {
 	Watch: {
 		Settings: {
 			UrlInfoSet: {
-				LocationShift: "Apple",
+				LocationShift: "AUTO",
 			},
 			GeoManifest: {
 				Dynamic: {

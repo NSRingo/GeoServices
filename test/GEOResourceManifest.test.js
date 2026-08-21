@@ -80,6 +80,23 @@ test("URL 配置始终以 target 为基底并按 targetCountryCode 选择地区�
 	assert.deepEqual(xx.directionsURL, source[0].directionsURL);
 });
 
+test("LocationShift AUTO 仅在 watchOS 使用国际版定位配置", () => {
+	const settings = { UrlInfoSet: { LocationShift: "AUTO" } };
+	const cn = { polyLocationShiftURL: { url: "https://shift.cn.example" } };
+	const xx = { polyLocationShiftURL: { url: "https://shift.xx.example" } };
+
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([cn], [xx], settings, "US", "ios")[0].polyLocationShiftURL, cn.polyLocationShiftURL);
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([cn], [xx], settings, "US", "watchos")[0].polyLocationShiftURL, xx.polyLocationShiftURL);
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([cn], [xx], settings, "US", "macos")[0].polyLocationShiftURL, cn.polyLocationShiftURL);
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([cn], [xx], settings, "US")[0].polyLocationShiftURL, cn.polyLocationShiftURL);
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([xx], [cn], settings, "CN", "ios")[0].polyLocationShiftURL, cn.polyLocationShiftURL);
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([xx], [cn], settings, "CN", "watchos")[0].polyLocationShiftURL, xx.polyLocationShiftURL);
+	settings.UrlInfoSet.LocationShift = "AutoNavi";
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([cn], [xx], settings, "US", "watchos")[0].polyLocationShiftURL, cn.polyLocationShiftURL);
+	settings.UrlInfoSet.LocationShift = "Apple";
+	assert.deepEqual(GEOResourceManifest.urlInfoSets([cn], [xx], settings, "US", "ios")[0].polyLocationShiftURL, xx.polyLocationShiftURL);
+});
+
 test("Munin 按 targetCountryCode 将选定地区的 source 注入 target", () => {
 	const inject = (targetCountryCode, munin) => {
 		const source = [{ bucketID: "source" }];

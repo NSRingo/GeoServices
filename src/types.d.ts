@@ -100,7 +100,7 @@ export interface Settings {
 		 * @remarks
 		 *
 		 * Possible values:
-		 * - `'AUTO'` - 自动（当前等同高德）
+		 * - `'AUTO'` - 自动（watchOS 使用 Apple，其他系统使用高德）
 		 * - `'AutoNavi'` - 🧭高德（GCJ-02）
 		 * - `'Apple'` - Apple（WGS-84）
 		 *

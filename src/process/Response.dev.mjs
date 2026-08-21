@@ -201,7 +201,7 @@ export async function Response($request, $response, KV) {
 									target.attribution = GEOResourceManifest.attributions(source.attribution, target.attribution, targetCountryCode);
 									target.resource = GEOResourceManifest.resources(source.resource, target.resource, targetCountryCode);
 									target.dataSet = GEOResourceManifest.dataSets(source.dataSet, target.dataSet, targetCountryCode);
-									target.urlInfoSet = GEOResourceManifest.urlInfoSets(source.urlInfoSet, target.urlInfoSet, Settings, targetCountryCode);
+									target.urlInfoSet = GEOResourceManifest.urlInfoSets(source.urlInfoSet, target.urlInfoSet, Settings, targetCountryCode, url.searchParams.get("os"));
 									target.muninBucket = GEOResourceManifest.muninBuckets(source.muninBucket, target.muninBucket, Settings, targetCountryCode);
 									target.displayString = GEOResourceManifest.displayStrings(source.displayString, target.displayString, targetCountryCode);
 									target.tileGroup = GEOResourceManifest.tileGroups(target.tileGroup, target.tileSet, target.attribution, target.resource);

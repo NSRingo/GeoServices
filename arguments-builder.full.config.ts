@@ -105,7 +105,7 @@ const locationShift: ArgumentItem = {
 	key: "UrlInfoSet.LocationShift",
 	name: "[URL信息集] 定位漂移",
 	options: [
-		{ key: "AUTO", label: "自动（当前等同高德）" },
+		{ key: "AUTO", label: "自动（watchOS 使用 Apple，其他系统使用高德）" },
 		{ key: "AutoNavi", label: "🧭高德（GCJ-02）" },
 		{ key: "Apple", label: "Apple（WGS-84）" },
 	],

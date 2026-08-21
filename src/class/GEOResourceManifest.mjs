@@ -402,9 +402,10 @@ export default class GEOResourceManifest {
 	 * @param {Array<object>} target 目标 URL 配置集合 / Target URL information collection.
 	 * @param {object} settings 地图设置 / Maps settings.
 	 * @param {string} targetCountryCode 目标国家代码 / Target country code.
+	 * @param {string|null} os 操作系统标识 / Operating system identifier.
 	 * @returns {Array<object>} 合成后的 URL 配置集合 / Merged URL information collection.
 	 */
-	static urlInfoSets(source = [], target = [], settings = {}, targetCountryCode = "CN") {
+	static urlInfoSets(source = [], target = [], settings = {}, targetCountryCode = "CN", os = null) {
 		Console.log("☑️ Set UrlInfoSets");
 		source = Array.isArray(source) ? source : [];
 		target = Array.isArray(target) ? target : [];
@@ -514,6 +515,10 @@ export default class GEOResourceManifest {
 					break;
 			}
 			switch (settings.UrlInfoSet.LocationShift) {
+				case "AUTO":
+					// watchOS 使用国际版定位，其余系统使用中国版定位。
+					urlInfoSet.polyLocationShiftURL = os === "watchos" ? xxURLInfoSet.polyLocationShiftURL : cnURLInfoSet.polyLocationShiftURL;
+					break;
 				case "AutoNavi":
 				default:
 					// Location Shift (polynomial)
