@@ -7,7 +7,7 @@ export default {
 		},
 		Configs: {},
 	},
-	Maps: {
+	MapKit: {
 		Settings: {
 			UrlInfoSet: {
 				Dispatcher: "AutoNavi",

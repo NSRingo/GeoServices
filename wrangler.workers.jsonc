@@ -7,7 +7,7 @@
       "binding": "PersistentStore"
     },
     {
-      "binding": "Maps"
+      "binding": "MapKit"
     }
   ],
   "observability": {

@@ -23,7 +23,7 @@ export const output = {
 	dts: { isExported: true, path: "./src/types.d.ts" },
 	boxjsSettings: {
 		path: "./template/boxjs.settings.json",
-		scope: "@iRingo.Maps.Settings",
+		scope: "@iRingo.MapKit.Settings",
 	},
 };
 

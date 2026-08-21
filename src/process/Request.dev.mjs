@@ -19,7 +19,7 @@ export async function Request($request, KV) {
 	 * 设置
 	 * @type {{Settings: import('./types').Settings}}
 	 */
-	const { Settings, Caches, Configs } = await setENV("iRingo", "Maps", database);
+	const { Settings, Caches, Configs } = await setENV("iRingo", "MapKit", database);
 	Console.logLevel = Settings.LogLevel;
 	// 创建空数据
 	let body = {};

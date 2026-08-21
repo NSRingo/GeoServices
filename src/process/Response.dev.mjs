@@ -16,7 +16,7 @@ export async function Response($request, $response, KV) {
 	// 解析格式
 	const FORMAT = ($response.headers?.["Content-Type"] ?? $response.headers?.["content-type"])?.split(";")?.[0];
 	Console.info(`FORMAT: ${FORMAT}`);
-	const PLATFORM = ["Maps"];
+	const PLATFORM = ["MapKit"];
 	if (url.searchParams.get("os") === "watchos") PLATFORM.push("Watch");
 	Console.info(`PLATFORM: ${PLATFORM}`);
 	/**

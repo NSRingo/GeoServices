@@ -17,7 +17,7 @@ export default new Hono()
 					env: {
 						namespaces: new Map([
 							["", c.env.PersistentStore],
-							["@iRingo.Maps.Caches", c.env.Maps],
+							["@iRingo.MapKit.Caches", c.env.MapKit],
 						]),
 					},
 				})

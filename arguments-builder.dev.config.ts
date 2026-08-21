@@ -23,7 +23,7 @@ export default defineConfig({
 		],
 		boxjsSettings: {
 			path: "./dist/iRingo.MapKit.dev.boxjs.json",
-			scope: "@iRingo.Maps.Settings",
+			scope: "@iRingo.MapKit.Settings",
 		},
 	},
 	args: argsFull,

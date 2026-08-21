@@ -17,6 +17,7 @@
   * 将 Egern 转换使用的 Puppeteer 固定为 `25.7.0`。 @VirgilClyne
 
 ### ‼️ Breaking Changes
+  * BoxJs 设置与缓存命名空间由 `Maps` 更名为 `MapKit`；原 `@iRingo.Maps.Settings` 与 `@iRingo.Maps.Caches` 中的数据不会自动迁移。
   * 重写模块由 `iRingo.Maps.Workers.*` 更名为 `iRingo.MapKit.Rewrite.*`，原有模块订阅需要更新到新文件路径。
   * 默认重写服务端点由按 Apple 上游域名拆分的 `*.nanocat.cloud` 地址迁移至统一的 `mapkit.pages.dev`；Worker 端点改为 `mapkit.nanocat.cloud`。
   * 移除所有瓦片设置中的 `HYBRID` 模式，并将旧的 `TileSet.Roads`、`TileSet.Satellite` 参数分别更名为 `TileSet.Road`、`TileSet.Satellite2D`；已有自定义配置需要改用 `CN` 或 `XX`。

@@ -36,8 +36,8 @@ export default class GEOResourceManifest {
 			return undefined;
 		}
 		let cache = {};
-		if (KV) cache = await KV.getItem(`@iRingo.Maps.Caches.${queryString}`);
-		else cache = Storage.getItem(`@iRingo.Maps.Caches.${queryString}`);
+		if (KV) cache = await KV.getItem(`@iRingo.MapKit.Caches.${queryString}`);
+		else cache = Storage.getItem(`@iRingo.MapKit.Caches.${queryString}`);
 		switch (typeof cache?.base64) {
 			case "string":
 				Console.log("✅ Get Cache");
@@ -100,10 +100,10 @@ export default class GEOResourceManifest {
 			return false;
 		}
 		let result;
-		if (KV) result = await KV.setItem(`@iRingo.Maps.Caches.${queryString}`, { eTag, base64 });
+		if (KV) result = await KV.setItem(`@iRingo.MapKit.Caches.${queryString}`, { eTag, base64 });
 		else {
-			result = Storage.setItem(`@iRingo.Maps.Caches`, {});
-			result = Storage.setItem(`@iRingo.Maps.Caches.${queryString}`, { eTag, base64 });
+			result = Storage.setItem(`@iRingo.MapKit.Caches`, {});
+			result = Storage.setItem(`@iRingo.MapKit.Caches.${queryString}`, { eTag, base64 });
 		}
 		Console.log("✅ Set Cache");
 		return result;
