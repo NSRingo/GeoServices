@@ -1,0 +1,33 @@
+#!name = {{@package 'displayName'}} β
+#!desc = BETA: {{inline (@package 'description')}}
+#!openUrl = {{@package 'openUrl'}}.beta
+#!author = {{@package 'contributors'}}
+#!homepage = {{@package 'homepage'}}
+#!icon = {{@package 'icon'}}
+#!category = {{@package 'organizationName'}}
+#!date = {{now "yyyy-MM-dd HH:mm:ss"}}
+#!version = dev
+
+#[filter_local]
+# 🗺️ Amap
+host-suffix, is.autonavi.com, direct
+# 🗺️ Maps
+host, gspe11-2-cn-ssl.ls.apple.com, direct
+host, gspe12-cn-ssl.ls.apple.com, direct
+host, gspe19-cn-ssl.ls.apple.com, direct
+host, gspe19-2-cn-ssl.ls.apple.com, direct
+host, gspe79-cn-ssl.ls.apple.com, direct
+
+#[rewrite_local]
+# 🗺️ Network Defaults
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults url script-request-header https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.bundle.js
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults url script-response-body https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.bundle.js
+# 🗺️ Announcements
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements url script-request-header https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.bundle.js
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements url script-response-body https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.bundle.js
+# 🗺️ Resource Manifest
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config url script-request-header https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/request.bundle.js
+^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config url script-response-body https://gist.githubusercontent.com/VirgilClyne/b7524906119fa250bc933cc9a08e939a/raw/response.bundle.js
+
+#[mitm]
+hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com

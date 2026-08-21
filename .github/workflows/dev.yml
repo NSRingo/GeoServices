@@ -19,7 +19,7 @@ jobs:
         uses: ./.github/actions/node-build
         with:
           package-token: ${{ secrets.PACKAGE_TOKEN }}
-          build-command: npm run build:dev
+          build-command: npm run dev
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:

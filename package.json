@@ -26,6 +26,7 @@
 	},
 	"type": "module",
 	"scripts": {
+		"dev": "npm run build:dev && npm run build:dev-args",
 		"dev:pages": "npx wrangler pages dev --port 8787",
 		"dev:workers": "npx wrangler dev -c wrangler.workers.jsonc",
 		"dev:vercel": "npx vercel dev --listen 8787",
@@ -35,6 +36,7 @@
 		"serve": "webpack serve",
 		"build": "rspack build",
 		"build:dev": "rspack build -c rspack.dev.config.mjs --mode=development",
+		"build:dev-args": "arguments-builder build -c arguments-builder.dev.config.ts",
 		"build:release-args": "arguments-builder build -c arguments-builder.release.config.ts",
 		"build:full-args": "arguments-builder boxjs -c arguments-builder.full.config.ts",
 		"build:args": "npm run build:release-args && npm run build:full-args",
