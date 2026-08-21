@@ -1,22 +1,22 @@
 import { type ArgumentItem, defineConfig } from "@iringo/arguments-builder";
 export const output = {
 	surge: {
-		path: "./dist/iRingo.Maps.sgmodule",
+		path: "./dist/iRingo.MapKit.sgmodule",
 		transformEgern: {
 			enable: true,
-			path: "./dist/iRingo.Maps.yaml",
+			path: "./dist/iRingo.MapKit.yaml",
 		},
 	},
 	loon: {
-		path: "./dist/iRingo.Maps.plugin",
+		path: "./dist/iRingo.MapKit.plugin",
 	},
 	customItems: [
 		{
-			path: "./dist/iRingo.Maps.snippet",
+			path: "./dist/iRingo.MapKit.snippet",
 			template: "./template/quantumultx.handlebars",
 		},
 		{
-			path: "./dist/iRingo.Maps.stoverride",
+			path: "./dist/iRingo.MapKit.stoverride",
 			template: "./template/stash.handlebars",
 		},
 	],
