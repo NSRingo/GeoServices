@@ -26,21 +26,20 @@
 	},
 	"type": "module",
 	"scripts": {
-		"dev": "npm run build:dev && npm run build:dev-args",
+		"dev": "npm-run-all --parallel build:dev build:dev-args",
 		"dev:pages": "npx wrangler pages dev --port 8787",
 		"dev:workers": "npx wrangler dev -c wrangler.workers.jsonc",
 		"dev:vercel": "npx vercel dev --listen 8787",
 		"deploy:pages": "npx wrangler pages deploy",
 		"deploy:workers": "npx wrangler deploy --minify -c wrangler.workers.jsonc",
 		"deploy:vercel": "npx vercel deploy --prod",
-		"serve": "webpack serve",
-		"build": "rspack build",
-		"build:dev": "rspack build -c rspack.dev.config.mjs --mode=development",
+		"build": "rollup -c",
+		"build:dev": "rollup -c rollup.dev.config.mjs",
 		"build:dev-args": "arguments-builder build -c arguments-builder.dev.config.ts",
 		"build:release-args": "arguments-builder build -c arguments-builder.release.config.ts",
 		"build:full-args": "arguments-builder boxjs -c arguments-builder.full.config.ts",
 		"build:args:rewrite": "arguments-builder build -c arguments-builder.rewrite.config.ts",
-		"build:args": "npm run build:release-args && npm run build:full-args",
+		"build:args": "npm-run-all --serial build:release-args build:full-args",
 		"dts": "arguments-builder dts -c arguments-builder.full.config.ts"
 	},
 	"browserslist": [
@@ -49,9 +48,11 @@
 	"devDependencies": {
 		"@iringo/arguments-builder": "^1.8.5",
 		"@protobuf-ts/plugin": "^2.11.1",
-		"@rspack/cli": "^1.7.7",
-		"@rspack/core": "^1.7.7",
-		"node-polyfill-webpack-plugin": "^4.1.0",
+		"@rollup/plugin-alias": "^5.1.1",
+		"@rollup/plugin-node-resolve": "^16.0.3",
+		"@rollup/plugin-terser": "^1.0.0",
+		"npm-run-all": "^4.1.5",
+		"rollup": "^4.62.2",
 		"typescript": "^6.0.3"
 	},
 	"dependencies": {
